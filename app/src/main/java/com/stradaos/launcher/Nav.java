@@ -63,7 +63,21 @@ public class Nav {
     static final int IDLE = 0, ROUTING = 1, GUIDING = 2, ARRIVED = 3, ERROR = 4;
 
     static final String NOMINATIM = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&addressdetails=0";
-    static final String OSRM = "https://router.project-osrm.org/route/v1/driving/";
+    /** Servidores OSRM públicos (mismo formato): si uno falla se prueba el siguiente. */
+    static final String[] OSRMS = {"https://routing.openstreetmap.de/routed-car/route/v1/driving/",
+            "https://router.project-osrm.org/route/v1/driving/"};
+    static final String PHOTON = "https://photon.komoot.io/api/?limit=8";
+
+    /** Motivo corto del último fallo de red (para mostrarlo y saber qué pasó). */
+    static String netWhy(Throwable e) {
+        if (e == null) return "";
+        String m = e.getMessage();
+        String n = e.getClass().getSimpleName();
+        if (e instanceof java.net.UnknownHostException) return "no internet (DNS lookup failed)";
+        if (e instanceof java.net.SocketTimeoutException) return "server did not answer in time";
+        if (e instanceof javax.net.ssl.SSLException) return "secure connection refused (" + n + ")";
+        return n + (m != null ? ": " + (m.length() > 80 ? m.substring(0, 80) : m) : "");
+    }
 
     private static Nav inst;
 
@@ -117,37 +131,72 @@ public class Nav {
         new Thread(new Runnable() { public void run() {
             List<Place> out = new ArrayList<Place>();
             String err = null;
+            Throwable why = null;
             try {
-                String lang = Locale.getDefault().getLanguage();
-                StringBuilder u = new StringBuilder(NOMINATIM);
-                u.append("&q=").append(URLEncoder.encode(q, "UTF-8"));
-                u.append("&accept-language=").append(URLEncoder.encode(I18n.lang + "," + lang + ",en", "UTF-8"));
-                if (here != null) {
-                    // preferir resultados cerca (sin excluir los lejanos)
-                    double la = here.getLatitude(), lo = here.getLongitude();
-                    u.append(String.format(Locale.US, "&viewbox=%.4f,%.4f,%.4f,%.4f", lo - 0.6, la + 0.6, lo + 0.6, la - 0.6));
-                }
-                JSONArray a = new JSONArray(new String(Net.get(u.toString(), 15000), "UTF-8"));
-                for (int i = 0; i < a.length(); i++) {
-                    JSONObject o = a.getJSONObject(i);
-                    Place p = new Place();
-                    String full = o.optString("display_name", "");
-                    String nm = o.optString("name", "");
-                    int comma = full.indexOf(',');
-                    p.name = nm.length() > 0 ? nm : comma > 0 ? full.substring(0, comma) : full;
-                    p.detail = comma > 0 ? full.substring(comma + 1).trim() : "";
-                    p.lat = Double.parseDouble(o.getString("lat"));
-                    p.lon = Double.parseDouble(o.getString("lon"));
-                    out.add(p);
-                }
-                if (here != null) sortByDistance(out, here);
+                out = nominatim(q, here);
             } catch (Throwable e) {
-                err = "Sin internet: no se pudo buscar. Activa el punto de acceso del celular.";
+                why = e;
+                try { out = photon(q, here); why = null; } catch (Throwable e2) { if (!(e instanceof java.net.UnknownHostException)) why = e2; }
             }
+            if (why != null) err = "Sin internet: no se pudo buscar. Activa el punto de acceso del celular.\n" + netWhy(why);
+            else if (here != null) sortByDistance(out, here);
             final List<Place> res = out;
             final String e2 = err;
             h.post(new Runnable() { public void run() { cb.onResult(res, e2); } });
         }}).start();
+    }
+
+    private static List<Place> nominatim(String q, Location here) throws Exception {
+        List<Place> out = new ArrayList<Place>();
+        String lang = Locale.getDefault().getLanguage();
+        StringBuilder u = new StringBuilder(NOMINATIM);
+        u.append("&q=").append(URLEncoder.encode(q, "UTF-8"));
+        u.append("&accept-language=").append(URLEncoder.encode(I18n.lang + "," + lang + ",en", "UTF-8"));
+        if (here != null) {
+            // preferir resultados cerca (sin excluir los lejanos)
+            double la = here.getLatitude(), lo = here.getLongitude();
+            u.append(String.format(Locale.US, "&viewbox=%.4f,%.4f,%.4f,%.4f", lo - 0.6, la + 0.6, lo + 0.6, la - 0.6));
+        }
+        JSONArray a = new JSONArray(new String(Net.get(u.toString(), 15000), "UTF-8"));
+        for (int i = 0; i < a.length(); i++) {
+            JSONObject o = a.getJSONObject(i);
+            Place p = new Place();
+            String full = o.optString("display_name", "");
+            String nm = o.optString("name", "");
+            int comma = full.indexOf(',');
+            p.name = nm.length() > 0 ? nm : comma > 0 ? full.substring(0, comma) : full;
+            p.detail = comma > 0 ? full.substring(comma + 1).trim() : "";
+            p.lat = Double.parseDouble(o.getString("lat"));
+            p.lon = Double.parseDouble(o.getString("lon"));
+            out.add(p);
+        }
+        return out;
+    }
+
+    /** Buscador de respaldo (Photon, también con datos de OpenStreetMap). */
+    private static List<Place> photon(String q, Location here) throws Exception {
+        List<Place> out = new ArrayList<Place>();
+        StringBuilder u = new StringBuilder(PHOTON);
+        u.append("&q=").append(URLEncoder.encode(q, "UTF-8"));
+        if (here != null) u.append(String.format(Locale.US, "&lat=%.5f&lon=%.5f", here.getLatitude(), here.getLongitude()));
+        JSONArray fs = new JSONObject(new String(Net.get(u.toString(), 15000), "UTF-8")).getJSONArray("features");
+        for (int i = 0; i < fs.length(); i++) {
+            JSONObject f = fs.getJSONObject(i);
+            JSONObject pr = f.getJSONObject("properties");
+            JSONArray c = f.getJSONObject("geometry").getJSONArray("coordinates");
+            Place p = new Place();
+            p.name = pr.optString("name", pr.optString("street", "?"));
+            StringBuilder d = new StringBuilder();
+            for (String k : new String[]{"street", "district", "city", "state", "country"}) {
+                String v = pr.optString(k, "");
+                if (v.length() > 0 && !v.equals(p.name)) { if (d.length() > 0) d.append(", "); d.append(v); }
+            }
+            p.detail = d.toString();
+            p.lon = c.getDouble(0);
+            p.lat = c.getDouble(1);
+            out.add(p);
+        }
+        return out;
     }
 
     private static void sortByDistance(List<Place> l, final Location here) {
@@ -220,19 +269,24 @@ public class Nav {
         final Place to = dest;
         new Thread(new Runnable() { public void run() {
             JSONObject r = null;
+            Throwable why = null;
+            for (String base : OSRMS) {
             try {
-                String u = OSRM + String.format(Locale.US, "%.6f,%.6f;%.6f,%.6f", from.getLongitude(), from.getLatitude(), to.lon, to.lat)
+                String u = base + String.format(Locale.US, "%.6f,%.6f;%.6f,%.6f", from.getLongitude(), from.getLatitude(), to.lon, to.lat)
                         + "?overview=full&geometries=polyline&steps=true"
                         + (from.hasBearing() ? String.format(Locale.US, "&bearings=%d,60;", Math.round(from.getBearing()) % 360) : "");
                 JSONObject o = new JSONObject(new String(Net.get(u, 20000), "UTF-8"));
-                if ("Ok".equals(o.optString("code"))) r = o.getJSONArray("routes").getJSONObject(0);
-            } catch (Throwable ignored) { }
+                if ("Ok".equals(o.optString("code"))) { r = o.getJSONArray("routes").getJSONObject(0); break; }
+                why = new Exception("OSRM: " + o.optString("code"));
+            } catch (Throwable e) { why = e; }
+            }
             final JSONObject route = r;
+            final String reason = netWhy(why);
             h.post(new Runnable() { public void run() {
                 routing = false;
                 if (dest != to) return;                       // terminó o cambió de destino mientras tanto
                 if (route == null) {
-                    if (lat == null) { state = ERROR; error = "Sin internet: no se pudo calcular la ruta"; }
+                    if (lat == null) { state = ERROR; error = I18n.t("Sin internet: no se pudo calcular la ruta") + "\n" + reason; }
                     fire();                                    // si ya había ruta se sigue con ella
                     return;
                 }

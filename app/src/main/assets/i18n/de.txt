@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Ort nicht gef
 Destinos recientes	Letzte Ziele
 Ir	Los
 Llegaste	Angekommen
+Reloj y clima en la tarjeta	Uhr und Wetter auf der Karte
+En lugar del nombre y la foto del vehículo	Anstelle von Fahrzeugname und -foto
+Actualizando el clima…	Wetter wird aktualisiert…

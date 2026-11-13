@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Couldn't find
 Destinos recientes	Recent destinations
 Ir	Go
 Llegaste	Arrived
+Reloj y clima en la tarjeta	Clock and weather on the card
+En lugar del nombre y la foto del vehículo	Instead of the vehicle name and photo
+Actualizando el clima…	Updating the weather…

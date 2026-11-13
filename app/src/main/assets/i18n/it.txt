@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Luogo non tro
 Destinos recientes	Destinazioni recenti
 Ir	Vai
 Llegaste	Arrivato
+Reloj y clima en la tarjeta	Orologio e meteo nella scheda
+En lugar del nombre y la foto del vehículo	Al posto del nome e della foto del veicolo
+Actualizando el clima…	Aggiornamento del meteo…

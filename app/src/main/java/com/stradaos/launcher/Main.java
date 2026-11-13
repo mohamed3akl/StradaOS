@@ -423,6 +423,7 @@ public class Main extends Activity {
         }
         guardUsb();
         maybeWeather();
+        if (prefs.getBoolean("status_icons", true)) startPing();
         h.postDelayed(new Runnable() { public void run() { autoChecks(); } }, 4000);
         updateClock();
         refreshStates();
@@ -457,6 +458,7 @@ public class Main extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        stopPing();
         stopGps();
         h.removeCallbacks(ticker);
         h.removeCallbacks(progressTick);
@@ -927,12 +929,18 @@ public class Main extends Activity {
         // Íconos de Wi-Fi y Bluetooth (2.17, Reinaldo y Daniel): ver si están activos sin abrir los ajustes
         wifiIc = null;
         btIc = null;
+        pingTv = null;
         if (prefs.getBoolean("status_icons", true)) {
             LinearLayout st = new LinearLayout(this);
             st.setGravity(Gravity.CENTER_VERTICAL);
             st.setPadding(0, 0, (int) (8 * s), 0);
             wifiIc = statusIcon(st, "wifi", new Runnable() { public void run() { toggleWifi(); } },
                 new Runnable() { public void run() { openSettingsPage(Settings.ACTION_WIFI_SETTINGS, new Runnable() { public void run() { openSystemSettings(); } }); } });
+            // tiempo de respuesta de internet (ms), al lado del Wi-Fi
+            pingTv = tv("", 12, MUTED, true);
+            pingTv.setPadding(0, 0, (int) (10 * s), 0);
+            st.addView(pingTv);
+            showPing(lastPing);
             btIc = statusIcon(st, "bluetooth", new Runnable() { public void run() { toggleBt(); } },
                 new Runnable() { public void run() {
                     if (clwBt) openSlot(1);
@@ -955,6 +963,60 @@ public class Main extends Activity {
         greetTv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { openSettings(); }
         });
+    }
+
+    // ── ping: cada 5 s se mide cuánto tarda en abrir una conexión con 8.8.8.8 (DNS de Google) ──
+
+    private TextView pingTv;
+    private volatile boolean pinging;
+    private long lastPing = -2;          // -2 = todavía no se midió, -1 = sin respuesta
+
+    private final Runnable pingTick = new Runnable() {
+        public void run() {
+            if (!pinging) return;
+            new Thread(new Runnable() { public void run() {
+                final long ms = measurePing();
+                runOnUiThread(new Runnable() { public void run() { lastPing = ms; showPing(ms); } });
+            }}).start();
+            h.postDelayed(this, 5000);
+        }
+    };
+
+    /** Milisegundos para abrir una conexión TCP con 8.8.8.8:53 (lo mejor de 2 intentos); -1 si no responde. */
+    private static long measurePing() {
+        long best = -1;
+        for (int i = 0; i < 2; i++) {
+            java.net.Socket so = new java.net.Socket();
+            long t0 = SystemClock.elapsedRealtime();
+            try {
+                so.connect(new java.net.InetSocketAddress("8.8.8.8", 53), 2000);
+                long d = SystemClock.elapsedRealtime() - t0;
+                if (best < 0 || d < best) best = d;
+            } catch (Throwable ignored) {
+            } finally {
+                try { so.close(); } catch (Throwable ignored) { }
+            }
+        }
+        return best;
+    }
+
+    private void showPing(long ms) {
+        if (pingTv == null) return;
+        if (ms == -2) { pingTv.setText(""); return; }
+        if (ms < 0) { pingTv.setText("— ms"); pingTv.setTextColor(MUTED); return; }
+        pingTv.setText(ms + " ms");
+        pingTv.setTextColor(ms < 120 ? 0xFF3DDC84 : ms < 300 ? 0xFFF5B841 : 0xFFFF6B5E);
+    }
+
+    private void startPing() {
+        pinging = true;
+        h.removeCallbacks(pingTick);
+        h.post(pingTick);
+    }
+
+    private void stopPing() {
+        pinging = false;
+        h.removeCallbacks(pingTick);
     }
 
     private ImageView statusIcon(LinearLayout parent, String name, final Runnable tap, final Runnable hold) {
@@ -1093,6 +1155,12 @@ public class Main extends Activity {
     private void buildCarCard() {
         final FrameLayout card = card(carX, 64, 300, cardH, CARD);
         final float dy = cardH - 380;   // barra de abajo compacta: la foto crece y la velocidad baja
+        if (prefs.getBoolean("clock_card", true)) {
+            // reloj grande y clima en lugar del nombre y la foto del vehículo (la velocidad y el aceite siguen abajo)
+            carTv = tv(prefs.getString("car_name", "Mi vehículo"), 20, TEXT, true);
+            chipTv = tv("", 11, Color.WHITE, true);
+            buildClockWidget(card, dy);
+        } else {
         carTv = tv(prefs.getString("car_name", "Mi vehículo"), 20, TEXT, true);
         place(card, carTv, 20, 16, 260, 26);
         TextView chip = tv(prefs.getString("car_tag", ""), 11, Color.WHITE, true);
@@ -1126,6 +1194,7 @@ public class Main extends Activity {
             ph.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { pickPhoto(); }
             });
+        }
         }
 
         FrameLayout box = new FrameLayout(this);
@@ -1165,6 +1234,98 @@ public class Main extends Activity {
         // Oculta: se arma igual (la velocidad y el aceite siguen actualizándose sin fallar) pero no se muestra.
         if (!showCar) board.removeView(card);
         setGps(false, 0);
+    }
+
+    // ── tarjeta de reloj y clima ──
+
+    private TextView bigTimeTv, bigAmPmTv, bigDateTv, wTempTv, wDescTv, wCityTv, wRangeTv;
+    private ImageView wIc;
+    private View wRow;
+
+    private void buildClockWidget(FrameLayout card, float dy) {
+        LinearLayout w = new LinearLayout(this);
+        w.setOrientation(LinearLayout.VERTICAL);
+        w.setGravity(Gravity.CENTER_HORIZONTAL);
+        w.setBackground(round(INNER, 16));
+        w.setPadding((int) (12 * s), (int) (16 * s), (int) (12 * s), (int) (12 * s));
+        place(card, w, 12, 12, 276, 226 + dy);
+
+        LinearLayout tr = new LinearLayout(this);
+        tr.setBaselineAligned(true);
+        tr.setGravity(Gravity.CENTER_HORIZONTAL);
+        bigTimeTv = tv("", 58, TEXT, true);
+        bigAmPmTv = tv("", 16, MUTED, true);
+        bigAmPmTv.setPadding((int) (6 * s), 0, 0, 0);
+        tr.addView(bigTimeTv);
+        tr.addView(bigAmPmTv);
+        w.addView(tr, new LinearLayout.LayoutParams(-1, -2));
+        bigDateTv = tv("", 14, MUTED, false);
+        bigDateTv.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams dlp = new LinearLayout.LayoutParams(-1, -2);
+        dlp.topMargin = (int) (6 * s);
+        w.addView(bigDateTv, dlp);
+
+        View sep = new View(this);
+        sep.setBackgroundColor(BTN);
+        LinearLayout.LayoutParams slp = new LinearLayout.LayoutParams(-1, Math.max(1, (int) s));
+        slp.topMargin = slp.bottomMargin = (int) (14 * s);
+        w.addView(sep, slp);
+
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        wRow = row;
+        wIc = icon("cloud", 44);
+        row.addView(wIc, new LinearLayout.LayoutParams((int) (44 * s), (int) (44 * s)));
+        wTempTv = tv("--°", 32, TEXT, true);
+        wTempTv.setPadding((int) (10 * s), 0, (int) (10 * s), 0);
+        row.addView(wTempTv);
+        LinearLayout col = new LinearLayout(this);
+        col.setOrientation(LinearLayout.VERTICAL);
+        wDescTv = tv("", 13, SOFT, true);
+        wCityTv = tv("", 12, MUTED, false);
+        wRangeTv = tv("", 12, MUTED, false);
+        col.addView(wDescTv);
+        col.addView(wCityTv);
+        col.addView(wRangeTv);
+        row.addView(col, new LinearLayout.LayoutParams(0, -2, 1));
+        w.addView(row, new LinearLayout.LayoutParams(-1, -2));
+        row.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { refreshWeatherNow(); toast("Actualizando el clima…"); }
+        });
+        updateBigClock();
+        showWeatherCard();
+    }
+
+    private void updateBigClock() {
+        if (bigTimeTv == null) return;
+        Date now = new Date();
+        String fmt = prefs.getString("clock", "auto");
+        boolean h24 = "24".equals(fmt) || ("auto".equals(fmt) && android.text.format.DateFormat.is24HourFormat(this));
+        bigTimeTv.setText(I18n.sdf(h24 ? "HH:mm" : "h:mm").format(now));
+        bigAmPmTv.setText(h24 ? "" : I18n.sdf("a").format(now));
+        bigAmPmTv.setVisibility(h24 ? View.GONE : View.VISIBLE);
+        String d = I18n.sdf(I18n.datePattern()).format(now);
+        bigDateTv.setText(d.substring(0, 1).toUpperCase(I18n.loc) + d.substring(1));
+    }
+
+    private void showWeatherCard() {
+        if (wRow == null) return;
+        if (!prefs.getBoolean("weather_on", true)) { wRow.setVisibility(View.GONE); return; }
+        wRow.setVisibility(View.VISIBLE);
+        if (weatherNow == null) {
+            wTempTv.setText("--°");
+            wDescTv.setText(I18n.t("Clima"));
+            wCityTv.setText("");
+            wRangeTv.setText("");
+            return;
+        }
+        wIc.setImageBitmap(asset("ic/" + Weather.icon(weatherNow.code, weatherNow.day) + ".png"));
+        wTempTv.setText(Math.round(weatherNow.temp) + "°");
+        wDescTv.setText(I18n.t(Weather.describe(weatherNow.code)));
+        wCityTv.setText(weatherNow.city != null ? weatherNow.city : "");
+        boolean range = !Double.isNaN(weatherNow.hi) && !Double.isNaN(weatherNow.lo);
+        wRangeTv.setText(range ? "↑ " + Math.round(weatherNow.hi) + "°   ↓ " + Math.round(weatherNow.lo) + "°" : "");
+        wRangeTv.setVisibility(range ? View.VISIBLE : View.GONE);
     }
 
     // ───────────────────────── recordatorio de cambio de aceite ─────────────────────────
@@ -2336,6 +2497,7 @@ public class Main extends Activity {
         String fmt = prefs.getString("clock", "auto");
         boolean h24 = "24".equals(fmt) || ("auto".equals(fmt) && android.text.format.DateFormat.is24HourFormat(this));
         timeTv.setText(I18n.sdf(h24 ? "HH:mm" : "h:mm a").format(now));
+        updateBigClock();
         String d = I18n.sdf(I18n.datePattern()).format(now);
         dateTv.setText(d.substring(0, 1).toUpperCase(I18n.loc) + d.substring(1));
         int hr = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -3348,6 +3510,7 @@ public class Main extends Activity {
     private void refreshWeatherNow() { weatherAt = 0; weatherNow = null; maybeWeather(); }
 
     private void showWeather() {
+        showWeatherCard();
         if (weatherBox == null) return;
         if (!prefs.getBoolean("weather_on", true) || weatherNow == null) { weatherBox.setVisibility(View.GONE); return; }
         weatherBox.setVisibility(View.VISIBLE);
@@ -3657,6 +3820,9 @@ public class Main extends Activity {
             }});
         toggle(lay, "Tarjeta del vehículo", "Si la ocultas, la velocidad pasa arriba y el mapa y el reproductor ganan espacio", showCar, new IntCb() { public void on(int i) {
             prefs.edit().putBoolean("show_car", i == 1).apply(); rebuild();
+        }});
+        toggle(lay, "Reloj y clima en la tarjeta", "En lugar del nombre y la foto del vehículo", prefs.getBoolean("clock_card", true), new IntCb() { public void on(int i) {
+            prefs.edit().putBoolean("clock_card", i == 1).apply(); rebuild();
         }});
         segmented(lay, "Barra de botones", "Lateral: los botones van al costado y todo se ve más grande en pantallas bajas como 1280×480", new String[]{"Normal", "Compacta", "Lateral"},
             sideDock ? 2 : compactDock ? 1 : 0, new IntCb() { public void on(int i) {

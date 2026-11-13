@@ -191,7 +191,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         guide.setVisibility(searching ? View.GONE : View.VISIBLE);
         bottom.setVisibility(searching ? View.GONE : View.VISIBLE);
         if (searching) {
-            if (nav.state == Nav.ERROR) statusTv.setText(I18n.t(nav.error));
+            if (nav.state == Nav.ERROR) statusTv.setText(I18n.lines(nav.error));
             else if (nav.state == Nav.ARRIVED) statusTv.setText(I18n.t("Llegaste a tu destino"));
             if (results.getChildCount() == 0) showRecents();
             return;
@@ -248,7 +248,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         nav.search(q, new Nav.SearchCb() { public void onResult(List<Nav.Place> places, String error) {
             if (isFinishing()) return;
             results.removeAllViews();
-            if (error != null) { statusTv.setText(I18n.t(error)); return; }
+            if (error != null) { statusTv.setText(I18n.lines(error)); return; }
             if (places.isEmpty()) { statusTv.setText(I18n.t("No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.")); return; }
             statusTv.setText("");
             for (Nav.Place p : places) addPlace(p, "location_on");

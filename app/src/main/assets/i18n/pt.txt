@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Não encontre
 Destinos recientes	Destinos recentes
 Ir	Ir
 Llegaste	Chegou
+Reloj y clima en la tarjeta	Relógio e clima no cartão
+En lugar del nombre y la foto del vehículo	No lugar do nome e da foto do veículo
+Actualizando el clima…	Atualizando o clima…

@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Tempat itu ti
 Destinos recientes	Destinasi terkini
 Ir	Pergi
 Llegaste	Tiba
+Reloj y clima en la tarjeta	Jam dan cuaca pada kad
+En lugar del nombre y la foto del vehículo	Menggantikan nama dan foto kenderaan
+Actualizando el clima…	Mengemas kini cuaca…

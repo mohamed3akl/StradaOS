@@ -19,6 +19,7 @@ public class Weather {
         public boolean day = true;
         public String city;
         public String unit = "C";
+        public double hi = Double.NaN, lo = Double.NaN;   // máxima y mínima de hoy
     }
 
     public interface Listener { void onWeather(Now n, String error); }
@@ -36,15 +37,21 @@ public class Weather {
                     // sin cifrar (solo si falla https, en Android 4.x) se envía la posición redondeada a ~10 km
                     boolean plain = scheme.startsWith("http:");
                     String q = String.format(Locale.US,
-                            "api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current=temperature_2m,weather_code,is_day&timezone=auto%s",
+                            "api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto%s",
                             coord(lat, plain), coord(lon, plain), f ? "&temperature_unit=fahrenheit" : "");
                     try {
-                        JSONObject cur = new JSONObject(new String(Net.get(scheme + q, 10000), "UTF-8")).getJSONObject("current");
+                        JSONObject all = new JSONObject(new String(Net.get(scheme + q, 10000), "UTF-8"));
+                        JSONObject cur = all.getJSONObject("current");
                         n = new Now();
                         n.temp = cur.getDouble("temperature_2m");
                         n.code = cur.optInt("weather_code", 0);
                         n.day = cur.optInt("is_day", 1) == 1;
                         n.unit = f ? "F" : "C";
+                        try {
+                            JSONObject d = all.getJSONObject("daily");
+                            n.hi = d.getJSONArray("temperature_2m_max").getDouble(0);
+                            n.lo = d.getJSONArray("temperature_2m_min").getDouble(0);
+                        } catch (Throwable ignored) { }
                         break;
                     } catch (Throwable e) {
                         lastError = e.toString();

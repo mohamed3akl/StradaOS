@@ -686,3 +686,6 @@ No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	لم أجد �
 Destinos recientes	الوجهات الأخيرة
 Ir	انطلق
 Llegaste	وصلت
+Reloj y clima en la tarjeta	الساعة والطقس في البطاقة
+En lugar del nombre y la foto del vehículo	بدلًا من اسم المركبة وصورتها
+Actualizando el clima…	جارٍ تحديث الطقس…
