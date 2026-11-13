@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	سمة تتبع الوضع الداكن �
 Pantallas que lo cambian (p. ej. con las luces)	الشاشات التي تغيّره (مثلًا مع الأضواء)
 el sistema está en modo oscuro	النظام في الوضع الداكن
 el sistema está en modo claro	النظام في الوضع الفاتح
+Preparando Android Auto…	جارٍ تجهيز Android Auto…
+No se pudo preparar Open Headunit en esta pantalla	تعذّر تجهيز Open Headunit على هذه الشاشة
+Elige una canción	اختر أغنية
+Carpetas	المجلدات
+Buscando música en la USB, la tarjeta SD y la memoria…	جارٍ البحث عن الموسيقى في الـ USB وبطاقة SD والذاكرة…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	لم أجد موسيقى. وصّل ذاكرة USB أو بطاقة SD فيها أغانٍ (MP3، M4A، FLAC…) واضغط ↻.
+{} canciones	{} أغنية
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	لا يوجد إنترنت: تعذّر البحث. شغّل نقطة الاتصال في الموبايل.
+Sin internet: no se pudo calcular la ruta	لا يوجد إنترنت: تعذّر حساب الطريق
+No se pudo calcular la ruta	تعذّر حساب الطريق
+Llegaste a tu destino	وصلت إلى وجهتك
+En la glorieta, toma la salida {}	في الدوّار، اخرج من المخرج {}
+Entra a la glorieta	ادخل الدوّار
+Sal de la glorieta	اخرج من الدوّار
+Incorpórate a la vía	اندمج في الطريق
+Toma la salida a la izquierda	اسلك المخرج على اليسار
+Toma la salida a la derecha	اسلك المخرج على اليمين
+Toma la entrada	اسلك المدخل
+Mantente a la izquierda	التزم اليسار
+Mantente a la derecha	التزم اليمين
+Da la vuelta en U	استدر للخلف (يو-تيرن)
+Gira bruscamente a la derecha	انعطف بحدة يمينًا
+Gira bruscamente a la izquierda	انعطف بحدة يسارًا
+Gira levemente a la derecha	انحرف قليلًا يمينًا
+Gira levemente a la izquierda	انحرف قليلًا يسارًا
+Gira a la derecha	انعطف يمينًا
+Gira a la izquierda	انعطف يسارًا
+Sigue derecho	استمر للأمام
+Terminar	إنهاء
+¿A dónde vas?	إلى أين؟
+Lugar, dirección o negocio	مكان أو عنوان أو نشاط تجاري
+Buscar	بحث
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	البحث والطرق: Nominatim وOSRM · © المساهمون في OpenStreetMap
+Esperando señal GPS…	في انتظار إشارة GPS…
+Calculando ruta…	جارٍ حساب الطريق…
+Llegada {}	الوصول {}
+Buscando…	جارٍ البحث…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	لم أجد هذا المكان. جرّب اسمًا آخر أو أضف اسم المدينة.
+Destinos recientes	الوجهات الأخيرة
+Ir	انطلق
+Llegaste	وصلت

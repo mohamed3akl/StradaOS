@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	Tema secondo la modalità scura del siste
 Pantallas que lo cambian (p. ej. con las luces)	Schermi che lo cambiano (es. con i fari)
 el sistema está en modo oscuro	il sistema è in modalità scura
 el sistema está en modo claro	il sistema è in modalità chiara
+Preparando Android Auto…	Preparazione di Android Auto…
+No se pudo preparar Open Headunit en esta pantalla	Impossibile preparare Open Headunit su questo schermo
+Elige una canción	Scegli un brano
+Carpetas	Cartelle
+Buscando música en la USB, la tarjeta SD y la memoria…	Ricerca di musica su USB, scheda SD e memoria…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	Nessuna musica trovata. Collega una chiavetta USB o una scheda SD con brani (MP3, M4A, FLAC…) e tocca ↻.
+{} canciones	{} brani
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	Nessuna connessione: ricerca non riuscita. Attiva l'hotspot del telefono.
+Sin internet: no se pudo calcular la ruta	Nessuna connessione: impossibile calcolare il percorso
+No se pudo calcular la ruta	Impossibile calcolare il percorso
+Llegaste a tu destino	Sei arrivato a destinazione
+En la glorieta, toma la salida {}	Alla rotonda, prendi l'uscita {}
+Entra a la glorieta	Entra nella rotonda
+Sal de la glorieta	Esci dalla rotonda
+Incorpórate a la vía	Immettiti sulla strada
+Toma la salida a la izquierda	Prendi l'uscita a sinistra
+Toma la salida a la derecha	Prendi l'uscita a destra
+Toma la entrada	Prendi la rampa
+Mantente a la izquierda	Mantieni la sinistra
+Mantente a la derecha	Mantieni la destra
+Da la vuelta en U	Fai un'inversione a U
+Gira bruscamente a la derecha	Svolta decisamente a destra
+Gira bruscamente a la izquierda	Svolta decisamente a sinistra
+Gira levemente a la derecha	Svolta leggermente a destra
+Gira levemente a la izquierda	Svolta leggermente a sinistra
+Gira a la derecha	Svolta a destra
+Gira a la izquierda	Svolta a sinistra
+Sigue derecho	Prosegui dritto
+Terminar	Termina
+¿A dónde vas?	Dove vai?
+Lugar, dirección o negocio	Luogo, indirizzo o attività
+Buscar	Cerca
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	Ricerca e percorsi: Nominatim e OSRM · © contributori di OpenStreetMap
+Esperando señal GPS…	In attesa del segnale GPS…
+Calculando ruta…	Calcolo del percorso…
+Llegada {}	Arrivo {}
+Buscando…	Ricerca…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Luogo non trovato. Prova un altro nome o aggiungi la città.
+Destinos recientes	Destinazioni recenti
+Ir	Vai
+Llegaste	Arrivato

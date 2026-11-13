@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	Theme that follows the system dark mode
 Pantallas que lo cambian (p. ej. con las luces)	Screens that switch it (e.g. with the headlights)
 el sistema está en modo oscuro	the system is in dark mode
 el sistema está en modo claro	the system is in light mode
+Preparando Android Auto…	Preparing Android Auto…
+No se pudo preparar Open Headunit en esta pantalla	Couldn't prepare Open Headunit on this screen
+Elige una canción	Choose a song
+Carpetas	Folders
+Buscando música en la USB, la tarjeta SD y la memoria…	Looking for music on USB, SD card and internal storage…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	No music found. Connect a USB stick or SD card with songs (MP3, M4A, FLAC…) and tap ↻.
+{} canciones	{} songs
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	No internet: couldn't search. Turn on your phone's hotspot.
+Sin internet: no se pudo calcular la ruta	No internet: couldn't calculate the route
+No se pudo calcular la ruta	Couldn't calculate the route
+Llegaste a tu destino	You have arrived
+En la glorieta, toma la salida {}	At the roundabout, take exit {}
+Entra a la glorieta	Enter the roundabout
+Sal de la glorieta	Exit the roundabout
+Incorpórate a la vía	Merge
+Toma la salida a la izquierda	Take the exit on the left
+Toma la salida a la derecha	Take the exit on the right
+Toma la entrada	Take the ramp
+Mantente a la izquierda	Keep left
+Mantente a la derecha	Keep right
+Da la vuelta en U	Make a U-turn
+Gira bruscamente a la derecha	Sharp right
+Gira bruscamente a la izquierda	Sharp left
+Gira levemente a la derecha	Slight right
+Gira levemente a la izquierda	Slight left
+Gira a la derecha	Turn right
+Gira a la izquierda	Turn left
+Sigue derecho	Continue straight
+Terminar	End
+¿A dónde vas?	Where to?
+Lugar, dirección o negocio	Place, address or business
+Buscar	Search
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	Search and routing: Nominatim and OSRM · © OpenStreetMap contributors
+Esperando señal GPS…	Waiting for GPS signal…
+Calculando ruta…	Calculating route…
+Llegada {}	Arrival {}
+Buscando…	Searching…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Couldn't find that place. Try another name or add the city.
+Destinos recientes	Recent destinations
+Ir	Go
+Llegaste	Arrived

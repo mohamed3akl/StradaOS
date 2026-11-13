@@ -239,6 +239,9 @@ public class Main extends Activity {
         bt = new BtBridge(this, new BtBridge.Listener() {
             public void onBtState(NowPlaying.Track t) { showTrack(t); }
         });
+        // reproductor integrado (música de la USB/SD): también se muestra y controla en la tarjeta de inicio
+        LocalPlayer.get(this).addListener(localListener);
+        Nav.get(this).addListener(navListener);
         clwBt = BtBridge.available(this);
         bt.onPhoneStarted = new Runnable() { public void run() { onPhoneStartedBt(); } };
         bt.onLost = new Runnable() { public void run() { btRouted = false; } };
@@ -388,6 +391,8 @@ public class Main extends Activity {
         try { unregisterReceiver(pkgReceiver); } catch (Exception ignored) { }
         try { unregisterReceiver(timeReceiver); } catch (Exception ignored) { }
         try { nowPlaying.stop(); } catch (Throwable ignored) { }
+        try { LocalPlayer.get(this).removeListener(localListener); } catch (Throwable ignored) { }
+        try { Nav.get(this).removeListener(navListener); } catch (Throwable ignored) { }
         try { unregisterReceiver(usbReceiver); } catch (Throwable ignored) { }
         try { unregisterReceiver(usbOffReceiver); } catch (Throwable ignored) { }
         try { bt.disconnect(); } catch (Throwable ignored) { }
@@ -412,6 +417,10 @@ public class Main extends Activity {
             try { Modern.ensurePermissions(this, 77); } catch (Throwable ignored) { }
         }
         if (mediaWatcher != null) mediaWatcher.start();
+        if (pendingHur && installed(PKG_HUR)) {   // se acaba de instalar el Open Headunit incluido: abrirlo
+            pendingHur = false;
+            if (launchPkg(PKG_HUR)) return;
+        }
         guardUsb();
         maybeWeather();
         h.postDelayed(new Runnable() { public void run() { autoChecks(); } }, 4000);
@@ -1346,7 +1355,7 @@ public class Main extends Activity {
      * inglés de EE. UU. (= millas): por eso, antes de pedir números, se pregunta una vez y queda fija (issue #7).
      */
     private void askOilUnit(final Runnable next) {
-        if (!"auto".equals(prefs.getString("speed_unit", "auto"))) { next.run(); return; }
+        if (!"auto".equals(prefs.getString("speed_unit", "kmh"))) { next.run(); return; }
         new TB(this, dlg())
             .setTitle("¿Tu tablero marca kilómetros o millas?")
             .setItems(new String[]{"Kilómetros (km)", "Millas (mi)"}, new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) {
@@ -1485,7 +1494,10 @@ public class Main extends Activity {
         card.addView(liveMap, new FrameLayout.LayoutParams(-1, -1));
         liveMap.setVisibility(View.INVISIBLE);
         liveMap.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) { liveMap.cycleZoom(); }
+            public void onClick(View v) {
+                if (Nav.get(Main.this).active()) openNavScreen();   // navegando: el mapa abre la guía completa
+                else liveMap.cycleZoom();
+            }
         });
         liveMap.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -1511,6 +1523,28 @@ public class Main extends Activity {
         tag.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { fixGps(); }
         });
+
+        // navegación activa: próximo giro arriba del mapa (tocar abre la guía completa)
+        navBanner = new LinearLayout(this);
+        navBanner.setGravity(Gravity.CENTER_VERTICAL);
+        navBanner.setBackground(round(RED, 14));
+        navBanner.setPadding((int) (10 * s), (int) (8 * s), (int) (14 * s), (int) (8 * s));
+        navTurn = new TurnView(this);
+        navTurn.setColor(0xFFFFFFFF);
+        navBanner.addView(navTurn, new LinearLayout.LayoutParams((int) (52 * s), (int) (52 * s)));
+        LinearLayout nt = new LinearLayout(this);
+        nt.setOrientation(LinearLayout.VERTICAL);
+        nt.setPadding((int) (10 * s), 0, 0, 0);
+        navDistTv = tv("", 22, 0xFFFFFFFF, true);
+        navInstrTv = tv("", 14, 0xFFFFFFFF, false);
+        nt.addView(navDistTv);
+        nt.addView(navInstrTv);
+        navBanner.addView(nt, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        place(card, navBanner, 12, 12, mapW - 24, 72);
+        navBanner.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { openNavScreen(); }
+        });
+        updateNavBanner();
 
         final float panelY = cardH - 96, panelW = mapW - 24;
         final FrameLayout panel = new FrameLayout(this);
@@ -1647,9 +1681,9 @@ public class Main extends Activity {
         updateMapTag();
     }
 
-    /** km/h o mph: lo elegido, o mph en EE. UU., Reino Unido, Liberia y Birmania. */
+    /** km/h o mph: lo elegido (por defecto km/h); en «Auto», mph en EE. UU., Reino Unido, Liberia y Birmania. */
     private boolean useMph() {
-        String u = prefs.getString("speed_unit", "auto");
+        String u = prefs.getString("speed_unit", "kmh");
         if ("mph".equals(u)) return true;
         if ("kmh".equals(u)) return false;
         String c = java.util.Locale.getDefault().getCountry();
@@ -1861,7 +1895,7 @@ public class Main extends Activity {
         {"radio", "Radio", "radio"}, {"bt", "Bluetooth", "bluetooth"}, {"cam", "Cámara", "photo_camera"},
         {"music", "Música", "music_note"}, {"nav", "Navegación", "map"}, {"aa", "Android Auto", "navigation"},
         {"carplay", "CarPlay", "phone_iphone"}, {"web", "Navegador web", "public"}, {"files", "Archivos", "folder"},
-        {"settings", "Ajustes", "settings"}, {"apps", "Apps", "apps"},
+        {"settings", "Ajustes", "settings"}, {"syssettings", "Ajustes del equipo", "tune"}, {"apps", "Apps", "apps"},
     };
 
     private String[] dockFn(String id) {
@@ -1976,7 +2010,8 @@ public class Main extends Activity {
         else if ("bt".equals(id)) openSlot(1);
         else if ("cam".equals(id)) openSlot(2);
         else if ("files".equals(id)) openSlot(3);
-        else if ("settings".equals(id)) openSlot(4);
+        else if ("settings".equals(id)) openSettings();          // ajustes de StradaOS
+        else if ("syssettings".equals(id)) openSlot(4);          // ajustes de la pantalla (del equipo)
         else if ("web".equals(id)) openBrowser();
         else if ("music".equals(id)) openMusicApp();
         else if ("nav".equals(id)) openNavApp();
@@ -2106,7 +2141,7 @@ public class Main extends Activity {
 
     // ── apps preferidas ──
 
-    static final String[] MUSIC_PKGS = {"com.spotify.music", "in.krosbits.musicolet", "com.google.android.apps.youtube.music",
+    static final String[] MUSIC_PKGS = {"com.anghami", "com.spotify.music", "in.krosbits.musicolet", "com.google.android.apps.youtube.music",
         "com.maxrave.simpmusic", "com.maxmpz.audioplayer", "org.videolan.vlc", "deezer.android.app", "com.amazon.mp3",
         "com.apple.android.music", "com.soundcloud.android", "com.google.android.youtube", "com.aspiro.tidal", "com.zionhuang.music",
         "it.vfsfitvnm.vimusic", "app.vitune.android", "com.kapp.youtube.final"};
@@ -2120,9 +2155,15 @@ public class Main extends Activity {
     }
 
     /** Toca el reproductor: la app de música elegida; si no hay, la de la fuente que suena. */
+    /**
+     * Botón Música y toque en la tarjeta: la app elegida a mano (si la hay), Android Auto si es lo que suena
+     * y, si no, el reproductor integrado de StradaOS (música de la USB, la SD y la memoria).
+     */
     private void openMusicApp() {
         if (launchSaved("music_app")) return;
         if ("Android Auto".equals(curSource) && launchPkg(PKG_HUR)) return;
+        if (launchPkg("com.anghami")) return;            // Anghami instalado (pantallas con Android más nuevo)
+        try { LocalPlayer.openScreen(this); return; } catch (Throwable ignored) { }
         if ("Bluetooth".equals(curSource)) { ComponentName cn = btMusicApp(); if (cn != null && launchComponent(cn)) return; }
         String p = firstInstalled(MUSIC_PKGS);
         if (p != null && launchPkg(p)) return;
@@ -2130,9 +2171,55 @@ public class Main extends Activity {
         pickFor("music_app", "Música", null);
     }
 
+    // ── navegación integrada ──
+
+    private LinearLayout navBanner;
+    private TurnView navTurn;
+    private TextView navDistTv, navInstrTv;
+
+    private void openNavScreen() {
+        startActivity(new Intent(this, NavActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    }
+
+    private final Nav.Listener navListener = new Nav.Listener() {
+        public void onNav() { updateNavBanner(); }
+    };
+
+    private void updateNavBanner() {
+        if (navBanner == null) return;
+        Nav n = Nav.get(this);
+        boolean show = n.active() || n.state == Nav.ARRIVED;
+        navBanner.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (!show) return;
+        if (n.state == Nav.ARRIVED) {
+            Nav.Step a = new Nav.Step();
+            a.type = "arrive";
+            navTurn.set(a);
+            navDistTv.setText(I18n.t("Llegaste"));
+            navInstrTv.setText(n.dest != null ? n.dest.name : "");
+        } else if (n.state == Nav.ROUTING) {
+            navTurn.set(null);
+            navDistTv.setText(I18n.t("Calculando ruta…"));
+            navInstrTv.setText(n.dest != null ? n.dest.name : "");
+        } else {
+            Nav.Step st = n.next();
+            navTurn.set(st);
+            navDistTv.setText(Nav.distText(n.toNext(), useMph()));
+            String street = st != null && st.name != null && st.name.length() > 0 ? " · " + st.name : "";
+            navInstrTv.setText(I18n.t(Nav.instruction(st)) + street);
+        }
+        if (liveMap != null) liveMap.invalidate();
+    }
+
+    private final LocalPlayer.Listener localListener = new LocalPlayer.Listener() {
+        public void onTrack(NowPlaying.Track t) { showTrack(t); updatePlayIcon(); }
+    };
+
     /** App de navegación elegida; si no hay, la primera conocida que esté instalada (Waze, Maps, OsmAnd…). */
+    /** Botón de navegación: la app elegida a mano (si la hay) o la navegación integrada de StradaOS. */
     private void openNavApp() {
         if (launchSaved("nav_app")) return;
+        try { openNavScreen(); return; } catch (Throwable ignored) { }
         String p = firstInstalled(NAV_PKGS);
         if (p != null && launchPkg(p)) return;
         toast("Elige tu app de navegación");
@@ -2310,6 +2397,18 @@ public class Main extends Activity {
                 int which = code == KeyEvent.KEYCODE_MEDIA_NEXT ? 1 : code == KeyEvent.KEYCODE_MEDIA_PREVIOUS ? -1 : 0;
                 boolean done = false;
 
+                // reproductor integrado: lo controla directamente
+                LocalPlayer lp = LocalPlayer.get(Main.this);
+                if ("local".equals(curOrigin) && lp.hasTrack()) {
+                    if (which == 1) lp.next(); else if (which == -1) lp.prev(); else lp.toggle();
+                    return;
+                }
+                // ▶ sin nada sonando ni otra app elegida: retoma la última canción de la USB
+                if (which == 0 && curSource == null && !prefs.contains("music_app") && lp.canResume()
+                        && !((AudioManager) getSystemService(AUDIO_SERVICE)).isMusicActive()) {
+                    lp.toggle();
+                    return;
+                }
                 if (mediaWatcher != null && "ms".equals(curOrigin)) {
                     try { done = mediaWatcher.command(which); } catch (Throwable ignored) { }
                 }
@@ -3594,7 +3693,7 @@ public class Main extends Activity {
         }
         r.addView(dots);
         LinearLayout un = section(body, "Unidades");
-        String su = prefs.getString("speed_unit", "auto");
+        String su = prefs.getString("speed_unit", "kmh");
         segmented(un, "Velocidad", "Automático: mph en EE. UU. y Reino Unido", new String[]{"Auto", "km/h", "mph"}, "kmh".equals(su) ? 1 : "mph".equals(su) ? 2 : 0,
             new IntCb() { public void on(int i) {
                 prefs.edit().putString("speed_unit", i == 1 ? "kmh" : i == 2 ? "mph" : "auto").apply(); rebuild(); showSettings(2);
@@ -4709,6 +4808,7 @@ public class Main extends Activity {
             return;
         }
         if (c.size() == 1 && launchPkg(c.get(0))) return;
+        if (!installed(PKG_HUR) && hasBundledHur()) { installBundledHur(); return; }
         File apk = findApkOnUsb("revived");
         if (apk != null && compatible(apk)) {
             installFile(apk, "Open Headunit");
@@ -4721,6 +4821,47 @@ public class Main extends Activity {
             .setNeutralButton("Elegir app", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface d, int w) { pickFor("aa", "Android Auto"); }
             }).show();
+    }
+
+    // ── Open Headunit incluido dentro de StradaOS (assets/apps/headunit-revived.apk) ──
+
+    private boolean pendingHur;
+
+    /** true si esta compilación trae el APK de Open Headunit adentro. */
+    private boolean hasBundledHur() {
+        try { getAssets().open(ASSET_HUR).close(); return true; } catch (Throwable e) { return false; }
+    }
+
+    /** Copia el APK incluido a una carpeta que el instalador pueda leer y abre el instalador; al volver se abre solo. */
+    private void installBundledHur() {
+        if (!unknownSourcesOk()) return;
+        final ProgressDialogLite pd = new ProgressDialogLite("Preparando Android Auto…");
+        new Thread(new Runnable() { public void run() {
+            File out = null;
+            try {
+                File dir = getExternalFilesDir(null);
+                if (dir == null) dir = getFilesDir();
+                dir.mkdirs();
+                out = new File(dir, "open-headunit.apk");
+                InputStream in = getAssets().open(ASSET_HUR);
+                FileOutputStream os = new FileOutputStream(out);
+                byte[] buf = new byte[64 * 1024];
+                int n;
+                while ((n = in.read(buf)) > 0) os.write(buf, 0, n);
+                os.close();
+                in.close();
+                out.setReadable(true, false);
+                android.content.pm.PackageInfo pi = getPackageManager().getPackageArchiveInfo(out.getAbsolutePath(), 0);
+                if (pi == null || !PKG_HUR.equals(pi.packageName)) { out.delete(); out = null; }
+            } catch (Throwable e) { out = null; }
+            final File f = out;
+            runOnUiThread(new Runnable() { public void run() {
+                pd.dismiss();
+                if (f == null) { toast("No se pudo preparar Open Headunit en esta pantalla"); return; }
+                pendingHur = true;
+                installFile(f, "Open Headunit");
+            }});
+        }}).start();
     }
 
     // ── método de conexión del celular (lo elige el usuario) ──

@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	Tema ikut mod gelap sistem
 Pantallas que lo cambian (p. ej. con las luces)	Skrin yang menukarnya (cth. dengan lampu)
 el sistema está en modo oscuro	sistem dalam mod gelap
 el sistema está en modo claro	sistem dalam mod cerah
+Preparando Android Auto…	Menyediakan Android Auto…
+No se pudo preparar Open Headunit en esta pantalla	Tidak dapat menyediakan Open Headunit pada skrin ini
+Elige una canción	Pilih lagu
+Carpetas	Folder
+Buscando música en la USB, la tarjeta SD y la memoria…	Mencari muzik dalam USB, kad SD dan storan dalaman…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	Tiada muzik ditemui. Sambungkan pemacu USB atau kad SD yang mengandungi lagu (MP3, M4A, FLAC…) dan ketik ↻.
+{} canciones	{} lagu
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	Tiada internet: tidak dapat mencari. Hidupkan tempat liputan telefon.
+Sin internet: no se pudo calcular la ruta	Tiada internet: tidak dapat mengira laluan
+No se pudo calcular la ruta	Tidak dapat mengira laluan
+Llegaste a tu destino	Anda telah tiba
+En la glorieta, toma la salida {}	Di bulatan, ambil susur keluar {}
+Entra a la glorieta	Masuk ke bulatan
+Sal de la glorieta	Keluar dari bulatan
+Incorpórate a la vía	Masuk ke jalan
+Toma la salida a la izquierda	Ambil susur keluar di kiri
+Toma la salida a la derecha	Ambil susur keluar di kanan
+Toma la entrada	Ambil susur masuk
+Mantente a la izquierda	Kekal di kiri
+Mantente a la derecha	Kekal di kanan
+Da la vuelta en U	Buat pusingan U
+Gira bruscamente a la derecha	Belok tajam ke kanan
+Gira bruscamente a la izquierda	Belok tajam ke kiri
+Gira levemente a la derecha	Belok sedikit ke kanan
+Gira levemente a la izquierda	Belok sedikit ke kiri
+Gira a la derecha	Belok ke kanan
+Gira a la izquierda	Belok ke kiri
+Sigue derecho	Terus lurus
+Terminar	Tamat
+¿A dónde vas?	Ke mana?
+Lugar, dirección o negocio	Tempat, alamat atau perniagaan
+Buscar	Cari
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	Carian dan laluan: Nominatim dan OSRM · © penyumbang OpenStreetMap
+Esperando señal GPS…	Menunggu isyarat GPS…
+Calculando ruta…	Mengira laluan…
+Llegada {}	Ketibaan {}
+Buscando…	Mencari…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Tempat itu tidak ditemui. Cuba nama lain atau tambah bandar.
+Destinos recientes	Destinasi terkini
+Ir	Pergi
+Llegaste	Tiba

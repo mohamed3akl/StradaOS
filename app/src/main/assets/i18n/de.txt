@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	Design nach dem Dunkelmodus des Systems
 Pantallas que lo cambian (p. ej. con las luces)	Bildschirme, die ihn umschalten (z. B. mit dem Licht)
 el sistema está en modo oscuro	das System ist im Dunkelmodus
 el sistema está en modo claro	das System ist im Hellmodus
+Preparando Android Auto…	Android Auto wird vorbereitet…
+No se pudo preparar Open Headunit en esta pantalla	Open Headunit konnte auf diesem Gerät nicht vorbereitet werden
+Elige una canción	Wähle einen Titel
+Carpetas	Ordner
+Buscando música en la USB, la tarjeta SD y la memoria…	Suche Musik auf USB, SD-Karte und internem Speicher…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	Keine Musik gefunden. Schließe einen USB-Stick oder eine SD-Karte mit Titeln (MP3, M4A, FLAC…) an und tippe auf ↻.
+{} canciones	{} Titel
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	Kein Internet: Suche nicht möglich. Schalte den Hotspot des Handys ein.
+Sin internet: no se pudo calcular la ruta	Kein Internet: Route konnte nicht berechnet werden
+No se pudo calcular la ruta	Route konnte nicht berechnet werden
+Llegaste a tu destino	Du hast dein Ziel erreicht
+En la glorieta, toma la salida {}	Im Kreisverkehr die {}. Ausfahrt nehmen
+Entra a la glorieta	In den Kreisverkehr fahren
+Sal de la glorieta	Kreisverkehr verlassen
+Incorpórate a la vía	Einfädeln
+Toma la salida a la izquierda	Ausfahrt links nehmen
+Toma la salida a la derecha	Ausfahrt rechts nehmen
+Toma la entrada	Auffahrt nehmen
+Mantente a la izquierda	Links halten
+Mantente a la derecha	Rechts halten
+Da la vuelta en U	Wenden
+Gira bruscamente a la derecha	Scharf rechts abbiegen
+Gira bruscamente a la izquierda	Scharf links abbiegen
+Gira levemente a la derecha	Leicht rechts abbiegen
+Gira levemente a la izquierda	Leicht links abbiegen
+Gira a la derecha	Rechts abbiegen
+Gira a la izquierda	Links abbiegen
+Sigue derecho	Geradeaus weiterfahren
+Terminar	Beenden
+¿A dónde vas?	Wohin?
+Lugar, dirección o negocio	Ort, Adresse oder Geschäft
+Buscar	Suchen
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	Suche und Routen: Nominatim und OSRM · © OpenStreetMap-Mitwirkende
+Esperando señal GPS…	Warte auf GPS-Signal…
+Calculando ruta…	Route wird berechnet…
+Llegada {}	Ankunft {}
+Buscando…	Suche…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Ort nicht gefunden. Versuche einen anderen Namen oder füge die Stadt hinzu.
+Destinos recientes	Letzte Ziele
+Ir	Los
+Llegaste	Angekommen

@@ -356,6 +356,7 @@ public class LiveMapView extends View {
                     }
                 }
             }
+            drawRoute(c, fx, fy, n, ts, cx, cy);
             if (rot) c.restore();
             drawMarker(c, cx, cy, rot);
             String attr = anyFile ? I18n.t("© colaboradores de OpenStreetMap") + " · mapsforge"
@@ -365,6 +366,70 @@ public class LiveMapView extends View {
         corner.setColor(Main.BG);
         c.drawPath(corners, corner);
         if (moving) postInvalidateDelayed(FRAME_MS);
+    }
+
+    // ── ruta de la navegación (Nav) ──
+    private final Paint routeLine = new Paint(Paint.ANTI_ALIAS_FLAG), routeCase = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Path routePath = new Path();
+    private final float[] seg = new float[4];
+
+    /** Dibuja lo que falta de la ruta activa. Cada tramo se recorta a un recuadro alrededor de la pantalla. */
+    private void drawRoute(Canvas c, double fx, double fy, int n, float ts, float cx, float cy) {
+        double[] mx = Nav.routeMx, my = Nav.routeMy;
+        if (mx == null || my == null || mx.length != my.length || mx.length < 2) return;
+        int from = Math.max(0, Math.min(mx.length - 2, Nav.routeFrom));
+        float lim = Math.max(getWidth(), getHeight()) * 1.5f;
+        float bx0 = cx - lim, by0 = cy - lim, bx1 = cx + lim, by1 = cy + lim;
+        routePath.reset();
+        float px = cx + (float) ((mx[from] * n - fx) * ts), py = cy + (float) ((my[from] * n - fy) * ts);
+        boolean pen = false;
+        float lx = Float.NaN, ly = Float.NaN;
+        for (int i = from + 1; i < mx.length; i++) {
+            float x = cx + (float) ((mx[i] * n - fx) * ts), y = cy + (float) ((my[i] * n - fy) * ts);
+            seg[0] = px; seg[1] = py; seg[2] = x; seg[3] = y;
+            if (clip(seg, bx0, by0, bx1, by1)) {
+                if (!pen || seg[0] != lx || seg[1] != ly) routePath.moveTo(seg[0], seg[1]);
+                routePath.lineTo(seg[2], seg[3]);
+                lx = seg[2]; ly = seg[3];
+                pen = true;
+            } else pen = false;
+            px = x; py = y;
+        }
+        routeCase.setStyle(Paint.Style.STROKE);
+        routeCase.setStrokeCap(Paint.Cap.ROUND);
+        routeCase.setStrokeJoin(Paint.Join.ROUND);
+        routeCase.setColor(Main.LIGHT ? 0xFF1A4FB0 : 0xFF0B2A66);
+        routeCase.setStrokeWidth(12 * s);
+        routeLine.set(routeCase);
+        routeLine.setColor(0xFF3D8BFF);
+        routeLine.setStrokeWidth(7 * s);
+        c.drawPath(routePath, routeCase);
+        c.drawPath(routePath, routeLine);
+        // destino: punto al final
+        int e = mx.length - 1;
+        float dx = cx + (float) ((mx[e] * n - fx) * ts), dy = cy + (float) ((my[e] * n - fy) * ts);
+        if (dx > bx0 && dx < bx1 && dy > by0 && dy < by1) {
+            routeLine.setStyle(Paint.Style.FILL);
+            c.drawCircle(dx, dy, 9 * s, routeLine);
+            routeLine.setColor(0xFFFFFFFF);
+            c.drawCircle(dx, dy, 4 * s, routeLine);
+        }
+    }
+
+    /** Recorta el segmento s = {x0,y0,x1,y1} al rectángulo (Liang–Barsky). false si queda fuera. */
+    private static boolean clip(float[] s, float xmin, float ymin, float xmax, float ymax) {
+        float x0 = s[0], y0 = s[1], dx = s[2] - x0, dy = s[3] - y0;
+        float t0 = 0, t1 = 1;
+        float[] p = {-dx, dx, -dy, dy}, q = {x0 - xmin, xmax - x0, y0 - ymin, ymax - y0};
+        for (int i = 0; i < 4; i++) {
+            if (p[i] == 0) { if (q[i] < 0) return false; continue; }
+            float r = q[i] / p[i];
+            if (p[i] < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
+            else { if (r < t0) return false; if (r < t1) t1 = r; }
+        }
+        s[0] = x0 + t0 * dx; s[1] = y0 + t0 * dy;
+        s[2] = x0 + t1 * dx; s[3] = y0 + t1 * dy;
+        return true;
     }
 
     private void drawMarker(Canvas c, float x, float y, boolean rotated) {

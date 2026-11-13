@@ -645,3 +645,44 @@ Tema según el modo oscuro del sistema	Tema conforme o modo escuro do sistema
 Pantallas que lo cambian (p. ej. con las luces)	Telas que o mudam (ex.: com os faróis)
 el sistema está en modo oscuro	o sistema está no modo escuro
 el sistema está en modo claro	o sistema está no modo claro
+Preparando Android Auto…	Preparando o Android Auto…
+No se pudo preparar Open Headunit en esta pantalla	Não foi possível preparar o Open Headunit nesta central
+Elige una canción	Escolha uma música
+Carpetas	Pastas
+Buscando música en la USB, la tarjeta SD y la memoria…	Procurando músicas no USB, no cartão SD e na memória…
+No encontré música. Conecta una memoria USB o tarjeta SD con canciones (MP3, M4A, FLAC…) y toca ↻.	Nenhuma música encontrada. Conecte um pendrive ou cartão SD com músicas (MP3, M4A, FLAC…) e toque em ↻.
+{} canciones	{} músicas
+Sin internet: no se pudo buscar. Activa el punto de acceso del celular.	Sem internet: não foi possível pesquisar. Ative o roteador do celular.
+Sin internet: no se pudo calcular la ruta	Sem internet: não foi possível calcular a rota
+No se pudo calcular la ruta	Não foi possível calcular a rota
+Llegaste a tu destino	Você chegou ao destino
+En la glorieta, toma la salida {}	Na rotatória, pegue a saída {}
+Entra a la glorieta	Entre na rotatória
+Sal de la glorieta	Saia da rotatória
+Incorpórate a la vía	Entre na via
+Toma la salida a la izquierda	Pegue a saída à esquerda
+Toma la salida a la derecha	Pegue a saída à direita
+Toma la entrada	Pegue a entrada
+Mantente a la izquierda	Mantenha-se à esquerda
+Mantente a la derecha	Mantenha-se à direita
+Da la vuelta en U	Faça o retorno
+Gira bruscamente a la derecha	Curva acentuada à direita
+Gira bruscamente a la izquierda	Curva acentuada à esquerda
+Gira levemente a la derecha	Curva leve à direita
+Gira levemente a la izquierda	Curva leve à esquerda
+Gira a la derecha	Vire à direita
+Gira a la izquierda	Vire à esquerda
+Sigue derecho	Siga em frente
+Terminar	Encerrar
+¿A dónde vas?	Para onde?
+Lugar, dirección o negocio	Lugar, endereço ou estabelecimento
+Buscar	Buscar
+Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap	Busca e rotas: Nominatim e OSRM · © colaboradores do OpenStreetMap
+Esperando señal GPS…	Aguardando sinal de GPS…
+Calculando ruta…	Calculando rota…
+Llegada {}	Chegada {}
+Buscando…	Buscando…
+No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.	Não encontrei esse lugar. Tente outro nome ou adicione a cidade.
+Destinos recientes	Destinos recentes
+Ir	Ir
+Llegaste	Chegou
