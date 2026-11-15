@@ -46,6 +46,9 @@ public class NavActivity extends Activity implements Nav.Listener {
 
     // buscador
     private LinearLayout searchBox;
+    private View searchFab;
+    /** El conductor escondió el buscador para ver todo el mapa. */
+    private boolean panelHidden;
     private EditText query;
     private LinearLayout results;
     private TextView statusTv;
@@ -140,8 +143,15 @@ public class NavActivity extends Activity implements Nav.Listener {
         searchBox.setOrientation(LinearLayout.VERTICAL);
         searchBox.setBackground(round((Main.CARD & 0x00FFFFFF) | 0xF5000000, 18));
         searchBox.setPadding(px(16), px(14), px(16), px(14));
+        LinearLayout head = new LinearLayout(this);
+        head.setGravity(Gravity.CENTER_VERTICAL);
         TextView ttl = tv("¿A dónde vas?", 20, Main.TEXT, true);
-        searchBox.addView(ttl);
+        head.addView(ttl, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        // esconder el buscador para ver el mapa completo
+        FrameLayout hide = circle("arrow_back", 40, 22, Main.BTN);
+        hide.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { setPanelHidden(true); } });
+        head.addView(hide, new LinearLayout.LayoutParams(px(40), px(40)));
+        searchBox.addView(head, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         LinearLayout row = new LinearLayout(this);
         row.setGravity(Gravity.CENTER_VERTICAL);
         query = new EditText(this);
@@ -179,6 +189,14 @@ public class NavActivity extends Activity implements Nav.Listener {
         slp.leftMargin = slp.topMargin = slp.bottomMargin = px(14);
         root.addView(searchBox, slp);
 
+        // buscador escondido: un botón redondo arriba a la izquierda lo vuelve a mostrar
+        FrameLayout fab = circle("location_on", 60, 30, Main.RED);
+        fab.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { setPanelHidden(false); } });
+        FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(px(60), px(60));
+        flp.leftMargin = flp.topMargin = px(14);
+        root.addView(fab, flp);
+        searchFab = fab;
+
         setContentView(root);
     }
 
@@ -187,7 +205,9 @@ public class NavActivity extends Activity implements Nav.Listener {
     public void onNav() {
         if (nav.last != null) feed(nav.last);
         boolean searching = nav.state == Nav.IDLE || nav.state == Nav.ERROR || nav.state == Nav.ARRIVED;
-        searchBox.setVisibility(searching ? View.VISIBLE : View.GONE);
+        if (!searching) panelHidden = false;          // la próxima búsqueda vuelve a abrir el panel
+        searchBox.setVisibility(searching && !panelHidden ? View.VISIBLE : View.GONE);
+        searchFab.setVisibility(searching && panelHidden ? View.VISIBLE : View.GONE);
         guide.setVisibility(searching ? View.GONE : View.VISIBLE);
         bottom.setVisibility(searching ? View.GONE : View.VISIBLE);
         if (searching) {
@@ -265,6 +285,12 @@ public class NavActivity extends Activity implements Nav.Listener {
         for (Nav.Place p : r) addPlace(p, "star");
     }
 
+    private void setPanelHidden(boolean hidden) {
+        panelHidden = hidden;
+        if (hidden) hideKeyboard();
+        onNav();
+    }
+
     private void addPlace(final Nav.Place p, String ic) {
         LinearLayout row = new LinearLayout(this);
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -279,15 +305,23 @@ public class NavActivity extends Activity implements Nav.Listener {
         t.setPadding(px(12), 0, 0, 0);
         TextView a = tv("", 16, Main.TEXT, true);
         a.setText(p.name);
-        t.addView(a);
+        a.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        t.addView(a, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView d = tv("", 12, Main.MUTED, false);
-        Location here = nav.bestLocation();
-        String km = here != null ? Nav.distText(Nav.dist(here.getLatitude(), here.getLongitude(), p.lat, p.lon), mph(this)) + "  ·  " : "";
-        d.setText(km + (p.detail != null ? p.detail : ""));
+        d.setText(p.detail != null ? p.detail : "");
+        d.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        d.setVisibility(p.detail != null && p.detail.length() > 0 ? View.VISIBLE : View.GONE);
         t.addView(d, lpTop(3));
         row.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        Location here = nav.bestLocation();
+        if (here != null) {
+            TextView km = tv(Nav.distText(Nav.dist(here.getLatitude(), here.getLongitude(), p.lat, p.lon), mph(this)), 13, Main.MUTED, true);
+            km.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+            km.setPadding(px(10), 0, px(10), 0);
+            row.addView(km, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
         TextView go = pill("Ir", Main.RED, 0xFFFFFFFF);
-        row.addView(go, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, px(44)));
+        row.addView(go, new LinearLayout.LayoutParams(px(64), px(44)));
         View.OnClickListener start = new View.OnClickListener() { public void onClick(View v) {
             hideKeyboard();
             results.removeAllViews();

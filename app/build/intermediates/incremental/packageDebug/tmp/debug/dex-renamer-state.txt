@@ -1,0 +1,4 @@
+#Sun Nov 15 09:12:17 EET 2026
+base.0=F\:\\Machines\\Lab\\StradaOS\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

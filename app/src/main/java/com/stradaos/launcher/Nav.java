@@ -64,8 +64,12 @@ public class Nav {
 
     static final String NOMINATIM = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&addressdetails=0";
     /** Servidores OSRM públicos (mismo formato): si uno falla se prueba el siguiente. */
+    // En Android 4.x algunos servidores rechazan la conexión segura (SSLHandshakeException): se prueba también
+    // por http. La ruta solo lleva el punto de partida y el destino.
     static final String[] OSRMS = {"https://routing.openstreetmap.de/routed-car/route/v1/driving/",
-            "https://router.project-osrm.org/route/v1/driving/"};
+            "https://router.project-osrm.org/route/v1/driving/",
+            "http://router.project-osrm.org/route/v1/driving/",
+            "http://routing.openstreetmap.de/routed-car/route/v1/driving/"};
     static final String PHOTON = "https://photon.komoot.io/api/?limit=8";
 
     /** Motivo corto del último fallo de red (para mostrarlo y saber qué pasó). */

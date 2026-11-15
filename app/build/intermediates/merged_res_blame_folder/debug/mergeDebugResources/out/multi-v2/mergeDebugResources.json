@@ -1,0 +1,109 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-it_values-it.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-it\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,227",
+                        "endColumns": "171,63",
+                        "endOffsets": "222,286"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-ms_values-ms.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-ms\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,230",
+                        "endColumns": "174,62",
+                        "endOffsets": "225,288"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-en_values-en.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-en\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,214",
+                        "endColumns": "158,60",
+                        "endOffsets": "209,270"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,219",
+                        "endColumns": "163,62",
+                        "endOffsets": "214,277"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-ar_values-ar.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-ar\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,201",
+                        "endColumns": "145,61",
+                        "endOffsets": "196,258"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-pt_values-pt.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-pt\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,211",
+                        "endColumns": "155,58",
+                        "endOffsets": "206,265"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.stradaos.launcher.app-debug-4:/values-de_values-de.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-de\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,241",
+                        "endColumns": "185,61",
+                        "endOffsets": "236,298"
+                    }
+                }
+            ]
+        }
+    ]
+}

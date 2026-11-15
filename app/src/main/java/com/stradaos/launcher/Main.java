@@ -1253,9 +1253,10 @@ public class Main extends Activity {
         LinearLayout tr = new LinearLayout(this);
         tr.setBaselineAligned(true);
         tr.setGravity(Gravity.CENTER_HORIZONTAL);
-        bigTimeTv = tv("", 58, TEXT, true);
-        bigAmPmTv = tv("", 16, MUTED, true);
-        bigAmPmTv.setPadding((int) (6 * s), 0, 0, 0);
+        bigTimeTv = tv("", 78, TEXT, true);
+        bigTimeTv.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        bigAmPmTv = tv("", 18, MUTED, true);
+        bigAmPmTv.setPadding((int) (4 * s), 0, 0, 0);
         tr.addView(bigTimeTv);
         tr.addView(bigAmPmTv);
         w.addView(tr, new LinearLayout.LayoutParams(-1, -2));
@@ -2506,11 +2507,27 @@ public class Main extends Activity {
         greetTv.setText(nombre.length() > 0 ? saludo + ", " + nombre : saludo);
     }
 
+    /** true mientras el carro se mueve (con histéresis: arranca a 7 km/h, se detiene por debajo de 4). */
+    private boolean moving;
+
+    /**
+     * Velocidad para mostrar. Quieto, el GPS da lecturas falsas de unos km/h; por eso se muestra 0 hasta pasar
+     * 7 km/h, se vuelve a 0 por debajo de 4, y con mala precisión (más de 25 m) se ignora todo lo que sea menor a 12.
+     */
+    private float shownKmh(Location l) {
+        if (l == null || !l.hasSpeed()) { moving = false; return 0; }
+        float kmh = l.getSpeed() * 3.6f;
+        float acc = l.hasAccuracy() ? l.getAccuracy() : 30;
+        if (acc > 25 && kmh < 12) { moving = false; return 0; }
+        moving = moving ? kmh >= 4 : kmh >= 7;
+        return moving ? kmh : 0;
+    }
+
     private final LocationListener gpsListener = new LocationListener() {
         public void onLocationChanged(Location l) {
             lastFix = SystemClock.elapsedRealtime();
             lastFixAny = lastFix;
-            setGps(true, l.hasSpeed() ? l.getSpeed() * 3.6f : 0);
+            setGps(true, shownKmh(l));
             feedMap(l);
         }
         public void onStatusChanged(String p, int st, Bundle e) { }

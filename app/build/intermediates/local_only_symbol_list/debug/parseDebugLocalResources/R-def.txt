@@ -1,0 +1,6 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_launcher
+string acc_desc
+string acc_label
+xml accessibility_service

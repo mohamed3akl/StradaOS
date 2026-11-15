@@ -1,0 +1,4 @@
+int drawable ic_launcher 0x7f010000
+int string acc_desc 0x7f020000
+int string acc_label 0x7f020001
+int xml accessibility_service 0x7f030000

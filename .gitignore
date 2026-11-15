@@ -1,6 +1,5 @@
 # Gradle / Android Studio
 .gradle/
-build/
 local.properties
 .idea/
 *.iml
