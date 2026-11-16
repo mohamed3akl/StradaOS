@@ -275,4 +275,6 @@
 142-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:13-37
 143            android:grantUriPermissions="true" />
 143-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:38-72
-144  
+144    </application>
+145
+146</manifest>

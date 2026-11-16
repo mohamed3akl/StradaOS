@@ -141,3 +141,6 @@
             android:authorities="com.stradaos.launcher.debug.apk"
             android:exported="false"
             android:grantUriPermissions="true" />
+    </application>
+
+</manifest>
