@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T13:12:10.696Z",
+      "finishedAt": "2026-11-19T13:12:51.608Z",
+      "verifiedAt": "2026-11-19T13:12:51.608Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "cd /d F:\\Machines\\Lab\\StradaOS && dir /b app\\src\\main\\assets\\i18n && dir /b /ad app\\src\\main\\res | findstr values && findstr /c:\"CODES = {\\\"en\\\", \\\"ar\\\"}\" app\\src\\main\\java\\com\\stradaos\\launcher\\I18n.java",
+      "executionMode": "shell",
+      "executable": "cd /d F:\\Machines\\Lab\\StradaOS && dir /b app\\src\\main\\assets\\i18n && dir /b /ad app\\src\\main\\res | findstr values && findstr /c:\"CODES = {\\\"en\\\", \\\"ar\\\"}\" app\\src\\main\\java\\com\\stradaos\\launcher\\I18n.java",
+      "args": [],
+      "displayCommand": "cd /d F:\\Machines\\Lab\\StradaOS && dir /b app\\src\\main\\assets\\i18n && dir /b /ad app\\src\\main\\res | findstr values && findstr /c:\"CODES = {\\\"en\\\", \\\"ar\\\"}\" app\\src\\main\\java\\com\\stradaos\\launcher\\I18n.java",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T13:14:35.359Z",
+      "finishedAt": "2026-11-19T13:14:35.591Z",
+      "verifiedAt": "2026-11-19T13:14:35.591Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

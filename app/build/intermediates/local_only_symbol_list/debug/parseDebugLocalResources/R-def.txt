@@ -3,4 +3,6 @@ local
 drawable ic_launcher
 string acc_desc
 string acc_label
+string music_label
+string nav_label
 xml accessibility_service

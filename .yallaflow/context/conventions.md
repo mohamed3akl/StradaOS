@@ -60,4 +60,33 @@
   - .github/scripts/smoke.sh (repository @ b9cb9fd)
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ b9cb9fd)
 
+<!-- yallaflow-fact:CTX-0031 -->
+### CTX-0031 — App languages are English and Arabic only (I18n.CODES = en, ar; assets/i18n/en.txt and ar.txt). Texts are still written in Spanish in code and translated at display time; any language other than Arabic resolves to English, and saved choices for removed languages migrate to automatic. res/values (default) holds English labels.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0005
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T13:14:37.849Z
+- **Verified:** 2026-11-19T13:14:37.849Z (commit b7ddf51)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/I18n.java (repository @ b7ddf51)
+  - cd /d F:\Machines\Lab\StradaOS && dir /b app\src\main\assets\i18n && dir /b /ad app\src\main\res | findstr values && findstr /c:"CODES = {\"en\", \"ar\"}" app\src\main\java\com\stradaos\launcher\I18n.java (passed) (runtime, PF-0005 V-002)
+
+<!-- yallaflow-fact:CTX-0032 -->
+### CTX-0032 — The project website (site/) offers English (default) and Arabic only: site/i18n.js holds U.en and U.ar for every data-i18n key plus A [en, ar] for attributes; Arabic switches the page to right-to-left. Store metadata exists for en-US and ar; README is English-first with an Arabic section.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0006
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T13:24:07.431Z
+- **Verified:** 2026-11-19T13:24:07.431Z (commit b7ddf51)
+- **Evidence:**
+  - site/i18n.js (repository @ b7ddf51)
+  - README.md (repository @ b7ddf51)
+  - node C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check-langs.js F:/Machines/Lab/StradaOS (passed) (runtime, PF-0006 V-001)
+
 <!-- yallaflow-context:end -->

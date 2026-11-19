@@ -1,7 +1,22 @@
 {
     "logs": [
         {
-            "outputFile": "com.stradaos.launcher.app-debug-4:/values-it_values-it.arsc.flat",
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-en_values-en.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-en\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,214",
+                        "endColumns": "158,60",
+                        "endOffsets": "209,270"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-it_values-it.arsc.flat",
             "map": [
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-it\\strings.xml",
@@ -16,7 +31,22 @@
             ]
         },
         {
-            "outputFile": "com.stradaos.launcher.app-debug-4:/values-ms_values-ms.arsc.flat",
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,214",
+                        "endColumns": "158,60",
+                        "endOffsets": "209,270"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-ms_values-ms.arsc.flat",
             "map": [
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-ms\\strings.xml",
@@ -36,11 +66,33 @@
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-en\\strings.xml",
                     "from": {
+                        "startLines": "-1,-1,4,5",
+                        "startColumns": "-1,-1,4,4",
+                        "startOffsets": "-1,-1,275,332",
+                        "endColumns": "-1,-1,56,59",
+                        "endOffsets": "-1,-1,327,387"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,214,275,332",
+                        "endColumns": "158,60,56,59",
+                        "endOffsets": "209,270,327,387"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-de_values-de.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-de\\strings.xml",
+                    "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
-                        "startOffsets": "55,214",
-                        "endColumns": "158,60",
-                        "endOffsets": "209,270"
+                        "startOffsets": "55,241",
+                        "endColumns": "185,61",
+                        "endOffsets": "236,298"
                     }
                 }
             ]
@@ -51,17 +103,46 @@
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,219",
-                        "endColumns": "163,62",
-                        "endOffsets": "214,277"
+                        "startLines": "-1,-1,4,5",
+                        "startColumns": "-1,-1,4,4",
+                        "startOffsets": "-1,-1,275,332",
+                        "endColumns": "-1,-1,56,59",
+                        "endOffsets": "-1,-1,327,387"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,214,275,332",
+                        "endColumns": "158,60,56,59",
+                        "endOffsets": "209,270,327,387"
                     }
                 }
             ]
         },
         {
             "outputFile": "com.stradaos.launcher.app-debug-4:/values-ar_values-ar.arsc.flat",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-ar\\strings.xml",
+                    "from": {
+                        "startLines": "-1,-1,4,5",
+                        "startColumns": "-1,-1,4,4",
+                        "startOffsets": "-1,-1,263,323",
+                        "endColumns": "-1,-1,59,56",
+                        "endOffsets": "-1,-1,318,375"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,201,263,323",
+                        "endColumns": "145,61,59,56",
+                        "endOffsets": "196,258,318,375"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-ar_values-ar.arsc.flat",
             "map": [
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-ar\\strings.xml",
@@ -76,7 +157,7 @@
             ]
         },
         {
-            "outputFile": "com.stradaos.launcher.app-debug-4:/values-pt_values-pt.arsc.flat",
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-debug-4:\\values-pt_values-pt.arsc.flat",
             "map": [
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-pt\\strings.xml",
@@ -86,21 +167,6 @@
                         "startOffsets": "55,211",
                         "endColumns": "155,58",
                         "endOffsets": "206,265"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "com.stradaos.launcher.app-debug-4:/values-de_values-de.arsc.flat",
-            "map": [
-                {
-                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values-de\\strings.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,241",
-                        "endColumns": "185,61",
-                        "endOffsets": "236,298"
                     }
                 }
             ]

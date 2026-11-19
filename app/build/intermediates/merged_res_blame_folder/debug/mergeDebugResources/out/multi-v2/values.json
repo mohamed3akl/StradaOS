@@ -6,6 +6,28 @@
                 {
                     "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
+                        "startLines": "-1,-1,4,5",
+                        "startColumns": "-1,-1,4,4",
+                        "startOffsets": "-1,-1,275,332",
+                        "endColumns": "-1,-1,56,59",
+                        "endOffsets": "-1,-1,327,387"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,214,275,332",
+                        "endColumns": "158,60,56,59",
+                        "endOffsets": "209,270,327,387"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\moham\\.gradle\\daemon\\8.11.1\\com.stradaos.launcher.app-mergeDebugResources-2:\\values\\values.xml",
+            "map": [
+                {
+                    "source": "F:\\Machines\\Lab\\StradaOS\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
                         "startOffsets": "55,219",

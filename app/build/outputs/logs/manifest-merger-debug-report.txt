@@ -233,7 +233,7 @@ ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:13-115
 service#com.stradaos.launcher.MediaListener
 ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:9-70:19
 	android:label
-		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-102
+		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-104
 	android:permission
 		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:66:13-87
 	android:name
@@ -247,7 +247,7 @@ ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:68:17-98
 activity#com.stradaos.launcher.MusicActivity
 ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:9-73:135
 	android:label
-		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-103
+		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-105
 	android:excludeFromRecents
 		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:45-78
 	android:launchMode
@@ -267,7 +267,7 @@ ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:9-94
 activity#com.stradaos.launcher.NavActivity
 ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:9-78:135
 	android:label
-		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-105
+		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-101
 	android:excludeFromRecents
 		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:45-78
 	android:launchMode

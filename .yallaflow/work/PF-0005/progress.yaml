@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:11:35.917Z",
+      "completedAt": "2026-11-19T13:11:35.917Z",
+      "summary": "Languages are defined in I18n.CODES/NAMES (es,en,pt,it,de,ms,ar); Spanish is the built-in source text (no file); translations in assets/i18n/<code>.txt; system labels in res/values-<code>/strings.xml with Spanish in res/values. Both pickers in Main (wizard and Settings) read CODES/NAMES. '\"ms\"' in MediaWatcher/Main is the MediaSession origin, not Malay."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:11:36.465Z",
+      "completedAt": "2026-11-19T13:11:36.465Z",
+      "summary": "Keep only Arabic and English in the app (Spanish removed from the choices too; it stays as internal source text). Saved choices for removed languages become automatic: Arabic if the system is Arabic, otherwise English. Website and store metadata are out of scope."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:11:36.989Z",
+      "completedAt": "2026-11-19T13:11:36.989Z",
+      "summary": "I18n: CODES/NAMES = en, ar; unknown/removed saved codes -> auto; fallback code en; locale and date pattern only for en/ar. Delete assets/i18n pt,it,de,ms and res/values-pt,it,de,ms; make res/values (default) English. Build and check on the emulator."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:12:09.642Z",
+      "completedAt": "2026-11-19T13:12:09.642Z",
+      "summary": "I18n: CODES/NAMES = en, ar; removed or missing saved languages become 'auto'; any code other than ar resolves to en; Arabic and English locales and date patterns only. Deleted assets/i18n pt/it/de/ms and res/values-pt/it/de/ms; res/values/strings.xml now English (was Spanish) so other system languages get English labels."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:14:36.456Z",
+      "completedAt": "2026-11-19T13:14:36.456Z",
+      "summary": "V-001 debug build. V-002 only en/ar translation files and values, values-ar, values-en remain; CODES = en, ar. Emulator (API 19) runtime: a saved 'pt' language became 'auto' after restart and the UI showed English; Settings > Appearance > Language lists only Automatic, English, العربية; choosing Arabic switched the UI to Arabic with no crash."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T13:14:36.456Z"
+}

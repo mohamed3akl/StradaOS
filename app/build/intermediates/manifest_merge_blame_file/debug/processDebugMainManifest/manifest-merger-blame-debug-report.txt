@@ -214,8 +214,8 @@
 108-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:9-70:19
 109            android:name="com.stradaos.launcher.MediaListener"
 109-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:18-68
-110            android:label="StradaOS · música"
-110-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-102
+110            android:label="@string/music_label"
+110-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-104
 111            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
 111-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:66:13-87
 112            <intent-filter>
@@ -236,8 +236,8 @@
 120-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:45-78
 121            android:exported="false"
 121-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:79-103
-122            android:label="StradaOS · música"
-122-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-103
+122            android:label="@string/music_label"
+122-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-105
 123            android:launchMode="singleTask" />
 123-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:13-44
 124
@@ -258,8 +258,8 @@
 132-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:45-78
 133            android:exported="false"
 133-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:79-103
-134            android:label="StradaOS · navegación"
-134-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-105
+134            android:label="@string/nav_label"
+134-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-101
 135            android:launchMode="singleTask"
 135-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:13-44
 136            android:windowSoftInputMode="adjustResize" />

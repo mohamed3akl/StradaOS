@@ -1,0 +1,6 @@
+ar.txt
+en.txt
+values
+values-ar
+values-en
+    static final String[] CODES = {"en", "ar"};

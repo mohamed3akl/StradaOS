@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "The project website (site/) offers English (default) and Arabic only: site/i18n.js holds U.en and U.ar for every data-i18n key plus A [en, ar] for attributes; Arabic switches the page to right-to-left. Store metadata exists for en-US and ar; README is English-first with an Arabic section.",
+      "evidence": [
+        "site/i18n.js",
+        "README.md",
+        "verification:V-001"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T13:24:06.814Z",
+      "factId": "CTX-0032",
+      "promotedAt": "2026-11-19T13:24:07.431Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T13:24:07.431Z",
+  "reviewedAt": "2026-11-19T13:24:07.431Z"
+}

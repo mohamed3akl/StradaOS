@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "App languages are English and Arabic only (I18n.CODES = en, ar; assets/i18n/en.txt and ar.txt). Texts are still written in Spanish in code and translated at display time; any language other than Arabic resolves to English, and saved choices for removed languages migrate to automatic. res/values (default) holds English labels.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/I18n.java",
+        "verification:V-002"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T13:14:37.176Z",
+      "factId": "CTX-0031",
+      "promotedAt": "2026-11-19T13:14:37.849Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T13:14:37.849Z",
+  "reviewedAt": "2026-11-19T13:14:37.849Z"
+}

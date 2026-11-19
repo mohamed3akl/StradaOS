@@ -1437,7 +1437,96 @@
       ],
       "createdAt": "2026-11-19T08:04:52.414Z",
       "updatedAt": "2026-11-19T08:04:52.414Z"
+    },
+    {
+      "id": "CTX-0031",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "App languages are English and Arabic only (I18n.CODES = en, ar; assets/i18n/en.txt and ar.txt). Texts are still written in Spanish in code and translated at display time; any language other than Arabic resolves to English, and saved choices for removed languages migrate to automatic. res/values (default) holds English labels.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/I18n.java",
+          "contentHash": "sha256:aeaa5c23071213660dfbf77b621c4a0d0613227a56a8c1912b414f693a7e8712",
+          "gitCommit": "b7ddf51900884449a6f2a35ebc8fb3bffa451c71",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "cd /d F:\\Machines\\Lab\\StradaOS && dir /b app\\src\\main\\assets\\i18n && dir /b /ad app\\src\\main\\res | findstr values && findstr /c:\"CODES = {\\\"en\\\", \\\"ar\\\"}\" app\\src\\main\\java\\com\\stradaos\\launcher\\I18n.java (passed)",
+          "workId": "PF-0005",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-11-19T13:14:37.849Z",
+      "verifiedAtCommit": "b7ddf51900884449a6f2a35ebc8fb3bffa451c71",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T13:14:37.849Z",
+          "workId": "PF-0005",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T13:14:37.849Z",
+      "updatedAt": "2026-11-19T13:14:37.849Z"
+    },
+    {
+      "id": "CTX-0032",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The project website (site/) offers English (default) and Arabic only: site/i18n.js holds U.en and U.ar for every data-i18n key plus A [en, ar] for attributes; Arabic switches the page to right-to-left. Store metadata exists for en-US and ar; README is English-first with an Arabic section.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0006",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "site/i18n.js",
+          "contentHash": "sha256:e28896716189bd7ad7c01fe79be7ef02cf20cccbafb347641f8e3e4a4855fba9",
+          "gitCommit": "b7ddf51900884449a6f2a35ebc8fb3bffa451c71",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:1614a589b8527a19582633c39a1e48606b3cb7bbf1a4422fa69d4f4547ad5d2c",
+          "gitCommit": "b7ddf51900884449a6f2a35ebc8fb3bffa451c71",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "node C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check-langs.js F:/Machines/Lab/StradaOS (passed)",
+          "workId": "PF-0006",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-11-19T13:24:07.431Z",
+      "verifiedAtCommit": "b7ddf51900884449a6f2a35ebc8fb3bffa451c71",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T13:24:07.431Z",
+          "workId": "PF-0006",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T13:24:07.431Z",
+      "updatedAt": "2026-11-19T13:24:07.431Z"
     }
   ],
-  "updatedAt": "2026-11-19T08:04:52.414Z"
+  "updatedAt": "2026-11-19T13:24:07.431Z"
 }

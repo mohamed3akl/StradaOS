@@ -1,68 +1,66 @@
-# Cómo contribuir
+# How to contribute
 
-¡Gracias por querer mejorar StradaOS! 🚗
+Thanks for wanting to improve StradaOS! 🚗
 
-## Reportar problemas
-Usa la plantilla de [issues](../../issues/new/choose). Lo más útil:
-- La versión de StradaOS y el **Android real** de la pantalla (en *Ajustes → Acerca de*).
-- Fotos de la pantalla.
-- El diagnóstico (*Ajustes → Sistema → Exportar diagnóstico*).
+## Reporting problems
+Use the [issue](../../issues/new/choose) template. Most useful:
+- The StradaOS version and the screen's **real Android version** (in *Settings → About*).
+- Photos of the screen.
+- The diagnostics (*Settings → System → Export diagnostics*).
 
-## Traducir StradaOS · Translating StradaOS
+## Languages
 
-**Español.** No hace falta saber programar para traducir la app:
+StradaOS is available in **English** and **Arabic**.
 
-1. Copia `app/src/main/assets/i18n/en.txt` como `xx.txt` (código ISO del idioma: `tr.txt` para turco, `fr.txt` para francés…).
-2. Cada línea es `español<TAB>traducción`. **Traduce solo lo que va después del tabulador** y deja la parte en español igual, letra por letra.
-3. Respeta los marcadores: `{}` (ahí va un dato, como un número o un nombre), `{z}/{x}/{y}`, `%s`, `%d` y `\n` (salto de línea). Las líneas que empiezan con `#` son comentarios.
-4. Abre un pull request con ese archivo. Si quieres, agrega también `app/src/main/res/values-xx/strings.xml` (copia el de `values-en`) y el idioma en `I18n.java` (`CODES`, `NAMES`, el `Locale` en `set()` y el formato de fecha en `datePattern()`); si no, lo hago yo.
+In the code, texts are written in Spanish and translated when shown. The translations live in `app/src/main/assets/i18n/en.txt` and `app/src/main/assets/i18n/ar.txt`:
 
-Las frases que falten salen en español, así que una traducción parcial también sirve. Cuando salgan textos nuevos en una versión, se agregan al final de `en.txt`: basta con traducir esas líneas.
+1. Each line is `spanish<TAB>translation`. **Only change the part after the tab**; keep the Spanish part exactly as it is (it is the key).
+2. Keep the placeholders: `{}` (a value such as a number or a name goes there), `{z}/{x}/{y}`, `%s`, `%d` and `\n` (line break). Lines starting with `#` are comments.
+3. Every new text in the code needs a line in **both** `en.txt` and `ar.txt`. A missing line shows the Spanish key on screen.
 
-**English.** You don't need to code to translate the app:
+System labels (shown in Android's own lists) are in `app/src/main/res/values/strings.xml` (English, the default) and `app/src/main/res/values-ar/strings.xml`.
 
-1. Copy `app/src/main/assets/i18n/en.txt` to `xx.txt` (ISO language code: `tr.txt` for Turkish, `fr.txt` for French…).
-2. Each line is `spanish<TAB>translation`. **Only translate the part after the tab**; keep the Spanish part exactly as it is.
-3. Keep the placeholders: `{}` (a value such as a number or a name goes there), `{z}/{x}/{y}`, `%s`, `%d` and `\n` (line break). Lines starting with `#` are comments.
-4. Open a pull request with that file. Optionally also add `app/src/main/res/values-xx/strings.xml` (copy `values-en`) and the language in `I18n.java` (`CODES`, `NAMES`, the `Locale` in `set()` and the date format in `datePattern()`); otherwise I'll do it.
+Arabic corrections are welcome: open a pull request with the changed lines in `ar.txt`.
 
-Missing lines fall back to Spanish, so a partial translation helps too. New strings in each release are appended at the end of `en.txt`: just translate those lines.
+## Building
 
-## Compilar
-
-Requisitos: JDK 17 y el SDK de Android.
+Requirements: JDK 17 and the Android SDK.
 
 ```bash
 ./gradlew assembleDebug
-# APK en app/build/outputs/apk/debug/
+# APK in app/build/outputs/apk/debug/
 ```
 
-## Reglas del código
-- **Compatibilidad con Android 4.1 (API 16):** cualquier API más nueva va detrás de `if (Build.VERSION.SDK_INT >= …)`.
-- Java 8 **sin lambdas** ni `java.util.Objects`/`StandardCharsets` (no existen en API 16–18).
-- Sin dependencias de Google Play Services, para poder estar en F-Droid.
-- La interfaz se dibuja por código en una «mesa» de 1024×600 que se escala (ver `Main.place()`).
+## Code rules
+- **Android 4.1 (API 16) compatibility:** any newer API goes behind `if (Build.VERSION.SDK_INT >= …)`.
+- Java 8 **without lambdas**, `java.util.Objects` or `StandardCharsets` (they don't exist on API 16–18).
+- No Google Play Services dependencies, so the app can be on F-Droid.
+- The interface is drawn in code on a 1024×600 canvas that is scaled (see `Main.place()`).
 
-## Estructura
+## Structure
 
 ```
 app/src/main/java/com/stradaos/launcher/
-  Main.java          pantalla de inicio, ajustes, diálogos
-  LiveMapView.java   mapa en vivo (teselas OSM, caché, modo oscuro)
-  NowPlaying.java    pista en reproducción (Android 4.x + avisos de reproductores y Bluetooth)
-  MediaWatcher.java  pista en reproducción en Android 5+ (MediaSession)
-  BtBridge.java      consulta directa a la app Bluetooth de fábrica (Autochips/Clinkway)
-  NotifArt.java      carátula de Android Auto desde la notificación de Open Headunit
-  Weather.java       clima (Open-Meteo)
-  Updates.java       avisos de versiones nuevas (GitHub Releases)
-  CarPhoto.java      quitar fondo y ajustar la foto del vehículo
-  Net.java           HTTPS con TLS 1.2 y certificados actuales en Android 4.x
-app/src/hiddenapi/   stub de API oculta de Android 4.x (solo para compilar, no entra al APK)
-app/src/legacy/      RcDisplay: única clase que extiende la API oculta (se carga por reflexión)
+  Main.java          home screen, settings, dialogs
+  LiveMapView.java   live map (OSM tiles, cache, dark mode)
+  OfflineMap.java    offline map reader (mapsforge .map files)
+  Nav.java           turn-by-turn navigation (OpenStreetMap or HERE)
+  NowPlaying.java    now playing (Android 4.x + player and Bluetooth broadcasts)
+  MediaWatcher.java  now playing on Android 5+ (MediaSession)
+  LocalPlayer.java   built-in music player (USB, SD card, internal storage)
+  BtBridge.java      direct access to the factory Bluetooth app (Autochips/Clinkway)
+  NotifArt.java      Android Auto album art from the Open Headunit notification
+  Weather.java       weather (Open-Meteo)
+  Updates.java       new version notices (GitHub Releases)
+  CarPhoto.java      background removal and fitting of the vehicle photo
+  Net.java           HTTPS with TLS 1.2 and current certificates on Android 4.x
+  I18n.java          languages (English, Arabic)
+app/src/hiddenapi/   Android 4.x hidden API stub (compile only, not in the APK)
+app/src/legacy/      RcDisplay: the only class extending the hidden API (loaded by reflection)
 ```
 
-## Publicar una versión (mantenedores)
-1. Sube `versionCode` y `versionName` en `app/build.gradle`.
-2. Escribe `changelogs/X.Y.Z.md` y `fastlane/metadata/android/*/changelogs/<versionCode>.txt`.
-3. Haz commit y súbelo a `main` (o sube una etiqueta `vX.Y.Z`).
-4. GitHub Actions compila y firma el APK, crea el Release y actualiza `update.json`, el archivo que la app usa para avisar a los usuarios.
+## Publishing a version (maintainers)
+1. Bump `versionCode` and `versionName` in `app/build.gradle`.
+2. Write `changelogs/X.Y.Z.md` and `fastlane/metadata/android/*/changelogs/<versionCode>.txt`.
+3. Commit and push to `main` (or push a `vX.Y.Z` tag).
+4. GitHub Actions builds and signs the APK, creates the Release and updates `update.json`, the file the app uses to notify users.
