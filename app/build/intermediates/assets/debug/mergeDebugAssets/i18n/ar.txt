@@ -715,3 +715,6 @@ Elige la app de la radio	اختر تطبيق الراديو
 Modo radio: los botones controlan la radio	وضع الراديو: الأزرار تتحكم في الراديو
 Anterior y siguiente cambian de emisora	السابق والتالي لتغيير المحطة
 Toca ▶ para escuchar la radio	اضغط ▶ للاستماع إلى الراديو
+# Diagnóstico
+No se pudo exportar el diagnóstico	تعذّر تصدير التشخيص
+La memoria de la pantalla no se puede escribir o falta el permiso de almacenamiento.	لا يمكن الكتابة في ذاكرة الشاشة، أو إذن التخزين غير ممنوح.

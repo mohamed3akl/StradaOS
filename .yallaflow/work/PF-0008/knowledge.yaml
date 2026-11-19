@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Settings > System > Export diagnostics writes StradaDiag/ on external storage: info.txt (device, apps, audio app components), audio app APKs, bluetooth.txt, player.txt (Main.playerDiagText: sources, radio mode, last 200 BtBridge events) and crashes.txt (Guard log). Settings values are never exported (they can hold the HERE key). If storage can't be written, the app says so.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Diag.java",
+        "verification:V-002"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T14:05:13.447Z",
+      "factId": "CTX-0034",
+      "promotedAt": "2026-11-19T14:05:14.024Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T14:05:14.024Z",
+  "reviewedAt": "2026-11-19T14:05:14.024Z"
+}

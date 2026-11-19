@@ -3035,6 +3035,19 @@ public class Main extends Activity {
     }
 
     private void showPlayerDiag() {
+        String msg = playerDiagText();
+        new TB(this, dlg())
+            .setTitle("Diagnóstico del reproductor")
+            .setMessage(msg)
+            .setPositiveButton("OK", null)
+            .setNeutralButton("Accesibilidad", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface d, int w) { openAccessibility(); }
+            })
+            .show();
+    }
+
+    /** Estado del reproductor y eventos recientes (también se guarda en el diagnóstico exportado, player.txt). */
+    private String playerDiagText() {
         String msg = "Fuente: " + curOrigin + " / " + curSource
                 + "\nPista: " + curTitle + " — " + curArtist
                 + "\nCarátula: " + (curArt != null ? curArt.getWidth() + "x" + curArt.getHeight() : "no")
@@ -3051,15 +3064,10 @@ public class Main extends Activity {
                     + " · abrir al conectar: " + (prefs.getBoolean("bt_open_connect", false) ? "sí" : "no"))
                 + "\nSonido en Bluetooth (estimado): " + (btRouted ? "sí" : "no") + " · app al frente: " + topPackage()
                 + "\nActivaciones: " + BtBridge.activations
-                + "\n\nEventos Bluetooth:\n" + BtBridge.logText();
-        new TB(this, dlg())
-            .setTitle("Diagnóstico del reproductor")
-            .setMessage(msg)
-            .setPositiveButton("OK", null)
-            .setNeutralButton("Accesibilidad", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { openAccessibility(); }
-            })
-            .show();
+                + "\nModo radio: " + (radioMode ? "sí" : "no") + " · app de la radio: " + (radioApp() != null ? radioApp().flattenToShortString() : "no encontrada")
+                    + " · radio con el sonido (estimado): " + (radioRouted ? "sí" : "no") + " · sonando: " + (radioOn ? "sí" : "no")
+                + "\n\nEventos (Bluetooth, radio, Android Auto):\n" + BtBridge.logText();
+        return msg;
     }
 
     private void openAccessibility() {
@@ -3153,11 +3161,21 @@ public class Main extends Activity {
 
     private void runDiag() {
         toast("Exportando… puede tardar un minuto");
+        String p0;
+        try { p0 = playerDiagText(); } catch (Throwable e) { p0 = "No se pudo leer el estado del reproductor: " + e; }
+        final String player = p0;              // se arma aquí (hilo principal): usa el estado de la pantalla
         new Thread(new Runnable() {
             public void run() {
-                final String r = Diag.export(Main.this);
+                final String r = Diag.export(Main.this, player);
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        if (r == null) {
+                            new TB(Main.this, dlg())
+                                .setTitle("No se pudo exportar el diagnóstico")
+                                .setMessage("La memoria de la pantalla no se puede escribir o falta el permiso de almacenamiento.")
+                                .setPositiveButton("OK", null).show();
+                            return;
+                        }
                         new TB(Main.this, dlg())
                             .setTitle("Diagnóstico listo")
                             .setMessage("Se guardó en:\n" + r + "\n\nCopia la carpeta StradaDiag a una memoria USB y adjúntala en un «issue» del repositorio de StradaOS en GitHub.")

@@ -25,10 +25,14 @@ public class Diag {
             "a2dp", "goc", "syu", "can", "phone", "dial", "aux", "service", "launcher", "setting", "auto", "nav",
             "conn", "usb", "easy", "carbit", "link"};
 
-    /** Devuelve la carpeta donde quedó todo (o un mensaje de error). */
-    public static String export(Context c) {
+    /**
+     * Devuelve la carpeta donde quedó todo (o un mensaje de error). player = estado del reproductor y eventos recientes
+     * (Main.playerDiagText). Nunca se guardan los valores de los ajustes: pueden tener datos privados (p. ej. la clave de HERE).
+     */
+    public static String export(Context c, String player) {
         File out = new File(Environment.getExternalStorageDirectory(), "StradaDiag");
         out.mkdirs();
+        if (!out.isDirectory() || !out.canWrite()) return null;   // memoria de solo lectura o sin permiso: Main avisa
         PackageManager pm = c.getPackageManager();
         int copied = 0;
         long bytes = 0;
@@ -89,7 +93,26 @@ public class Diag {
         } finally {
             if (bw != null) bw.close();
         }
+        String now = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new java.util.Date());
+        String ver = "";
+        try { ver = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName; } catch (Throwable ignored) { }
+        // Reproductor: fuente, radio, Android Auto y los últimos eventos (lo mismo que al dejar presionado el reproductor)
+        writeText(new File(out, "player.txt"), "StradaOS " + ver + " · " + now + "\n\n" + (player != null ? player : "(sin datos)"));
+        // Registro de fallos: cierres inesperados y bloqueos (lo mismo que Ajustes → Acerca de → Registro de fallos)
+        String crashes = Guard.read(c);
+        writeText(new File(out, "crashes.txt"), "StradaOS " + ver + " · " + now + "\n\n" + (crashes != null ? crashes : "Sin fallos registrados."));
         return out.getAbsolutePath() + "  (" + copied + " apps, " + (bytes / 1024 / 1024) + " MB)";
+    }
+
+    private static void writeText(File f, String text) {
+        PrintWriter w = null;
+        try {
+            w = new PrintWriter(new java.io.OutputStreamWriter(new FileOutputStream(f), "UTF-8"));
+            w.print(text);
+        } catch (Throwable ignored) {
+        } finally {
+            if (w != null) w.close();
+        }
     }
 
     private static long copy(File a, File b) {

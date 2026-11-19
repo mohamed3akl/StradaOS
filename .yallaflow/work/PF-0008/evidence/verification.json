@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T14:03:24.574Z",
+      "finishedAt": "2026-11-19T14:03:48.509Z",
+      "verifiedAt": "2026-11-19T14:03:48.509Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_emu_test.sh",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_emu_test.sh"
+      ],
+      "displayCommand": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_emu_test.sh",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T14:03:49.134Z",
+      "finishedAt": "2026-11-19T14:04:59.017Z",
+      "verifiedAt": "2026-11-19T14:04:59.017Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

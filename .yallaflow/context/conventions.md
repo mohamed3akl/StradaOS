@@ -104,4 +104,18 @@
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ e7c553f)
   - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/rtl_emu_test.sh (passed) (runtime, PF-0007 V-002)
 
+<!-- yallaflow-fact:CTX-0034 -->
+### CTX-0034 — Settings > System > Export diagnostics writes StradaDiag/ on external storage: info.txt (device, apps, audio app components), audio app APKs, bluetooth.txt, player.txt (Main.playerDiagText: sources, radio mode, last 200 BtBridge events) and crashes.txt (Guard log). Settings values are never exported (they can hold the HERE key). If storage can't be written, the app says so.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0008
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T14:05:14.024Z
+- **Verified:** 2026-11-19T14:05:14.024Z (commit e2cdc6c)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/Diag.java (repository @ e2cdc6c)
+  - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_emu_test.sh (passed) (runtime, PF-0008 V-002)
+
 <!-- yallaflow-context:end -->

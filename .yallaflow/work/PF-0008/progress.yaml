@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:58:20.058Z",
+      "completedAt": "2026-11-19T13:58:20.058Z",
+      "summary": "Diag.export writes StradaDiag/info.txt (device, apps, audio app components), audio app APKs and bluetooth.txt (running services + BtBridge event log). Not exported: Guard crash log (Guard.read), the player diagnostic summary (built inline in Main.showPlayerDiag). BtBridge.LOG keeps only 30 lines. Prefs must not be dumped (here_key is a secret)."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:58:23.313Z",
+      "completedAt": "2026-11-19T13:58:23.313Z",
+      "summary": "Developer approved: add the event and crash logs to the exported diagnostic."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:58:23.869Z",
+      "completedAt": "2026-11-19T13:58:23.869Z",
+      "summary": "Keep 200 event lines; extract Main.playerDiagText(); Diag.export(c, playerText) writes player.txt (summary + events) and crashes.txt (Guard log); never write settings values."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T14:03:23.224Z",
+      "completedAt": "2026-11-19T14:03:23.224Z",
+      "summary": "BtBridge keeps 200 events. Main.playerDiagText() (now also shows radio mode, radio app, routed/playing) is used by the long-press dialog and passed to Diag.export(c, player), which writes StradaDiag/player.txt (summary + events) and crashes.txt (Guard crash log), never settings values. Diag.export returns null when the folder can't be written and Main shows 'Couldn't export the diagnostics' instead of a false success (found on the read-only emulator). New strings in en/ar."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T14:05:12.922Z",
+      "completedAt": "2026-11-19T14:05:12.922Z",
+      "summary": "V-001 debug build. V-002 emulator API 19 with a 128 MB SD card: Settings > System > Export diagnostics wrote StradaDiag with info.txt, APKs, player.txt (version/time, source, radio mode status, events section) and crashes.txt (contained an earlier recorded crash); no secret-looking text; no crashes. Runtime: on the read-only emulator the export now shows 'Couldn't export the diagnostics' (Arabic screenshot) instead of a false success. The events section was empty in the run (radio mode was off), so a populated 200-line log was not exercised end-to-end."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T14:05:12.922Z"
+}

@@ -1,0 +1,57 @@
+Success
+rm failed for /sdcard/StradaDiag, No such file or directory
+bluetooth.txt
+com.android.development_settings.apk
+com.android.dialer.apk
+com.android.dialer.odex
+com.android.emulator.connectivity.test.apk
+com.android.emulator.connectivity.test.odex
+com.android.exchange.apk
+com.android.exchange.odex
+com.android.launcher.apk
+com.android.launcher.odex
+com.android.music.apk
+com.android.music.odex
+com.android.phone.apk
+com.android.phone.odex
+com.android.providers.media.apk
+com.android.providers.media.odex
+com.android.providers.settings.apk
+com.android.providers.settings.odex
+com.android.providers.telephony.apk
+com.android.providers.telephony.odex
+com.android.settings.apk
+com.android.settings.odex
+com.android.vpndialogs.apk
+com.android.vpndialogs.odex
+crashes.txt
+info.txt
+player.txt
+--- player.txt
+StradaOS 2.16.0-prueba · 2026-11-19 16:04:30
+
+Fuente: null / Música
+Pista: null — null
+Carátula: no
+
+Lector de notificaciones (accesibilidad): apagado
+Última notificación de Open Headunit: ninguna
+Open Headunit corriendo: no · celular por USB en modo Android Auto: no
+Android Auto conectado (para StradaOS): no
+App Bluetooth conectada: no
+Audio Bluetooth automático: no aplica (otra marca)
+App de música Bluetooth: no encontrada · abrir al conectar: no
+Sonido en Bluetooth (estimado): no · app al frente: com.stradaos.launcher.debug
+Activaciones: 0
+Modo radio: no · app de la radio: com.android.deskclock/.DeskClock · radio con el sonido (estimado): no · sonando: no
+
+Eventos (Bluetooth, radio, Android Auto):
+(sin eventos)
+--- crashes.txt
+StradaOS 2.16.0-prueba · 2026-11-19 16:04:30
+
+2026-11-19 15:34:01 · v2.16.0-prueba · Android 4.4.2 (API 19) · unknown Android SDK built for x86
+Prueba «musica» falló: android.util.AndroidRuntimeException: requestFeature() must be called before adding content
+
+crashes during test: 0
+PASS

@@ -715,3 +715,6 @@ Elige la app de la radio	Choose the radio app
 Modo radio: los botones controlan la radio	Radio mode: the buttons control the radio
 Anterior y siguiente cambian de emisora	Previous and next change the station
 Toca ▶ para escuchar la radio	Tap ▶ to listen to the radio
+# Diagnóstico
+No se pudo exportar el diagnóstico	Couldn't export the diagnostics
+La memoria de la pantalla no se puede escribir o falta el permiso de almacenamiento.	The screen's storage can't be written, or the storage permission is missing.
