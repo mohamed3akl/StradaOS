@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:28:24.889Z",
+      "completedAt": "2026-11-19T13:28:24.889Z",
+      "summary": "App UI is absolute-positioned on a 1024x600 canvas via Main.place()/placeWrap() (gravity TOP|LEFT + leftMargin); settings rows, segmented controls and drawers use LinearLayouts; a few explicit Gravity.LEFT/RIGHT and leftMargin uses in Main (top bar, GPS row, source label, row values, switch knob, color dots, about logo, app drawer title/close), NavActivity and MusicActivity. No supportsRtl in the manifest; dialogs go through TB (AlertDialog.Builder) plus two raw builders. Arabic text currently right-aligns but the layout stays left-to-right."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:28:28.562Z",
+      "completedAt": "2026-11-19T13:28:28.562Z",
+      "summary": "Developer: Arabic must be right-to-left in the app only (not the website). Media transport buttons keep their usual order (Android RTL guideline)."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:28:29.123Z",
+      "completedAt": "2026-11-19T13:28:29.123Z",
+      "summary": "I18n.rtl() = Arabic on API 17+. supportsRtl in manifest; force layout direction (RTL for Arabic, LTR otherwise) on Main/Nav/Music roots and TB dialogs. place()/placeWrap() mirror with gravity RIGHT + rightMargin. Flip explicit LEFT/RIGHT gravities and left margins with helpers; mirror chevron/back icons; keep prev/play/next order. Check on the emulator."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:45:00.520Z",
+      "completedAt": "2026-11-19T13:45:00.520Z",
+      "summary": "I18n: rtl(), applyDirection(), applyConfig() (sets the Resources configuration layout direction so every window, dialogs included, follows Arabic RTL; re-applied in Main.onConfigurationChanged), left()/right()/marginStart()/marginEnd(). Manifest supportsRtl. Main.place()/placeWrap() mirror with gravity RIGHT + rightMargin in Arabic; placeLtr keeps ⏮▶⏭ order; explicit gravities/margins flipped in Main, NavActivity, MusicActivity; roots forced RTL/LTR; back arrows mirrored (settings sidebar, navigation, music); MusicActivity transport row kept LTR; wizard title now 'Language · اللغة'; the two raw dialog builders now use TB. A first attempt to set direction on dialog windows crashed every dialog (requestFeature before content) and a second had no effect; replaced by the configuration approach before verification."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T13:46:06.795Z",
+      "completedAt": "2026-11-19T13:46:06.795Z",
+      "summary": "V-001 debug build. V-002 emulator run through Arabic home, settings, language dialog, navigation, music, then English settings and dialog: no crashes. Screenshots (runtime): Arabic home, settings, dialog, navigation and music are mirrored right-to-left with ⏮▶⏭ kept in order and back arrows pointing right; English is unchanged left-to-right, dialogs included. Not run on a real API 17 head unit; API 16 has no RTL support so Arabic stays left-to-right there."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T13:46:06.795Z"
+}

@@ -125,10 +125,11 @@ public class MusicActivity extends Activity implements LocalPlayer.Listener {
         LinearLayout top = new LinearLayout(this);
         top.setGravity(Gravity.CENTER_VERTICAL);
         View back = circle("arrow_back", 44, 24, Main.BTN);
+        if (I18n.rtl()) ((FrameLayout) back).getChildAt(0).setScaleX(-1);
         back.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { finish(); } });
         top.addView(back, new LinearLayout.LayoutParams(px(44), px(44)));
         TextView ttl = tv("Música", 20, Main.TEXT, true);
-        ttl.setPadding(px(12), 0, 0, 0);
+        ttl.setPadding(I18n.rtl() ? 0 : px(12), 0, I18n.rtl() ? px(12) : 0, 0);
         top.addView(ttl, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         left.addView(top, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -227,9 +228,11 @@ public class MusicActivity extends Activity implements LocalPlayer.Listener {
         right.addView(listBox, lblp);
 
         LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-        rlp.leftMargin = px(14);
+        I18n.marginStart(rlp, px(14));
         root.addView(right, rlp);
 
+        I18n.applyDirection(root);
+        if (android.os.Build.VERSION.SDK_INT >= 17) ctl.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);   // ⏮ ▶ ⏭ sin reflejar
         setContentView(root);
     }
 
@@ -337,17 +340,20 @@ public class MusicActivity extends Activity implements LocalPlayer.Listener {
                 String f = folders.get(pos);
                 List<File> l = player.library().get(f);
                 ic.setImageBitmap(icon("folder"));
+                ic.setScaleX(1);
                 main.setText(new File(f).getName());
                 sub.setText(I18n.t((l != null ? l.size() : 0) + " canciones") + "  ·  " + f);
                 sub.setVisibility(View.VISIBLE);
             } else if (pos == 0) {
                 ic.setImageBitmap(icon("arrow_back"));
+                ic.setScaleX(I18n.rtl() ? -1 : 1);
                 main.setText(I18n.t("Carpetas"));
                 sub.setVisibility(View.GONE);
             } else {
                 File f = tracks.get(pos - 1);
                 boolean cur = f.equals(player.current());
                 ic.setImageBitmap(icon(cur && player.isPlaying() ? "play_arrow" : "music_note"));
+                ic.setScaleX(1);
                 String n = f.getName();
                 int dot = n.lastIndexOf('.');
                 main.setText(dot > 0 ? n.substring(0, dot) : n);
@@ -368,7 +374,7 @@ public class MusicActivity extends Activity implements LocalPlayer.Listener {
             row.addView(ic, new LinearLayout.LayoutParams(px(26), px(26)));
             LinearLayout texts = new LinearLayout(MusicActivity.this);
             texts.setOrientation(LinearLayout.VERTICAL);
-            texts.setPadding(px(14), 0, 0, 0);
+            texts.setPadding(I18n.rtl() ? 0 : px(14), 0, I18n.rtl() ? px(14) : 0, 0);
             texts.addView(tv("", 16, Main.TEXT, false));
             texts.addView(tv("", 12, Main.MUTED, false));
             row.addView(texts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));

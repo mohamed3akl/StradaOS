@@ -4,6 +4,8 @@ INJECTED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:27:5-81:
 INJECTED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:27:5-81:19
 	android:extractNativeLibs
 		INJECTED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml
+	android:supportsRtl
+		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:29:69-95
 	android:label
 		INJECTED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml
 		ADDED from F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:27:18-45

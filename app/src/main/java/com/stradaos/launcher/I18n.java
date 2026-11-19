@@ -65,6 +65,7 @@ public class I18n {
         lang = code;
         loc = "ar".equals(code) ? new Locale("ar") : Locale.US;
         num = Locale.US;                              // dígitos latinos también en árabe
+        applyConfig(c);
         map.clear();
         pats.clear();
         cache.clear();
@@ -175,6 +176,48 @@ public class I18n {
         if (cache.size() > 3000) cache.clear();
         cache.put(s, out);
         return out;
+    }
+
+    /** Dirección de todas las ventanas de la app (pantallas, ventanas emergentes): de derecha a izquierda en árabe. */
+    static void applyConfig(Context c) {
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
+            try {
+                android.content.res.Resources res = c.getResources();
+                android.content.res.Configuration cf = res.getConfiguration();
+                cf.setLayoutDirection(loc);
+                res.updateConfiguration(cf, res.getDisplayMetrics());
+                if (c.getApplicationContext() != null && c.getApplicationContext().getResources() != res) {
+                    android.content.res.Resources ar = c.getApplicationContext().getResources();
+                    android.content.res.Configuration ac = ar.getConfiguration();
+                    ac.setLayoutDirection(loc);
+                    ar.updateConfiguration(ac, ar.getDisplayMetrics());
+                }
+            } catch (Throwable ignored) { }
+        }
+    }
+
+    /** Árabe se muestra de derecha a izquierda (Android 4.2+, API 17: antes no hay soporte de RTL). */
+    static boolean rtl() {
+        return "ar".equals(lang) && android.os.Build.VERSION.SDK_INT >= 17;
+    }
+
+    /** Pone la dirección de la interfaz (derecha a izquierda en árabe, izquierda a derecha en inglés) en v y sus hijos. */
+    static void applyDirection(android.view.View v) {
+        if (v == null || android.os.Build.VERSION.SDK_INT < 17) return;
+        v.setLayoutDirection(rtl() ? android.view.View.LAYOUT_DIRECTION_RTL : android.view.View.LAYOUT_DIRECTION_LTR);
+    }
+
+    /** Gravedad izquierda/derecha según la dirección: en árabe «izquierda» es la derecha y viceversa. */
+    static int left() { return rtl() ? android.view.Gravity.RIGHT : android.view.Gravity.LEFT; }
+    static int right() { return rtl() ? android.view.Gravity.LEFT : android.view.Gravity.RIGHT; }
+
+    /** Margen al inicio de la línea (izquierda en inglés, derecha en árabe). */
+    static void marginStart(android.view.ViewGroup.MarginLayoutParams lp, int px) {
+        if (rtl()) lp.rightMargin = px; else lp.leftMargin = px;
+    }
+
+    static void marginEnd(android.view.ViewGroup.MarginLayoutParams lp, int px) {
+        if (rtl()) lp.leftMargin = px; else lp.rightMargin = px;
     }
 
     /** Números enteros con el locale de los números (dígitos latinos en árabe). */

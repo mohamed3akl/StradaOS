@@ -187,6 +187,7 @@ public class Main extends Activity {
             }
         };
         root.setBackgroundColor(BG);
+        I18n.applyDirection(root);
         setContentView(root);
         try {
             Location ll = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -634,6 +635,7 @@ public class Main extends Activity {
     @Override
     public void onConfigurationChanged(android.content.res.Configuration c) {
         super.onConfigurationChanged(c);
+        I18n.applyConfig(this);                       // el sistema reinicia la dirección: en árabe sigue de derecha a izquierda
         try {
             if (prefs == null || !"system".equals(prefs.getString("theme", "dark")) || root == null) return;
             boolean was = LIGHT;
@@ -1063,14 +1065,14 @@ public class Main extends Activity {
             topOilTv.setCompoundDrawables(di, null, null, null);
             topOilTv.setCompoundDrawablePadding((int) (6 * s));
             LinearLayout.LayoutParams olp = new LinearLayout.LayoutParams(-2, -2);
-            olp.leftMargin = (int) (14 * s);
+            I18n.marginStart(olp, (int) (14 * s));
             row.addView(topOilTv, olp);
             topOilTv.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { oilMenu(); } });
         }
         placeWrap(board, row, ox + 24, 10);
 
         LinearLayout right = new LinearLayout(this);
-        right.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        right.setGravity(I18n.right() | Gravity.CENTER_VERTICAL);
         weatherBox = new LinearLayout(this);
         weatherBox.setGravity(Gravity.CENTER_VERTICAL);
         weatherIc = icon("cloud", 20);
@@ -1379,7 +1381,7 @@ public class Main extends Activity {
         gpsTv = tv("GPS", 11, MUTED, false);
         gpsTv.setPadding((int) (6 * s), 0, 0, 0);
         g.addView(gpsTv);
-        g.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        g.setGravity(I18n.right() | Gravity.CENTER_VERTICAL);
         place(box, g, 120, 12, 140, 18);
 
         LinearLayout sv = new LinearLayout(this);
@@ -2093,7 +2095,7 @@ public class Main extends Activity {
         final float dx = (audW - 248) / 2, dy = (cardH - 380) / 2;
         placeWrap(card, tv("AUDIO", 11, MUTED, true), 18, 14);
         sourceTv = tv("", 11, RED, true);
-        sourceTv.setGravity(Gravity.RIGHT);
+        sourceTv.setGravity(I18n.right());
         sourceTv.setSingleLine(true);
         sourceTv.setPadding(0, 0, (int) (4 * s), 0);   // la última letra en negrita se recortaba en Android 11
         place(card, sourceTv, 70, 14, audW - 88 - 40, 18);   // ancho de sobra: en Android 11 «BLUETOOTH» salía cortado
@@ -2136,9 +2138,9 @@ public class Main extends Activity {
             play = circleIcon("play_arrow", ps, ps * 0.47f, RED);
             next = circleIcon("skip_next", bs, bs / 2, BTN);
             float x0 = (audW - (bs * 2 + ps + gap * 2)) / 2;
-            place(card, prev, x0, yb + (ps - bs) / 2, bs, bs);
-            place(card, play, x0 + bs + gap, yb, ps, ps);
-            place(card, next, x0 + bs + gap + ps + gap, yb + (ps - bs) / 2, bs, bs);
+            placeLtr(card, prev, x0, yb + (ps - bs) / 2, bs, bs);
+            placeLtr(card, play, x0 + bs + gap, yb, ps, ps);
+            placeLtr(card, next, x0 + bs + gap + ps + gap, yb + (ps - bs) / 2, bs, bs);
         } else {
         // carátula un poco más chica y textos más arriba y más altos: con fuentes de sistema altas (Android 13+)
         // la última línea quedaba cortada contra el botón ▶ (issue #18)
@@ -2156,9 +2158,9 @@ public class Main extends Activity {
         prev = circleIcon("skip_previous", 60, 30, BTN);
         play = circleIcon("play_arrow", 74, 36, RED);
         next = circleIcon("skip_next", 60, 30, BTN);
-        place(card, prev, 20 + dx, 300 + dy, 60, 60);
-        place(card, play, 87 + dx, 293 + dy, 74, 74);
-        place(card, next, 168 + dx, 300 + dy, 60, 60);
+        placeLtr(card, prev, 20 + dx, 300 + dy, 60, 60);
+        placeLtr(card, play, 87 + dx, 293 + dy, 74, 74);
+        placeLtr(card, next, 168 + dx, 300 + dy, 60, 60);
         }
         playIc = (ImageView) ((FrameLayout) play).getChildAt(0);
         final View.OnClickListener goPrev = mediaClick(KeyEvent.KEYCODE_MEDIA_PREVIOUS), goNext = mediaClick(KeyEvent.KEYCODE_MEDIA_NEXT);
@@ -2596,16 +2598,27 @@ public class Main extends Activity {
         return d;
     }
 
+    // En árabe todo se refleja: x se cuenta desde la derecha (gravedad RIGHT + rightMargin), así no hace falta
+    // saber el ancho del contenedor.
     private void place(ViewGroup parent, View v, float x, float y, float w, float hh) {
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams((int) (w * s), (int) (hh * s));
-        lp.gravity = Gravity.TOP | Gravity.LEFT;
-        lp.leftMargin = (int) (x * s);
+        lp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(lp, (int) (x * s));
         lp.topMargin = (int) (y * s);
         parent.addView(v, lp);
     }
 
     private void placeWrap(ViewGroup parent, View v, float x, float y) {
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-2, -2);
+        lp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(lp, (int) (x * s));
+        lp.topMargin = (int) (y * s);
+        parent.addView(v, lp);
+    }
+
+    /** Sin reflejar (p. ej. ⏮ ▶ ⏭: los controles multimedia mantienen su orden también en árabe). */
+    private void placeLtr(ViewGroup parent, View v, float x, float y, float w, float hh) {
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams((int) (w * s), (int) (hh * s));
         lp.gravity = Gravity.TOP | Gravity.LEFT;
         lp.leftMargin = (int) (x * s);
         lp.topMargin = (int) (y * s);
@@ -3257,14 +3270,15 @@ public class Main extends Activity {
     private void setLanguage(String code) {
         prefs.edit().putString("lang", code).apply();
         I18n.set(this, "auto".equals(code) ? I18n.system() : code);
+        I18n.applyDirection(root);
         rebuild();
     }
 
     /** Primer paso del asistente: idioma (preseleccionado el del sistema). */
     private void wizard() {
         int sel = Math.max(0, java.util.Arrays.asList(I18n.CODES).indexOf(I18n.lang));
-        wizardDlg = new android.app.AlertDialog.Builder(this, dlg())
-            .setTitle("Idioma · Language · Lingua · Sprache · Bahasa · اللغة")
+        wizardDlg = new TB(this, dlg())
+            .setTitle("Language · اللغة")
             .setSingleChoiceItems(I18n.NAMES, sel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface d, int w) {
                     d.dismiss();
@@ -3794,6 +3808,7 @@ public class Main extends Activity {
             it.setPadding((int) (12 * s), 0, (int) (8 * s), 0);
             if (sel) it.setBackground(round(RED_DARK, 12));
             ImageView ic = icon(CAT_ICONS[i], 20);
+            if (i == 0 && I18n.rtl()) ic.setScaleX(-1);   // «volver» apunta a la derecha en árabe
             if (sel) ic.setColorFilter(RED);
             else if (ICON == 0xFFFFFFFF) ic.setAlpha(0.7f);
             it.addView(ic, new LinearLayout.LayoutParams((int) (20 * s), (int) (20 * s)));
@@ -3898,7 +3913,7 @@ public class Main extends Activity {
         LinearLayout r = rowBase(card, title, sub);
         if (value != null) {
             TextView v = tv(value, 14, MUTED, false);
-            v.setGravity(Gravity.RIGHT);
+            v.setGravity(I18n.right());
             v.setPadding((int) (12 * s), 0, (int) (4 * s), 0);
             r.addView(v, new LinearLayout.LayoutParams((int) (220 * s), -2));
         }
@@ -3941,7 +3956,7 @@ public class Main extends Activity {
         k.setColor(Color.WHITE);
         knob.setBackground(k);
         FrameLayout.LayoutParams klp = new FrameLayout.LayoutParams((int) (22 * s), (int) (22 * s));
-        klp.gravity = (on ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL;
+        klp.gravity = (on ? I18n.right() : I18n.left()) | Gravity.CENTER_VERTICAL;
         klp.leftMargin = klp.rightMargin = (int) (3 * s);
         sw.addView(knob, klp);
         r.addView(sw, new LinearLayout.LayoutParams((int) (50 * s), (int) (28 * s)));
@@ -3990,7 +4005,7 @@ public class Main extends Activity {
             opts[0] = I18n.t("Automático");
             System.arraycopy(I18n.NAMES, 0, opts, 1, I18n.NAMES.length);
             int sel = java.util.Arrays.asList(I18n.CODES).indexOf(I18n.pref(prefs)) + 1;
-            new android.app.AlertDialog.Builder(Main.this, dlg())
+            new TB(Main.this, dlg())
                 .setTitle(I18n.t("Idioma"))
                 .setSingleChoiceItems(opts, sel, new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) {
                     d.dismiss();
@@ -4059,7 +4074,7 @@ public class Main extends Activity {
             if (col == cur) g.setStroke((int) (3 * s), TEXT);
             d.setBackground(g);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (28 * s), (int) (28 * s));
-            lp.leftMargin = (int) (8 * s);
+            I18n.marginStart(lp, (int) (8 * s));
             dots.addView(d, lp);
             d.setOnClickListener(new View.OnClickListener() { public void onClick(View v) {
                 prefs.edit().putInt("accent", col).apply(); applyAccent(); rebuild();
@@ -4589,7 +4604,7 @@ public class Main extends Activity {
         ImageView logo = new ImageView(this);
         logo.setImageBitmap(asset("logo.png"));
         r.addView(logo, 0, new LinearLayout.LayoutParams((int) (56 * s), (int) (56 * s)));
-        ((LinearLayout.LayoutParams) r.getChildAt(1).getLayoutParams()).leftMargin = (int) (14 * s);
+        I18n.marginStart((LinearLayout.LayoutParams) r.getChildAt(1).getLayoutParams(), (int) (14 * s));
         row(c, "Versión", null, Updates.currentVersion(this), null);
         row(c, "Android de la pantalla", "Real: " + androidName(SDK) + " · ver qué funciona aquí", android.os.Build.VERSION.RELEASE + " (API " + SDK + ")", new Runnable() { public void run() { showCompat(); } });
         row(c, "Registro de fallos", "Cierres inesperados o bloqueos de StradaOS en esta pantalla", Guard.read(this) == null ? "Sin fallos" : "Ver",
@@ -5465,7 +5480,8 @@ public class Main extends Activity {
 
         TextView title = tv("Aplicaciones  ·  Android " + android.os.Build.VERSION.RELEASE + " (API " + android.os.Build.VERSION.SDK_INT + ")", 18, TEXT, true);
         FrameLayout.LayoutParams tlp = new FrameLayout.LayoutParams(-2, -2);
-        tlp.leftMargin = (int) (28 * s);
+        tlp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(tlp, (int) (28 * s));
         tlp.topMargin = (int) (20 * s);
         drawer.addView(title, tlp);
 
@@ -5484,7 +5500,7 @@ public class Main extends Activity {
             hid.setBackground(round(BTN, 18));
             hid.setPadding((int) (16 * s), (int) (8 * s), (int) (16 * s), (int) (8 * s));
             LinearLayout.LayoutParams hlp = new LinearLayout.LayoutParams(-2, -2);
-            hlp.rightMargin = (int) (10 * s);
+            I18n.marginEnd(hlp, (int) (10 * s));
             bar.addView(hid, hlp);
             hid.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { manageHidden(new Runnable() { public void run() { closeDrawer(); openDrawer(); } }); }
@@ -5496,8 +5512,8 @@ public class Main extends Activity {
         close.setPadding((int) (16 * s), (int) (8 * s), (int) (16 * s), (int) (8 * s));
         bar.addView(close, new LinearLayout.LayoutParams(-2, -2));
         FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(-2, -2);
-        clp.gravity = Gravity.TOP | Gravity.RIGHT;
-        clp.rightMargin = (int) (24 * s);
+        clp.gravity = Gravity.TOP | I18n.right();
+        I18n.marginEnd(clp, (int) (24 * s));
         clp.topMargin = (int) (16 * s);
         drawer.addView(bar, clp);
         close.setOnClickListener(new View.OnClickListener() {

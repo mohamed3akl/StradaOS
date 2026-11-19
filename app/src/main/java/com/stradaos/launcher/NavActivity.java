@@ -115,7 +115,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         guide.addView(turn, new LinearLayout.LayoutParams(px(84), px(84)));
         LinearLayout texts = new LinearLayout(this);
         texts.setOrientation(LinearLayout.VERTICAL);
-        texts.setPadding(px(14), 0, 0, 0);
+        texts.setPadding(I18n.rtl() ? 0 : px(14), 0, I18n.rtl() ? px(14) : 0, 0);
         distTv = tv("", 34, 0xFFFFFFFF, true);
         instrTv = tv("", 17, 0xFFFFFFFF, true);
         streetTv = tv("", 15, 0xE6FFFFFF, false);
@@ -124,7 +124,9 @@ public class NavActivity extends Activity implements Nav.Listener {
         texts.addView(streetTv, lpTop(3));
         guide.addView(texts, new LinearLayout.LayoutParams(px(330), ViewGroup.LayoutParams.WRAP_CONTENT));
         FrameLayout.LayoutParams glp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        glp.leftMargin = glp.topMargin = px(14);
+        glp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(glp, px(14));
+        glp.topMargin = px(14);
         root.addView(guide, glp);
 
         // ── abajo: tiempo, distancia, llegada y terminar ──
@@ -138,16 +140,18 @@ public class NavActivity extends Activity implements Nav.Listener {
         end.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { nav.stop(); } });
         bottom.addView(end, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, px(50)));
         FrameLayout.LayoutParams blp = new FrameLayout.LayoutParams(px(560), ViewGroup.LayoutParams.WRAP_CONTENT);
-        blp.gravity = Gravity.BOTTOM | Gravity.LEFT;
-        blp.leftMargin = blp.bottomMargin = px(14);
+        blp.gravity = Gravity.BOTTOM | I18n.left();
+        I18n.marginStart(blp, px(14));
+        blp.bottomMargin = px(14);
         root.addView(bottom, blp);
 
         // ── arriba a la derecha: volver al inicio ──
         FrameLayout home = circle("arrow_back", 52, 26, (Main.CARD & 0x00FFFFFF) | 0xF0000000);
         home.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { finish(); } });
         FrameLayout.LayoutParams hlp = new FrameLayout.LayoutParams(px(52), px(52));
-        hlp.gravity = Gravity.TOP | Gravity.RIGHT;
-        hlp.topMargin = hlp.rightMargin = px(14);
+        hlp.gravity = Gravity.TOP | I18n.right();
+        hlp.topMargin = px(14);
+        I18n.marginEnd(hlp, px(14));
         root.addView(home, hlp);
 
         // ── buscador ──
@@ -182,7 +186,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         TextView go = pill("Buscar", Main.RED, 0xFFFFFFFF);
         go.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { doSearch(); } });
         LinearLayout.LayoutParams golp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, px(52));
-        golp.leftMargin = px(10);
+        I18n.marginStart(golp, px(10));
         row.addView(go, golp);
         searchBox.addView(row, lpTop(12));
         statusTv = tv("", 14, Main.MUTED, false);
@@ -198,17 +202,22 @@ public class NavActivity extends Activity implements Nav.Listener {
         attrTv = tv(attribution(), 11, Main.MUTED, false);
         searchBox.addView(attrTv, lpTop(6));
         FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(px(470), ViewGroup.LayoutParams.MATCH_PARENT);
-        slp.leftMargin = slp.topMargin = slp.bottomMargin = px(14);
+        slp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(slp, px(14));
+        slp.topMargin = slp.bottomMargin = px(14);
         root.addView(searchBox, slp);
 
         // buscador escondido: un botón redondo arriba a la izquierda lo vuelve a mostrar
         FrameLayout fab = circle("location_on", 60, 30, Main.RED);
         fab.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { setPanelHidden(false); } });
         FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(px(60), px(60));
-        flp.leftMargin = flp.topMargin = px(14);
+        flp.gravity = Gravity.TOP | I18n.left();
+        I18n.marginStart(flp, px(14));
+        flp.topMargin = px(14);
         root.addView(fab, flp);
         searchFab = fab;
 
+        I18n.applyDirection(root);
         setContentView(root);
     }
 
@@ -320,21 +329,21 @@ public class NavActivity extends Activity implements Nav.Listener {
         row.addView(iv, new LinearLayout.LayoutParams(px(24), px(24)));
         LinearLayout t = new LinearLayout(this);
         t.setOrientation(LinearLayout.VERTICAL);
-        t.setPadding(px(12), 0, 0, 0);
+        t.setPadding(I18n.rtl() ? 0 : px(12), 0, I18n.rtl() ? px(12) : 0, 0);
         TextView a = tv("", 16, Main.TEXT, true);
         a.setText(p.name);
-        a.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        a.setGravity(I18n.left() | Gravity.CENTER_VERTICAL);
         t.addView(a, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView d = tv("", 12, Main.MUTED, false);
         d.setText(p.detail != null ? p.detail : "");
-        d.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        d.setGravity(I18n.left() | Gravity.CENTER_VERTICAL);
         d.setVisibility(p.detail != null && p.detail.length() > 0 ? View.VISIBLE : View.GONE);
         t.addView(d, lpTop(3));
         row.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         Location here = nav.bestLocation();
         if (here != null) {
             TextView km = tv(Nav.distText(Nav.dist(here.getLatitude(), here.getLongitude(), p.lat, p.lon), mph(this)), 13, Main.MUTED, true);
-            km.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+            km.setGravity(I18n.right() | Gravity.CENTER_VERTICAL);
             km.setPadding(px(10), 0, px(10), 0);
             row.addView(km, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
@@ -402,6 +411,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         f.setBackground(g);
         ImageView iv = new ImageView(this);
         iv.setImageBitmap(icon(name));
+        if (I18n.rtl() && "arrow_back".equals(name)) iv.setScaleX(-1);   // en árabe «volver» apunta a la derecha
         iv.setColorFilter(Main.ICON, PorterDuff.Mode.SRC_IN);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(px(ic), px(ic));
         lp.gravity = Gravity.CENTER;

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Arabic UI is right-to-left on Android 4.2+ (API 17+): I18n.applyConfig sets the configuration layout direction (all windows and dialogs), Main.place()/placeWrap() mirror absolute positions (gravity RIGHT + rightMargin), and code must use I18n.left()/right()/marginStart()/marginEnd() instead of fixed Gravity.LEFT/RIGHT or leftMargin. Media transport buttons (⏮▶⏭) stay in left-to-right order (placeLtr). Never touch a dialog window before show(): it crashes AlertDialog.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/I18n.java",
+        "app/src/main/java/com/stradaos/launcher/Main.java",
+        "verification:V-002"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T13:46:07.397Z",
+      "factId": "CTX-0033",
+      "promotedAt": "2026-11-19T13:46:07.870Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T13:46:07.870Z",
+  "reviewedAt": "2026-11-19T13:46:07.870Z"
+}

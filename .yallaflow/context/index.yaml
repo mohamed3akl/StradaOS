@@ -1526,7 +1526,55 @@
       ],
       "createdAt": "2026-11-19T13:24:07.431Z",
       "updatedAt": "2026-11-19T13:24:07.431Z"
+    },
+    {
+      "id": "CTX-0033",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Arabic UI is right-to-left on Android 4.2+ (API 17+): I18n.applyConfig sets the configuration layout direction (all windows and dialogs), Main.place()/placeWrap() mirror absolute positions (gravity RIGHT + rightMargin), and code must use I18n.left()/right()/marginStart()/marginEnd() instead of fixed Gravity.LEFT/RIGHT or leftMargin. Media transport buttons (⏮▶⏭) stay in left-to-right order (placeLtr). Never touch a dialog window before show(): it crashes AlertDialog.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0007",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/I18n.java",
+          "contentHash": "sha256:c67492a3f41aabc6c33e7426f42b4ef92db9aeab8ba522891b550975889f28e2",
+          "gitCommit": "e7c553fca5045834aae982692bc47ed137bf65ed",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:90591203a8acf465ac3814f6a821bc05e26f556f9c5c0e306b164983df61fb8a",
+          "gitCommit": "e7c553fca5045834aae982692bc47ed137bf65ed",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/rtl_emu_test.sh (passed)",
+          "workId": "PF-0007",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-11-19T13:46:07.870Z",
+      "verifiedAtCommit": "e7c553fca5045834aae982692bc47ed137bf65ed",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T13:46:07.870Z",
+          "workId": "PF-0007",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T13:46:07.870Z",
+      "updatedAt": "2026-11-19T13:46:07.870Z"
     }
   ],
-  "updatedAt": "2026-11-19T13:24:07.431Z"
+  "updatedAt": "2026-11-19T13:46:07.870Z"
 }

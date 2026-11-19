@@ -89,4 +89,19 @@
   - README.md (repository @ b7ddf51)
   - node C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check-langs.js F:/Machines/Lab/StradaOS (passed) (runtime, PF-0006 V-001)
 
+<!-- yallaflow-fact:CTX-0033 -->
+### CTX-0033 — Arabic UI is right-to-left on Android 4.2+ (API 17+): I18n.applyConfig sets the configuration layout direction (all windows and dialogs), Main.place()/placeWrap() mirror absolute positions (gravity RIGHT + rightMargin), and code must use I18n.left()/right()/marginStart()/marginEnd() instead of fixed Gravity.LEFT/RIGHT or leftMargin. Media transport buttons (⏮▶⏭) stay in left-to-right order (placeLtr). Never touch a dialog window before show(): it crashes AlertDialog.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0007
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T13:46:07.870Z
+- **Verified:** 2026-11-19T13:46:07.870Z (commit e7c553f)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/I18n.java (repository @ e7c553f)
+  - app/src/main/java/com/stradaos/launcher/Main.java (repository @ e7c553f)
+  - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/rtl_emu_test.sh (passed) (runtime, PF-0007 V-002)
+
 <!-- yallaflow-context:end -->
