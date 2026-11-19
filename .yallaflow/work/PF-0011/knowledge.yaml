@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "Network TLS: Net uses platform TLS with bundled roots (roots.pem) and, on Android < 5, a Tls12Factory that enables TLS 1.2. HERE (*.hereapi.com) needs AES-GCM/SHA-256 suites missing before Android 5, so on API < 21 those connections use the bundled Conscrypt 2.5.2 (BoringSSL; last release supporting old Android, newer ones need API 21) with the same trust manager; other hosts are unchanged. The app now has one external dependency (org.conscrypt:conscrypt-android) and native libs for 4 ABIs.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Net.java",
+        "app/build.gradle",
+        "verification:V-002"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0002"
+      },
+      "status": "rejected",
+      "createdAt": "2026-11-19T23:12:13.807Z",
+      "rejectedAt": "2026-11-19T23:12:28.881Z",
+      "rejectionReason": "Linked to the wrong fact (CTX-0002 is the module fact); replaced by candidates that supersede CTX-0003 and CTX-0036"
+    },
+    {
+      "id": "K-002",
+      "kind": "tech-stack",
+      "source": "implementation-runtime",
+      "summary": "Plain Java 8 Android app (no AndroidX, no Play Services) with one external library: org.conscrypt:conscrypt-android 2.5.2 (Apache-2.0, bundled BoringSSL, native libs for armeabi-v7a, arm64-v8a, x86, x86_64), used only for HERE connections below Android 5. minSdk 16, targetSdk 28, compileSdk 35, AGP 8.7.3, Gradle 8.11.1, JDK 17; buildConfig is enabled (BuildConfig.HERE_KEY).",
+      "evidence": [
+        "app/build.gradle",
+        "verification:V-002"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0003"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-19T23:12:38.831Z",
+      "factId": "CTX-0037",
+      "promotedAt": "2026-11-19T23:12:46.067Z",
+      "target": "context/tech-stack.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "HERE APIs (*.hereapi.com) only accept TLS 1.2 with AES-GCM or SHA-256 cipher suites, which platform TLS lacks below Android 5; Net therefore routes *.hereapi.com through bundled Conscrypt on API < 21 (same trust manager), so HERE search and routing work on Android 4.x (verified on API 19). Other hosts keep the platform TLS path. Failures still fall back to OpenStreetMap with the reason in Nav.hereError. A built-in key for local builds comes from here.apiKey in git-ignored local.properties; the Settings key overrides it.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Net.java",
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "runtime:API 19 emulator - HERE search and route succeeded through Conscrypt"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0036"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-19T23:12:40.164Z",
+      "factId": "CTX-0038",
+      "promotedAt": "2026-11-19T23:12:47.915Z",
+      "target": "context/integrations.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:12:47.915Z",
+  "reviewedAt": "2026-11-19T23:12:47.915Z"
+}

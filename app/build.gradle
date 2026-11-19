@@ -6,6 +6,14 @@ plugins {
 // queda sin firmar (así lo necesita F-Droid, que firma con su propia clave).
 def ksPath = System.getenv('STRADAOS_KEYSTORE')
 
+// Clave de HERE incluida en la app (solo compilaciones propias): se lee de local.properties (here.apiKey, archivo que
+// no se sube a git) o de la variable STRADAOS_HERE_KEY. Sin ella (p. ej. GitHub Actions) queda vacía y la app usa la
+// clave escrita en Ajustes u OpenStreetMap. La clave de Ajustes siempre tiene prioridad.
+def localProps = new Properties()
+def localFile = rootProject.file('local.properties')
+if (localFile.exists()) localFile.withInputStream { localProps.load(it) }
+def hereKey = (localProps.getProperty('here.apiKey') ?: System.getenv('STRADAOS_HERE_KEY') ?: '').trim()
+
 android {
     namespace 'com.stradaos.launcher'
     compileSdk 35
@@ -19,6 +27,11 @@ android {
         versionCode 46
         versionName '2.16.0'
         manifestPlaceholders = [appLabel: 'StradaOS']
+        buildConfigField 'String', 'HERE_KEY', "\"${hereKey.replace('\\', '').replace('"', '')}\""
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     signingConfigs {
@@ -107,4 +120,8 @@ tasks.named('preBuild') { dependsOn legacyJar }
 
 dependencies {
     implementation files(layout.buildDirectory.file('intermediates/hiddenapi/stradaos-legacy-rc.jar')).builtBy(legacyJar)
+    // TLS moderno (BoringSSL) para HERE en Android 4.x: sus servidores solo aceptan cifrados AES-GCM / SHA-256 que
+    // Android trae desde la 5.0. 2.5.2 es la última versión que funciona desde Android 2.3 (las nuevas piden Android 5).
+    // Solo se usa para *.hereapi.com en Android < 5 (ver Net.java). Licencia Apache-2.0.
+    implementation 'org.conscrypt:conscrypt-android:2.5.2'
 }

@@ -1,0 +1,45 @@
+{
+  "id": "PF-0012",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Traffic on the route: color the route line by live HERE traffic and show the traffic delay, refreshed during navigation",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-19T23:16:07.302Z",
+  "updatedAt": "2026-11-19T23:35:31.460Z",
+  "title": "Traffic on the route: color the route line by live HERE traffic and show the traffic delay, refreshed during navigation",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-11-19T23:16:07.337Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-19T23:35:31.460Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

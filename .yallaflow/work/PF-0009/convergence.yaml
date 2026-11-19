@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-19T22:30:34.859Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 and emulator runs in English and Arabic.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Tapping a search result or a recent destination centers the map on the place with a pin and shows the card with name, address and straight-line distance; navigation does not start.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "showPreview",
+              "contentHash": "sha256:09a7a88346b69883af5f86d36b802549a12c8b1920f5cb8e7fc3af81025890dd",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+              "symbol": "showPin",
+              "contentHash": "sha256:4211733800d90ae50da24ffd649c268f6e6d08b2919862c27706bcba337b67d1",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator API 19 - Cairo Tower and a recent destination previewed with pin and card, nav state stayed idle"
+            },
+            {
+              "type": "runtime",
+              "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+              "workId": "PF-0009",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Go starts navigation to the previewed place (route calculation began); Back and the back key close the preview and show the same results list.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "startPreview",
+              "contentHash": "sha256:09a7a88346b69883af5f86d36b802549a12c8b1920f5cb8e7fc3af81025890dd",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "closePreview",
+              "contentHash": "sha256:09a7a88346b69883af5f86d36b802549a12c8b1920f5cb8e7fc3af81025890dd",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator API 19 - Back and back key returned to results; Go showed Calculating route"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "The Go button was removed from result rows (the whole row opens the preview).",
+          "reason": "Required so a tap previews instead of navigating; also removes the truncated Arabic label.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "addPlace",
+              "contentHash": "sha256:09a7a88346b69883af5f86d36b802549a12c8b1920f5cb8e7fc3af81025890dd",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-11-19T22:30:34.859Z"
+}

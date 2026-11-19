@@ -1,7 +1,0 @@
-com.stradaos.launcher.app-pngs-0 F:\Machines\Lab\StradaOS\app\build\generated\res\pngs\debug
-com.stradaos.launcher.app-resValues-1 F:\Machines\Lab\StradaOS\app\build\generated\res\resValues\debug
-com.stradaos.launcher.app-packageDebugResources-2 F:\Machines\Lab\StradaOS\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.stradaos.launcher.app-packageDebugResources-3 F:\Machines\Lab\StradaOS\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.stradaos.launcher.app-debug-4 F:\Machines\Lab\StradaOS\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.stradaos.launcher.app-debug-5 F:\Machines\Lab\StradaOS\app\src\debug\res
-com.stradaos.launcher.app-main-6 F:\Machines\Lab\StradaOS\app\src\main\res

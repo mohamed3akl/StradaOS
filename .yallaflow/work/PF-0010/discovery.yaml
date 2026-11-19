@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "HERE search/routing could not be completed on the Android 4.4 emulator: HERE servers accept only TLS 1.2 with AES-GCM or SHA-256 suites (checked with openssl), which Android below 5.0 lacks, so the request fails with SSLHandshakeException and the app falls back to OpenStreetMap. Also the developer's home router DNS fails for *.hereapi.com (public DNS works).",
+      "reason": "Platform TLS limitation on old Android and local network DNS; not fixable by the key change",
+      "recordedAt": "2026-11-19T23:04:02.324Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:04:02.324Z"
+}

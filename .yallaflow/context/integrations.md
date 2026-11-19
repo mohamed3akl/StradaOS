@@ -34,4 +34,20 @@
   - app/src/main/assets/apps/headunit-revived.apk (repository @ b9cb9fd)
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ b9cb9fd)
 
+<!-- yallaflow-fact:CTX-0038 -->
+### CTX-0038 — HERE APIs (*.hereapi.com) only accept TLS 1.2 with AES-GCM or SHA-256 cipher suites, which platform TLS lacks below Android 5; Net therefore routes *.hereapi.com through bundled Conscrypt on API < 21 (same trust manager), so HERE search and routing work on Android 4.x (verified on API 19). Other hosts keep the platform TLS path. Failures still fall back to OpenStreetMap with the reason in Nav.hereError. A built-in key for local builds comes from here.apiKey in git-ignored local.properties; the Settings key overrides it.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0011
+- **Knowledge ID:** K-003
+- **Promoted at:** 2026-11-19T23:12:47.915Z
+- **Supersedes:** CTX-0036
+- **Verified:** 2026-11-19T23:12:47.915Z (commit 2caf4eb)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/Net.java (repository @ 2caf4eb)
+  - app/src/main/java/com/stradaos/launcher/Nav.java (repository @ 2caf4eb)
+  - API 19 emulator - HERE search and route succeeded through Conscrypt (runtime)
+
 <!-- yallaflow-context:end -->

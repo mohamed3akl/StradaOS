@@ -88,7 +88,7 @@
     {
       "id": "CTX-0003",
       "area": "tech-stack",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Plain Java 8 Android app with no external library dependencies (no AndroidX, no Play Services); minSdk 16, targetSdk 28 (deliberately), compileSdk 35, Android Gradle Plugin 8.7.3, Gradle 8.11.1 wrapper, JDK 17 toolchain.",
       "provenance": "repository",
@@ -136,17 +136,24 @@
       "verifiedAt": "2026-11-19T07:43:22.946Z",
       "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0037",
       "history": [
         {
           "action": "introduced",
           "at": "2026-11-19T07:43:22.946Z",
           "workId": "PF-0001",
           "baselineFactId": "BF-003"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-19T23:12:46.067Z",
+          "supersededBy": "CTX-0037",
+          "workId": "PF-0011",
+          "candidateId": "K-002"
         }
       ],
       "createdAt": "2026-11-19T07:43:22.946Z",
-      "updatedAt": "2026-11-19T07:43:22.946Z"
+      "updatedAt": "2026-11-19T23:12:46.067Z"
     },
     {
       "id": "CTX-0004",
@@ -1615,7 +1622,242 @@
       ],
       "createdAt": "2026-11-19T14:05:14.024Z",
       "updatedAt": "2026-11-19T14:05:14.024Z"
+    },
+    {
+      "id": "CTX-0035",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Navigation search: tapping a result or recent destination only previews it (LiveMapView.showPin centers the map on a pin, card with name, address, straight-line distance, Back and Go); turn-by-turn navigation starts only from the card's Go button.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+          "contentHash": "sha256:09a7a88346b69883af5f86d36b802549a12c8b1920f5cb8e7fc3af81025890dd",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+          "workId": "PF-0009",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-11-19T22:30:42.828Z",
+      "verifiedAtCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T22:30:42.828Z",
+          "workId": "PF-0009",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T22:30:42.828Z",
+      "updatedAt": "2026-11-19T22:30:42.828Z"
+    },
+    {
+      "id": "CTX-0036",
+      "area": "integration",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "HERE APIs (search.hereapi.com, router.hereapi.com) only accept TLS 1.2 with AES-GCM or SHA-256 cipher suites (TLS 1.1 and CBC-SHA suites are refused), which Android below 5.0 does not support: on Android 4.x head units HERE fails with SSLHandshakeException and navigation falls back to OpenStreetMap (Nav.hereError shows the reason). A built-in HERE key can be supplied for local builds via here.apiKey in git-ignored local.properties (BuildConfig.HERE_KEY); the Settings key overrides it.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:986717f97098d202a4a55f7573da5861e9ed175dbef65e6cf245613c489c40d7",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:250fd4cccd1e6977f10716a17c338b290d8c74d110d52c95b73d65e59d114686",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "openssl s_client to HERE servers accepted only ECDHE-RSA-AES*-GCM, ECDHE-RSA-AES128-SHA256 and AES128-GCM; Android 4.4 emulator got SSLHandshakeException"
+        }
+      ],
+      "verifiedAt": "2026-11-19T23:04:06.577Z",
+      "verifiedAtCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+      "supersedes": [],
+      "supersededBy": "CTX-0038",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T23:04:06.577Z",
+          "workId": "PF-0010",
+          "candidateId": "K-001"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-19T23:12:47.915Z",
+          "supersededBy": "CTX-0038",
+          "workId": "PF-0011",
+          "candidateId": "K-003"
+        }
+      ],
+      "createdAt": "2026-11-19T23:04:06.577Z",
+      "updatedAt": "2026-11-19T23:12:47.915Z"
+    },
+    {
+      "id": "CTX-0037",
+      "area": "tech-stack",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Plain Java 8 Android app (no AndroidX, no Play Services) with one external library: org.conscrypt:conscrypt-android 2.5.2 (Apache-2.0, bundled BoringSSL, native libs for armeabi-v7a, arm64-v8a, x86, x86_64), used only for HERE connections below Android 5. minSdk 16, targetSdk 28, compileSdk 35, AGP 8.7.3, Gradle 8.11.1, JDK 17; buildConfig is enabled (BuildConfig.HERE_KEY).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0011",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:5b3a350d3346ff5a39993f26fc47194d064be17d7e94457ab9aca29f2b3a9cc6",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_conscrypt_apk.sh (passed)",
+          "workId": "PF-0011",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-11-19T23:12:46.067Z",
+      "verifiedAtCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+      "supersedes": [
+        "CTX-0003"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T23:12:46.067Z",
+          "workId": "PF-0011",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0003"
+        }
+      ],
+      "createdAt": "2026-11-19T23:12:46.067Z",
+      "updatedAt": "2026-11-19T23:12:46.067Z"
+    },
+    {
+      "id": "CTX-0038",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "HERE APIs (*.hereapi.com) only accept TLS 1.2 with AES-GCM or SHA-256 cipher suites, which platform TLS lacks below Android 5; Net therefore routes *.hereapi.com through bundled Conscrypt on API < 21 (same trust manager), so HERE search and routing work on Android 4.x (verified on API 19). Other hosts keep the platform TLS path. Failures still fall back to OpenStreetMap with the reason in Nav.hereError. A built-in key for local builds comes from here.apiKey in git-ignored local.properties; the Settings key overrides it.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0011",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Net.java",
+          "contentHash": "sha256:cba9961efe0d7199faf2fdf993e11420ecfc8e828771df89b2fece68461ebf64",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:250fd4cccd1e6977f10716a17c338b290d8c74d110d52c95b73d65e59d114686",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "API 19 emulator - HERE search and route succeeded through Conscrypt"
+        }
+      ],
+      "verifiedAt": "2026-11-19T23:12:47.915Z",
+      "verifiedAtCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+      "supersedes": [
+        "CTX-0036"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T23:12:47.915Z",
+          "workId": "PF-0011",
+          "candidateId": "K-003",
+          "supersedes": "CTX-0036"
+        }
+      ],
+      "createdAt": "2026-11-19T23:12:47.915Z",
+      "updatedAt": "2026-11-19T23:12:47.915Z"
+    },
+    {
+      "id": "CTX-0039",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Traffic during HERE navigation: routes request spans=dynamicSpeedInfo; segments with live speed under 70% of normal are drawn orange and under 40% red over the blue route (navigation screen and home map); the bottom bar shows the remaining traffic delay ('+N min traffic' or 'Traffic is light'); the route is re-requested every 5 minutes while guiding. OpenStreetMap routes have no traffic data.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0012",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:8d90903517222ed2b4112a81d21bd0b95e9c255255543937681eb4fe6b2a9d0c",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+          "contentHash": "sha256:dcacaabc71c9aa319af7c7fe8389277aed2137a00a332dbf0c41ed55715498a3",
+          "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+          "workId": "PF-0012",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-11-19T23:35:30.691Z",
+      "verifiedAtCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T23:35:30.691Z",
+          "workId": "PF-0012",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T23:35:30.691Z",
+      "updatedAt": "2026-11-19T23:35:30.691Z"
     }
   ],
-  "updatedAt": "2026-11-19T14:05:14.024Z"
+  "updatedAt": "2026-11-19T23:35:30.691Z"
 }

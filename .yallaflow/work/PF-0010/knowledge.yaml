@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "HERE APIs (search.hereapi.com, router.hereapi.com) only accept TLS 1.2 with AES-GCM or SHA-256 cipher suites (TLS 1.1 and CBC-SHA suites are refused), which Android below 5.0 does not support: on Android 4.x head units HERE fails with SSLHandshakeException and navigation falls back to OpenStreetMap (Nav.hereError shows the reason). A built-in HERE key can be supplied for local builds via here.apiKey in git-ignored local.properties (BuildConfig.HERE_KEY); the Settings key overrides it.",
+      "evidence": [
+        "app/build.gradle",
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "runtime:openssl s_client to HERE servers accepted only ECDHE-RSA-AES*-GCM, ECDHE-RSA-AES128-SHA256 and AES128-GCM; Android 4.4 emulator got SSLHandshakeException"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T23:04:05.032Z",
+      "factId": "CTX-0036",
+      "promotedAt": "2026-11-19T23:04:06.577Z",
+      "target": "context/integrations.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:04:06.577Z",
+  "reviewedAt": "2026-11-19T23:04:06.577Z"
+}

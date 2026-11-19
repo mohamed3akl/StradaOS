@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T22:50:27.387Z",
+      "finishedAt": "2026-11-19T22:50:52.004Z",
+      "verifiedAt": "2026-11-19T22:50:52.004Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh"
+      ],
+      "displayCommand": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "success": false,
+      "status": "failed",
+      "exitCode": 1,
+      "startedAt": "2026-11-19T22:50:53.485Z",
+      "finishedAt": "2026-11-19T22:50:55.601Z",
+      "verifiedAt": "2026-11-19T22:50:55.601Z",
+      "log": "V-002-verification.log"
+    },
+    {
+      "id": "V-003",
+      "command": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh"
+      ],
+      "displayCommand": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T22:51:04.895Z",
+      "finishedAt": "2026-11-19T22:51:06.691Z",
+      "verifiedAt": "2026-11-19T22:51:06.691Z",
+      "log": "V-003-verification.log"
+    },
+    {
+      "id": "V-004",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T23:03:31.059Z",
+      "finishedAt": "2026-11-19T23:03:56.175Z",
+      "verifiedAt": "2026-11-19T23:03:56.175Z",
+      "log": "V-004-verification.log"
+    },
+    {
+      "id": "V-005",
+      "command": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh"
+      ],
+      "displayCommand": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_here_key.sh",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T23:03:57.610Z",
+      "finishedAt": "2026-11-19T23:04:01.106Z",
+      "verifiedAt": "2026-11-19T23:04:01.106Z",
+      "log": "V-005-verification.log"
+    }
+  ]
+}

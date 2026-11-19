@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:22:40.138Z",
+      "completedAt": "2026-11-19T22:22:40.138Z",
+      "summary": "NavActivity.addPlace rows start navigation on tap (row and 'Ir' pill call nav.start). LiveMapView always centers on the GPS position (dLat/dLon, cy=0.42h), draws the route and the car arrow; no way to show an arbitrary point. Search panel is 470 px on the start side; the guidance bottom bar is 560 px at the bottom."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:22:43.386Z",
+      "completedAt": "2026-11-19T22:22:43.386Z",
+      "summary": "Request is clear: preview the chosen place on the map first, then navigate from it if it is right. Design: pin + details card with Back and Start; rows lose the Go pill."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:29:54.417Z",
+      "completedAt": "2026-11-19T22:29:54.417Z",
+      "summary": "LiveMapView: showPin/clearPin/hasPin; while a pin is shown the map centers on it (north up), draws a red pin at the exact point and the car arrow at its real position when on screen; zoom 16, previous zoom restored on clear. NavActivity: result and recent rows no longer start navigation (Go pill removed); tapping shows the preview card (name, address, straight-line distance, Back, Go); Back and the back key close it keeping the results; Go starts nav.start(p). New strings Volver, '{} en línea recta', 'Sin señal GPS' in en/ar."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:30:33.123Z",
+      "completedAt": "2026-11-19T22:30:33.123Z",
+      "summary": "V-001 debug build. Emulator API 19 runtime (screenshots): searching 'Cairo Tower' lists results without Go buttons; tapping a result centers the map on Cairo Tower with the pin and shows the card (name, address, 12015 km straight line, Back, Go); Back and the Android back key return to the same results; previewing coordinates near the car then Go started navigation ('Calculating route…'); Arabic shows the card on the right with رجوع / انطلق; no crashes."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:30:39.847Z",
+      "completedAt": "2026-11-19T22:30:39.847Z",
+      "summary": "Both criteria satisfied with emulator evidence."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T22:30:39.847Z"
+}

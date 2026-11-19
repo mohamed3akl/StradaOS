@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "testing",
+      "summary": "Conscrypt path verified only on an Android 4.4 (API 19) emulator; not run on Android 4.1/4.2 (no such emulator image here) or on the real head unit.",
+      "reason": "Only API 19 and API 37 images installed; head unit not connected",
+      "recordedAt": "2026-11-19T23:12:11.043Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:12:11.043Z"
+}

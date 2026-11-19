@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:16:19.552Z",
+      "completedAt": "2026-11-19T23:16:19.552Z",
+      "summary": "Nav.hereRoute builds HereRoute (points, steps, length, duration) from HERE v8 sections; LiveMapView.drawRoute draws Nav.routeMx/routeMy as one blue path with casing (used by the navigation screen and the home map); NavActivity.info builds 'min · km · Arrival'. Live check: HERE v8 with spans=dynamicSpeedInfo returns per-span offset + trafficSpeed/baseSpeed; summary has duration (with traffic) and baseDuration."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:16:20.801Z",
+      "completedAt": "2026-11-19T23:16:20.801Z",
+      "summary": "Developer chose route colors plus delay (no map traffic layer). Refresh during navigation was proposed in the previous answer and kept."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:35:06.595Z",
+      "completedAt": "2026-11-19T23:35:06.595Z",
+      "summary": "Nav: HERE routes request spans=dynamicSpeedInfo; each span gets a level (trafficSpeed/baseSpeed <0.7 slow, <0.4 heavy) mapped to route segments (Nav.routeLvl, cleared on stop/arrival, null for OSRM); totals keep baseDuration; trafficDelayS() scales the delay to what remains; while guiding a HERE route, onLocation re-requests the route every 5 min (TRAFFIC_REFRESH_MS). LiveMapView.drawRoute overlays orange/red on slow/heavy segments (navigation screen and home map). NavActivity.info appends '+N min traffic' or 'Traffic is light' for HERE routes. Strings en/ar."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:35:27.113Z",
+      "completedAt": "2026-11-19T23:35:27.113Z",
+      "summary": "V-001 build. Live HERE check: Manila trip had +423 s delay with 24 slow / 4 heavy spans. Emulator API 19 (GPS set to Manila, public DNS): navigating that trip drew the route orange on slow stretches and blue elsewhere, bottom bar '27 min · 10 km · Arrival 1:46 AM · +6 min traffic', home map card also orange; no crashes. Refresh: watching /proc/net/tcp during guidance with a fixed GPS showed a new connection to HERE routing at +137 s of a second 6-minute window (after an earlier one), consistent with the 5-minute refresh. Red (heavy) drawing not visible in the captured frames."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:35:29.831Z",
+      "completedAt": "2026-11-19T23:35:29.831Z",
+      "summary": "All three criteria satisfied with runtime evidence."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T23:35:29.831Z"
+}

@@ -1,6 +1,0 @@
-com.stradaos.launcher.debug:xml/accessibility_service = 0x7f030000
-com.stradaos.launcher.debug:string/acc_desc = 0x7f020000
-com.stradaos.launcher.debug:string/nav_label = 0x7f020003
-com.stradaos.launcher.debug:drawable/ic_launcher = 0x7f010000
-com.stradaos.launcher.debug:string/music_label = 0x7f020002
-com.stradaos.launcher.debug:string/acc_label = 0x7f020001

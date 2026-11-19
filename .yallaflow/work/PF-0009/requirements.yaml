@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "After searching, choosing a result shows the target location on the map instead of starting navigation.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T22:22:42.361Z",
+      "updatedAt": "2026-11-19T22:22:42.361Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "Navigation to the shown point starts only when the user confirms it is the right place.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T22:22:42.361Z",
+      "updatedAt": "2026-11-19T22:22:42.361Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Tapping a search result or recent destination centers the map on that place with a pin and shows a card with its name, address and distance; navigation is not started.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T22:22:42.361Z",
+      "updatedAt": "2026-11-19T22:22:42.361Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "The card's Start button starts turn-by-turn navigation to that place; Back (button or Android back key) returns to the results list without navigating.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T22:22:42.361Z",
+      "updatedAt": "2026-11-19T22:22:42.361Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-19T22:22:42.361Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-11-19T22:22:42.361Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-19T22:22:42.361Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-19T22:22:42.361Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-19T22:22:42.361Z"
+}

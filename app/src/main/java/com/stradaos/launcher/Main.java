@@ -3236,7 +3236,7 @@ public class Main extends Activity {
     /** Tras guardar la clave de HERE: la prueba con una búsqueda pequeña y dice si funciona. */
     private void checkHereKey(final String key) {
         if (settingsView != null) showSettings(5);
-        if (key.length() == 0) { toast("Navegación con OpenStreetMap"); return; }
+        if (key.length() == 0) { toast(Nav.builtInHereKey().length() > 0 ? "Se usa la clave de HERE incluida en la app" : "Navegación con OpenStreetMap"); return; }
         toast("Probando la clave de HERE…");
         new Thread(new Runnable() { public void run() {
             final String err = Nav.testHereKey(key);
@@ -4190,9 +4190,10 @@ public class Main extends Activity {
         LinearLayout nv = section(body, "Navegación");
         row(nv, "App de navegación preferida", "Se abre con el botón del mapa (Waze, Maps, OsmAnd…)", autoLabel("nav_app", NAV_PKGS, "Toca para elegir"),
             new Runnable() { public void run() { pickFor("nav_app", "Navegación"); } });
-        String hk = Nav.hereKey(this);
+        String hk = Nav.userHereKey(this);
         row(nv, "Clave de HERE (API key)", "Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap",
-            hk.length() == 0 ? "Sin clave" : I18n.t("Configurada") + " (…" + hk.substring(Math.max(0, hk.length() - 4)) + ")",
+            hk.length() > 0 ? I18n.t("Configurada") + " (…" + hk.substring(Math.max(0, hk.length() - 4)) + ")"
+                : Nav.builtInHereKey().length() > 0 ? I18n.t("Incluida en la app") : "Sin clave",
             edit("here_key", "Clave de API de HERE (vacío = OpenStreetMap)", ""));
         LinearLayout m = section(body, "Mapa");
         segmented(m, "Brillo del mapa", "Solo en modo oscuro", new String[]{"Bajo", "Medio", "Alto"}, prefs.getInt("map_bright", 1), new IntCb() { public void on(int i) {

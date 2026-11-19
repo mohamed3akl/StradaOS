@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Traffic during HERE navigation: routes request spans=dynamicSpeedInfo; segments with live speed under 70% of normal are drawn orange and under 40% red over the blue route (navigation screen and home map); the bottom bar shows the remaining traffic delay ('+N min traffic' or 'Traffic is light'); the route is re-requested every 5 minutes while guiding. OpenStreetMap routes have no traffic data.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+        "verification:V-001"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T23:35:30.272Z",
+      "factId": "CTX-0039",
+      "promotedAt": "2026-11-19T23:35:30.691Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:35:30.691Z",
+  "reviewedAt": "2026-11-19T23:35:30.691Z"
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T23:35:07.477Z",
+      "finishedAt": "2026-11-19T23:35:26.522Z",
+      "verifiedAt": "2026-11-19T23:35:26.522Z",
+      "log": "V-001-verification.log"
+    }
+  ]
+}

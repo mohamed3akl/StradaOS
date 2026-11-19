@@ -1,0 +1,46 @@
+{
+  "id": "PF-0011",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Bundle Conscrypt (modern TLS) and use it for HERE connections so HERE works on Android 4.x head units; other connections keep the current TLS setup",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-19T23:05:58.315Z",
+  "updatedAt": "2026-11-19T23:12:49.848Z",
+  "title": "Bundle Conscrypt (modern TLS) and use it for HERE connections so HERE works on Android 4.x head units; other connections keep the current TLS setup",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-11-19T23:05:58.333Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-19T23:12:49.848Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

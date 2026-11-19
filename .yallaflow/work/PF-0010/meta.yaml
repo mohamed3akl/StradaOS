@@ -1,0 +1,47 @@
+{
+  "id": "PF-0010",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Built-in HERE API key for the developer's own builds: read from local.properties (git-ignored) at build time; Settings key still overrides it",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-19T22:42:45.881Z",
+  "updatedAt": "2026-11-19T23:04:08.461Z",
+  "title": "Built-in HERE API key for the developer's own builds: read from local.properties (git-ignored) at build time; Settings key still overrides it",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-11-19T22:42:45.905Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "lastInvalidationAt": "2026-11-19T22:54:47.092Z",
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-19T23:04:08.461Z",
+      "verificationRunIds": [
+        "V-004",
+        "V-005"
+      ]
+    }
+  ]
+}

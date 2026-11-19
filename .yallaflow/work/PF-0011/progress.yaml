@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:07:21.195Z",
+      "completedAt": "2026-11-19T23:07:21.195Z",
+      "summary": "Net.init builds one SSLSocketFactory: platform TLS + bundled roots (roots.pem) with a combined trust manager; on API<21 wrapped by Tls12Factory (enables TLS1.1/1.2, non-weak suites, SNI via setHostname reflection). Platform TLS on API<21 lacks the AES-GCM/SHA-256 suites HERE requires (HERE refuses others). Conscrypt: latest (2.9.0) needs API 21; conscrypt-android 2.5.2 (and 2.4.0, 2.2.1, 1.4.2) declares minSdk 9, ABIs x86/x86_64/armeabi-v7a/arm64-v8a, Apache-2.0, bundles BoringSSL with TLS1.2 GCM suites."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:07:28.041Z",
+      "completedAt": "2026-11-19T23:07:28.041Z",
+      "summary": "Developer chose to add a modern TLS library so HERE works on the Android 4.2 head unit."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:07:29.427Z",
+      "completedAt": "2026-11-19T23:07:29.427Z",
+      "summary": "Add org.conscrypt:conscrypt-android:2.5.2. Net: keep the combined trust manager; lazily build a Conscrypt SSLContext (same trust) wrapped by Tls12Factory; use it only for *.hereapi.com on API<21, falling back to the current factory if Conscrypt can't load. Verify on API 19 emulator (HERE search and route), check other connections unchanged, measure APK size and decide ABI filters."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:11:41.376Z",
+      "completedAt": "2026-11-19T23:11:41.376Z",
+      "summary": "Added org.conscrypt:conscrypt-android:2.5.2 (Apache-2.0, minSdk 9). Net keeps the combined trust manager in a field; Net.modern() lazily builds a Conscrypt SSLContext with that trust, wrapped by Tls12Factory (TLS 1.2 + SNI); factoryFor(url) uses it only for https *.hereapi.com on API < 21 and falls back to the existing factory if Conscrypt can't load (Net.modernInfo records why). All other connections unchanged. APK 17.2 -> 21.0 MB (libconscrypt_jni.so for 4 ABIs; armeabi-v7a 1.3 MB)."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:12:12.406Z",
+      "completedAt": "2026-11-19T23:12:12.406Z",
+      "summary": "V-001 build. V-002 APK has libconscrypt_jni.so for 4 ABIs, Conscrypt classes, and Net limits it to hereapi.com below API 21. Runtime on API 19 emulator (public DNS): before the change HERE failed with SSLHandshakeException; after it, HERE search returned 'Cairo Tower, El Borg Street, Cairo, Egypt', a HERE route gave turn-by-turn guidance (Turn right, Amphitheatre Pkwy, 4 min 1.9 km), credit line 'Search and routing: HERE' with no error, map tiles still loading via the old TLS path, no crashes. Not tested on API 16/17 or the head unit."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T23:12:12.406Z"
+}

@@ -1,0 +1,8 @@
+lib/armeabi-v7a ok
+lib/arm64-v8a ok
+lib/x86 ok
+lib/x86_64 ok
+Conscrypt classes in APK
+Net: Conscrypt only for hereapi.com below API 21
+APK size: 21045260 bytes
+PASS

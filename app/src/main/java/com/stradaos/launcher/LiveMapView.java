@@ -306,25 +306,53 @@ public class LiveMapView extends View {
     /** Pruebas: fija el zoom (14–18). */
     void setZoom(int z) { userZoom = true; zoom = Math.max(10, Math.min(18, z)); invalidate(); }
 
+    // ── vista previa de un destino (navegación): el mapa se centra en el lugar elegido y lo marca con un pin ──
+    private double pinLat = Double.NaN, pinLon = Double.NaN;
+    private int zoomBeforePin = -1;
+    private boolean userZoomBeforePin;
+
+    /** Muestra el lugar (lat, lon) en el centro del mapa con un pin. La flecha del carro sigue en su posición real. */
+    void showPin(double la, double lo) {
+        if (Double.isNaN(pinLat)) { zoomBeforePin = zoom; userZoomBeforePin = userZoom; }
+        pinLat = la;
+        pinLon = lo;
+        userZoom = true;
+        zoom = 16;
+        invalidate();
+    }
+
+    /** Quita el pin: el mapa vuelve a seguir al carro con el zoom de antes. */
+    void clearPin() {
+        if (Double.isNaN(pinLat)) return;
+        pinLat = pinLon = Double.NaN;
+        if (zoomBeforePin > 0) { zoom = zoomBeforePin; userZoom = userZoomBeforePin; }
+        invalidate();
+    }
+
+    boolean hasPin() { return !Double.isNaN(pinLat); }
+
     @Override
     protected void onDraw(Canvas c) {
         float w = getWidth(), h = getHeight();
         c.drawColor(Main.LIGHT ? 0xFFE8EBF0 : 0xFF15171C);
         boolean moving = step(SystemClock.uptimeMillis());
 
-        if (!Double.isNaN(dLat)) {
+        boolean pin = !Double.isNaN(pinLat);
+        // centro del mapa: el lugar de la vista previa o, si no hay, la posición del carro
+        double cLat = pin ? pinLat : dLat, cLon = pin ? pinLon : dLon;
+        if (!Double.isNaN(cLat)) {
             OfflineMap fm = fileMap;
-            boolean fileHere = fm != null && fm.contains(dLat, dLon);
+            boolean fileHere = fm != null && fm.contains(cLat, cLon);
             if (!fileHere && zoom > MAXZ[provider]) zoom = MAXZ[provider];
             int n = 1 << zoom;
-            double fx = (dLon + 180.0) / 360.0 * n;
-            double latR = Math.toRadians(dLat);
+            double fx = (cLon + 180.0) / 360.0 * n;
+            double latR = Math.toRadians(cLat);
             double fy = (1.0 - Math.log(Math.tan(latR) + 1.0 / Math.cos(latR)) / Math.PI) / 2.0 * n;
             float ts = 256 * s;                                    // tamaño de tesela en pantalla
             float cx = w / 2f, cy = h * 0.42f;                     // la posición queda arriba del panel inferior
             int tx0 = (int) Math.floor(fx - cx / ts) - 1, tx1 = (int) Math.floor(fx + (w - cx) / ts) + 1;
             int ty0 = (int) Math.floor(fy - cy / ts) - 1, ty1 = (int) Math.floor(fy + (h - cy) / ts) + 1;
-            boolean rot = headingUp && !Float.isNaN(dBr);
+            boolean rot = headingUp && !pin && !Float.isNaN(dBr);   // la vista previa siempre con el norte arriba
             if (rot) {
                 // al girar hacen falta teselas en un círculo alrededor de la posición (hasta la esquina más lejana)
                 float rr = (float) Math.sqrt(Math.max(cx, w - cx) * Math.max(cx, w - cx) + Math.max(cy, h - cy) * Math.max(cy, h - cy)) / ts;
@@ -358,7 +386,16 @@ public class LiveMapView extends View {
             }
             drawRoute(c, fx, fy, n, ts, cx, cy);
             if (rot) c.restore();
-            drawMarker(c, cx, cy, rot);
+            if (pin) {
+                // el carro donde está de verdad (si cae en pantalla) y el pin en el centro
+                if (!Double.isNaN(dLat)) {
+                    double kx = (dLon + 180.0) / 360.0 * n, kr = Math.toRadians(dLat);
+                    double ky = (1.0 - Math.log(Math.tan(kr) + 1.0 / Math.cos(kr)) / Math.PI) / 2.0 * n;
+                    float mx = cx + (float) ((kx - fx) * ts), my = cy + (float) ((ky - fy) * ts);
+                    if (mx > -30 * s && mx < w + 30 * s && my > -30 * s && my < h + 30 * s) drawMarker(c, mx, my, false);
+                }
+                drawPin(c, cx, cy);
+            } else drawMarker(c, cx, cy, rot);
             String attr = anyFile ? I18n.t("© colaboradores de OpenStreetMap") + " · mapsforge"
                     : provider == 5 ? "© Esri, HERE, Garmin, © OpenStreetMap" : provider == 4 ? "© OpenStreetMap, SRTM · © OpenTopoMap" : I18n.t("© colaboradores de OpenStreetMap");
             c.drawText(attr, w - text.measureText(attr) - 10 * s, 14 * s, text);
@@ -370,17 +407,21 @@ public class LiveMapView extends View {
 
     // ── ruta de la navegación (Nav) ──
     private final Paint routeLine = new Paint(Paint.ANTI_ALIAS_FLAG), routeCase = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Path routePath = new Path();
+    private final Path routePath = new Path(), slowPath = new Path(), jamPath = new Path();
     private final float[] seg = new float[4];
 
     /** Dibuja lo que falta de la ruta activa. Cada tramo se recorta a un recuadro alrededor de la pantalla. */
     private void drawRoute(Canvas c, double fx, double fy, int n, float ts, float cx, float cy) {
         double[] mx = Nav.routeMx, my = Nav.routeMy;
         if (mx == null || my == null || mx.length != my.length || mx.length < 2) return;
+        byte[] lvl = Nav.routeLvl;
+        if (lvl != null && lvl.length != mx.length - 1) lvl = null;   // de otra ruta: sin colores
         int from = Math.max(0, Math.min(mx.length - 2, Nav.routeFrom));
         float lim = Math.max(getWidth(), getHeight()) * 1.5f;
         float bx0 = cx - lim, by0 = cy - lim, bx1 = cx + lim, by1 = cy + lim;
         routePath.reset();
+        slowPath.reset();
+        jamPath.reset();
         float px = cx + (float) ((mx[from] * n - fx) * ts), py = cy + (float) ((my[from] * n - fy) * ts);
         boolean pen = false;
         float lx = Float.NaN, ly = Float.NaN;
@@ -390,6 +431,13 @@ public class LiveMapView extends View {
             if (clip(seg, bx0, by0, bx1, by1)) {
                 if (!pen || seg[0] != lx || seg[1] != ly) routePath.moveTo(seg[0], seg[1]);
                 routePath.lineTo(seg[2], seg[3]);
+                // tráfico de HERE: el tramo lento o muy lento se pinta encima en naranja o rojo
+                int t = lvl != null ? lvl[i - 1] : 0;
+                if (t > 0) {
+                    Path tp = t == 2 ? jamPath : slowPath;
+                    tp.moveTo(seg[0], seg[1]);
+                    tp.lineTo(seg[2], seg[3]);
+                }
                 lx = seg[2]; ly = seg[3];
                 pen = true;
             } else pen = false;
@@ -405,6 +453,13 @@ public class LiveMapView extends View {
         routeLine.setStrokeWidth(7 * s);
         c.drawPath(routePath, routeCase);
         c.drawPath(routePath, routeLine);
+        if (!slowPath.isEmpty() || !jamPath.isEmpty()) {
+            routeLine.setColor(0xFFFF9F1A);                      // lento
+            c.drawPath(slowPath, routeLine);
+            routeLine.setColor(0xFFE5322D);                      // muy lento
+            c.drawPath(jamPath, routeLine);
+            routeLine.setColor(0xFF3D8BFF);
+        }
         // destino: punto al final
         int e = mx.length - 1;
         float dx = cx + (float) ((mx[e] * n - fx) * ts), dy = cy + (float) ((my[e] * n - fy) * ts);
@@ -430,6 +485,26 @@ public class LiveMapView extends View {
         s[0] = x0 + t0 * dx; s[1] = y0 + t0 * dy;
         s[2] = x0 + t1 * dx; s[3] = y0 + t1 * dy;
         return true;
+    }
+
+    private final Path pinPath = new Path();
+
+    /** Pin del destino: la punta toca el lugar exacto (x, y). */
+    private void drawPin(Canvas c, float x, float y) {
+        halo.setColor(0x55000000);
+        c.drawOval(new RectF(x - 9 * s, y - 3 * s, x + 9 * s, y + 3 * s), halo);       // sombra en el suelo
+        float r = 13 * s, top = y - 36 * s;
+        pinPath.reset();                                                                   // punta del pin
+        pinPath.moveTo(x, y);
+        pinPath.lineTo(x - r * 0.72f, top + r * 1.55f);
+        pinPath.lineTo(x + r * 0.72f, top + r * 1.55f);
+        pinPath.close();
+        arrow.setStyle(Paint.Style.FILL);
+        arrow.setColor(Main.RED);
+        c.drawPath(pinPath, arrow);
+        c.drawCircle(x, top + r, r, arrow);                                                // cabeza
+        arrow.setColor(0xFFFFFFFF);
+        c.drawCircle(x, top + r, r * 0.42f, arrow);
     }
 
     private void drawMarker(Canvas c, float x, float y, boolean rotated) {

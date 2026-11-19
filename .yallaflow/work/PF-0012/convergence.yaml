@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-19T23:35:27.599Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 and a live-traffic emulator run in Manila.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Slow stretches of a live HERE route were drawn orange over the blue line on the navigation screen and the home map; heavy stretches use the same code path with red (not visible in the captured frames).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+              "symbol": "drawRoute",
+              "contentHash": "sha256:dcacaabc71c9aa319af7c7fe8389277aed2137a00a332dbf0c41ed55715498a3",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereRoute",
+              "contentHash": "sha256:8d90903517222ed2b4112a81d21bd0b95e9c255255543937681eb4fe6b2a9d0c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator API 19, Manila route - orange stretches on navigation screen and home map"
+            },
+            {
+              "type": "runtime",
+              "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+              "workId": "PF-0012",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "The bottom bar showed '+6 min traffic' for the Manila trip (HERE reported +423 s).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "info",
+              "contentHash": "sha256:e5695b12659886c0de1093dce8c5c8095f793699c7441b6d35c8828e2890c27c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "trafficDelayS",
+              "contentHash": "sha256:8d90903517222ed2b4112a81d21bd0b95e9c255255543937681eb4fe6b2a9d0c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator API 19 - bottom bar '27 min · 10 km · Arrival 1:46 AM · +6 min traffic'"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "While guiding a HERE route the app re-requests it every 5 minutes (a new HERE routing connection appeared with the car standing still); OSRM routes carry no traffic data (routeLvl null, delay hidden).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "onLocation",
+              "contentHash": "sha256:8d90903517222ed2b4112a81d21bd0b95e9c255255543937681eb4fe6b2a9d0c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "load",
+              "contentHash": "sha256:8d90903517222ed2b4112a81d21bd0b95e9c255255543937681eb4fe6b2a9d0c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "new connection to router.hereapi.com observed in /proc/net/tcp during guidance without movement"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "'Traffic is light' is shown when a HERE route has under a minute of delay.",
+          "reason": "Tells the driver traffic was checked, instead of showing nothing.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "info",
+              "contentHash": "sha256:e5695b12659886c0de1093dce8c5c8095f793699c7441b6d35c8828e2890c27c",
+              "gitCommit": "2caf4eb52c04e048e9c93522a43be355080933c1",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-11-19T23:35:27.599Z"
+}

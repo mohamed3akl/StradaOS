@@ -80,13 +80,25 @@ public class Nav {
      */
     static final String HERE_DISCOVER = "https://discover.search.hereapi.com/v1/discover?limit=10";
     static final String HERE_GEOCODE = "https://geocode.search.hereapi.com/v1/geocode?limit=10";
-    static final String HERE_ROUTES = "https://router.hereapi.com/v8/routes?transportMode=car&return=polyline,summary,actions,turnByTurnActions";
+    static final String HERE_ROUTES = "https://router.hereapi.com/v8/routes?transportMode=car&return=polyline,summary,actions,turnByTurnActions&spans=dynamicSpeedInfo";
 
     /** Servicio que dio el último resultado: "here" u "osm" (null = aún nada). Para la atribución. */
     static volatile String searchBy, routeBy;
+    /** Por qué falló HERE la última vez (se muestra en la navegación y se usó OpenStreetMap). null = funcionó. */
+    static volatile String hereError;
 
+    /** Clave de HERE: la de Ajustes; si está vacía, la incluida al compilar (solo en compilaciones propias, ver build.gradle). */
     static String hereKey(Context c) {
+        String k = userHereKey(c);
+        return k.length() > 0 ? k : builtInHereKey();
+    }
+
+    static String userHereKey(Context c) {
         return c.getSharedPreferences("launcher", 0).getString("here_key", "").trim();
+    }
+
+    static String builtInHereKey() {
+        return BuildConfig.HERE_KEY == null ? "" : BuildConfig.HERE_KEY.trim();
     }
 
     /** Motivo corto del último fallo de red (para mostrarlo y saber qué pasó). */
@@ -111,6 +123,8 @@ public class Nav {
     static volatile double[] routeMx, routeMy;
     /** Índice del primer punto que falta por recorrer (para dibujar solo lo que queda). */
     static volatile int routeFrom;
+    /** Tráfico por tramo de la ruta (0 normal, 1 lento, 2 muy lento); índice i = del punto i al i+1. null = sin datos (OSRM). */
+    static volatile byte[] routeLvl;
 
     private final Context ctx;
     private final SharedPreferences prefs;
@@ -124,11 +138,15 @@ public class Nav {
     private double[] lat, lon, cum;         // puntos de la ruta y distancia acumulada
     private final List<Step> steps = new ArrayList<Step>();
     private double totalM, totalS;
+    /** Tiempo sin tráfico de HERE (0 = no se sabe, p. ej. ruta de OSRM). */
+    private double totalBaseS;
+    private byte[] pendLvl;
     private int matchIdx;                    // segmento donde va el carro
     private double along;                    // metros recorridos sobre la ruta
     private int stepIdx;                     // próximo giro
     private int offCount;
     private long lastReroute;
+    static final long TRAFFIC_REFRESH_MS = 5 * 60 * 1000;
     Location last;
     private boolean listening;
 
@@ -160,7 +178,7 @@ public class Nav {
             // 2) con clave de HERE: primero HERE; si falla o no encuentra nada, OpenStreetMap
             List<Place> fromHere = null;
             if (exact == null && key.length() > 0) {
-                try { fromHere = hereSearch(q, here, key); } catch (Throwable ignored) { }
+                try { fromHere = hereSearch(q, here, key); hereError = null; } catch (Throwable e) { hereError = "HERE: " + netWhy(e); }
             }
             if (exact != null) {
                 out.add(exact);
@@ -417,6 +435,7 @@ public class Nav {
         dest = null;
         error = null;
         routeMx = routeMy = null;
+        routeLvl = null;
         steps.clear();
         listen(false);
         fire();
@@ -436,7 +455,7 @@ public class Nav {
             // con clave: HERE (ruta con tráfico); si falla, los servidores OSRM de siempre
             HereRoute parsed = null;
             if (key.length() > 0) {
-                try { parsed = hereRoute(from, to, key); } catch (Throwable e) { why = e; }
+                try { parsed = hereRoute(from, to, key); hereError = null; } catch (Throwable e) { why = e; hereError = "HERE: " + netWhy(e); }
             }
             final HereRoute hereR = parsed;
             if (hereR == null) for (String base : OSRMS) {
@@ -497,13 +516,15 @@ public class Nav {
         routeFrom = 0;
         routeMy = pendMy;
         routeMx = pendMx;
+        routeLvl = pendLvl;
     }
 
     /** Ruta de HERE ya leída (en el hilo de red, así un error de formato pasa a OSRM). */
     static class HereRoute {
         final List<double[]> pts = new ArrayList<double[]>();
         final List<Step> steps = new ArrayList<Step>();
-        double m, s;
+        double m, s, base;
+        byte[] lvl;
     }
 
     /** Ruta en carro de HERE Routing v8; el tiempo ya cuenta el tráfico del momento. */
@@ -522,6 +543,8 @@ public class Nav {
         }
         JSONArray secs = routes.getJSONObject(0).getJSONArray("sections");
         HereRoute hr = new HereRoute();
+        List<Integer> spanAt = new ArrayList<Integer>();
+        List<Integer> spanLvl = new ArrayList<Integer>();
         for (int si = 0; si < secs.length(); si++) {
             JSONObject sec = secs.getJSONObject(si);
             List<double[]> p = decodeFlex(sec.getString("polyline"));
@@ -529,7 +552,20 @@ public class Nav {
             if (base > 0 && !p.isEmpty()) { skip = 1; base -= 1; }   // el primer punto repite el último de la sección anterior
             for (int k = skip; k < p.size(); k++) hr.pts.add(p.get(k));
             JSONObject sum = sec.optJSONObject("summary");
-            if (sum != null) { hr.m += sum.optDouble("length", 0); hr.s += sum.optDouble("duration", 0); }
+            if (sum != null) {
+                hr.m += sum.optDouble("length", 0);
+                hr.s += sum.optDouble("duration", 0);
+                hr.base += sum.optDouble("baseDuration", sum.optDouble("duration", 0));   // sin tráfico
+            }
+            // tráfico por tramo: velocidad actual contra la normal
+            JSONArray spans = sec.optJSONArray("spans");
+            if (spans != null) for (int i = 0; i < spans.length(); i++) {
+                JSONObject sp = spans.getJSONObject(i);
+                JSONObject ds = sp.optJSONObject("dynamicSpeedInfo");
+                if (ds == null) continue;
+                spanAt.add(base + sp.optInt("offset", 0));
+                spanLvl.add(trafficLevel(ds.optDouble("trafficSpeed", 0), ds.optDouble("baseSpeed", 0)));
+            }
             JSONArray acts = sec.optJSONArray("turnByTurnActions");
             if (acts == null) acts = sec.optJSONArray("actions");
             if (acts == null) continue;
@@ -542,6 +578,16 @@ public class Nav {
         }
         if (hr.pts.size() < 2) throw new Exception("HERE: empty route");
         for (Step st : hr.steps) st.pt = Math.max(0, Math.min(hr.pts.size() - 1, st.pt));
+        if (!spanAt.isEmpty()) {
+            // cada tramo de HERE vale desde su punto hasta el inicio del siguiente
+            int segs = hr.pts.size() - 1;
+            hr.lvl = new byte[segs];
+            for (int j = 0; j < spanAt.size(); j++) {
+                int a = Math.max(0, Math.min(segs, spanAt.get(j)));
+                int b = j + 1 < spanAt.size() ? Math.max(a, Math.min(segs, spanAt.get(j + 1))) : segs;
+                for (int k = a; k < b; k++) hr.lvl[k] = (byte) (int) spanLvl.get(j);
+            }
+        }
         return hr;
     }
 
@@ -603,6 +649,8 @@ public class Nav {
         setGeometry(hr.pts);
         totalM = hr.m > 0 ? hr.m : cum[cum.length - 1];
         totalS = hr.s;
+        totalBaseS = hr.base;
+        pendLvl = hr.lvl;
         steps.clear();
         for (Step st : hr.steps) {
             st.lat = lat[st.pt];
@@ -657,6 +705,8 @@ public class Nav {
         setGeometry(pts);
         totalM = r.optDouble("distance", n > 0 ? cum[n - 1] : 0);
         totalS = r.optDouble("duration", 0);
+        totalBaseS = 0;                                   // OSRM no tiene tráfico
+        pendLvl = null;
         steps.clear();
         JSONArray legs = r.getJSONArray("legs");
         int searchFrom = 0;
@@ -750,6 +800,9 @@ public class Nav {
         last = l;
         if (state == ROUTING && lat == null && !routing) { route(l); }
         if (state == GUIDING) progress(l);
+        // ruta de HERE: cada 5 minutos se pide de nuevo desde aquí para tener el tráfico y la llegada al día
+        if (state == GUIDING && !routing && hasTraffic() && "here".equals(routeBy)
+                && SystemClock.elapsedRealtime() - lastReroute > TRAFFIC_REFRESH_MS) route(l);
         fire();
     }
 
@@ -780,6 +833,7 @@ public class Nav {
             chime(3);
             listen(false);
             routeMx = routeMy = null;
+            routeLvl = null;
             final Place arrivedAt = dest;
             // el aviso de llegada se queda un minuto y luego todo vuelve a la normalidad
             h.postDelayed(new Runnable() { public void run() { if (state == ARRIVED && dest == arrivedAt) stop(); } }, 60000);
@@ -819,7 +873,23 @@ public class Nav {
     double toNext() { Step s = next(); return s == null ? -1 : Math.max(0, s.at - along); }
     double remaining() { return lat == null ? -1 : Math.max(0, cum[cum.length - 1] - along); }
 
-    /** Segundos que faltan: el tiempo de OSRM en proporción a lo que queda. */
+    /** Nivel de tráfico de un tramo: 0 normal, 1 lento (menos del 70 % de la velocidad normal), 2 muy lento (menos del 40 %). */
+    static int trafficLevel(double traffic, double normal) {
+        if (traffic <= 0 || normal <= 0) return 0;
+        double r = traffic / normal;
+        return r < 0.4 ? 2 : r < 0.7 ? 1 : 0;
+    }
+
+    /** ¿La ruta tiene datos de tráfico (HERE)? */
+    boolean hasTraffic() { return lat != null && totalBaseS > 0; }
+
+    /** Segundos que el tráfico agrega a lo que falta (en proporción a lo que queda). -1 = no se sabe. */
+    double trafficDelayS() {
+        if (!hasTraffic() || totalS <= 0) return -1;
+        return Math.max(0, totalS - totalBaseS) * remaining() / Math.max(1, cum[cum.length - 1]);
+    }
+
+    /** Segundos que faltan: el tiempo de la ruta en proporción a lo que queda. */
     double remainingS() {
         if (lat == null || totalM <= 0) return -1;
         return totalS * remaining() / Math.max(1, cum[cum.length - 1]);

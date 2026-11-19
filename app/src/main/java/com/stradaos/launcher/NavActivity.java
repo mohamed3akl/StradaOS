@@ -54,8 +54,20 @@ public class NavActivity extends Activity implements Nav.Listener {
     private TextView statusTv;
     private TextView attrTv;
 
+    // vista previa del destino: el lugar elegido se ve en el mapa antes de navegar
+    private LinearLayout previewCard;
+    private TextView pvName, pvDetail, pvDist;
+    private Nav.Place preview;
+
     /** Atribución según el servicio que se usó de verdad (HERE u OpenStreetMap); antes de usarlo, según la clave. */
     private String attribution() {
+        String base = attributionBase();
+        // si HERE falló, se dice por qué (y que se usó OpenStreetMap): así se ve en la pantalla del carro
+        String err = Nav.hereError;
+        return err != null && Nav.hereKey(this).length() > 0 ? I18n.t(base) + "\n" + err : base;
+    }
+
+    private String attributionBase() {
         boolean key = Nav.hereKey(this).length() > 0;
         boolean sHere = Nav.searchBy != null ? "here".equals(Nav.searchBy) : key;
         boolean rHere = Nav.routeBy != null ? "here".equals(Nav.routeBy) : key;
@@ -91,6 +103,8 @@ public class NavActivity extends Activity implements Nav.Listener {
 
     @Override
     public void onBackPressed() {
+        // viendo un destino, «atrás» vuelve a los resultados
+        if (preview != null) { closePreview(); return; }
         // con ruta activa, «atrás» vuelve al inicio y la guía sigue en la tarjeta del mapa
         super.onBackPressed();
     }
@@ -144,6 +158,43 @@ public class NavActivity extends Activity implements Nav.Listener {
         I18n.marginStart(blp, px(14));
         blp.bottomMargin = px(14);
         root.addView(bottom, blp);
+
+        // ── vista previa del destino (abajo): nombre, dirección, distancia, «Volver» e «Ir» ──
+        previewCard = new LinearLayout(this);
+        previewCard.setGravity(Gravity.CENTER_VERTICAL);
+        previewCard.setBackground(round((Main.CARD & 0x00FFFFFF) | 0xF5000000, 18));
+        previewCard.setPadding(px(18), px(14), px(14), px(14));
+        LinearLayout pvTexts = new LinearLayout(this);
+        pvTexts.setOrientation(LinearLayout.VERTICAL);
+        pvName = tv("", 19, Main.TEXT, true);
+        pvName.setGravity(I18n.left());
+        pvDetail = tv("", 13, Main.MUTED, false);
+        pvDetail.setSingleLine(false);
+        pvDetail.setMaxLines(2);
+        pvDetail.setGravity(I18n.left());
+        pvDist = tv("", 14, Main.TEXT, false);
+        pvDist.setGravity(I18n.left());
+        pvTexts.addView(pvName, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        pvTexts.addView(pvDetail, lpTop(4));
+        pvTexts.addView(pvDist, lpTop(6));
+        previewCard.addView(pvTexts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        TextView pvBack = pill("Volver", Main.BTN, Main.TEXT);
+        pvBack.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { closePreview(); } });
+        LinearLayout.LayoutParams pbl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, px(54));
+        I18n.marginStart(pbl, px(12));
+        previewCard.addView(pvBack, pbl);
+        TextView pvGo = pill("Ir", Main.RED, 0xFFFFFFFF);
+        pvGo.setMinWidth(px(110));
+        pvGo.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { startPreview(); } });
+        LinearLayout.LayoutParams pgl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, px(54));
+        I18n.marginStart(pgl, px(10));
+        previewCard.addView(pvGo, pgl);
+        FrameLayout.LayoutParams plp = new FrameLayout.LayoutParams(px(640), ViewGroup.LayoutParams.WRAP_CONTENT);
+        plp.gravity = Gravity.BOTTOM | I18n.left();
+        I18n.marginStart(plp, px(14));
+        plp.bottomMargin = px(14);
+        previewCard.setVisibility(View.GONE);
+        root.addView(previewCard, plp);
 
         // ── arriba a la derecha: volver al inicio ──
         FrameLayout home = circle("arrow_back", 52, 26, (Main.CARD & 0x00FFFFFF) | 0xF0000000);
@@ -200,6 +251,8 @@ public class NavActivity extends Activity implements Nav.Listener {
         svlp.topMargin = px(6);
         searchBox.addView(sv, svlp);
         attrTv = tv(attribution(), 11, Main.MUTED, false);
+        attrTv.setSingleLine(false);
+        attrTv.setMaxLines(3);
         searchBox.addView(attrTv, lpTop(6));
         FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(px(470), ViewGroup.LayoutParams.MATCH_PARENT);
         slp.gravity = Gravity.TOP | I18n.left();
@@ -228,8 +281,11 @@ public class NavActivity extends Activity implements Nav.Listener {
         if (attrTv != null) attrTv.setText(I18n.t(attribution()));
         boolean searching = nav.state == Nav.IDLE || nav.state == Nav.ERROR || nav.state == Nav.ARRIVED;
         if (!searching) panelHidden = false;          // la próxima búsqueda vuelve a abrir el panel
-        searchBox.setVisibility(searching && !panelHidden ? View.VISIBLE : View.GONE);
-        searchFab.setVisibility(searching && panelHidden ? View.VISIBLE : View.GONE);
+        if (!searching && preview != null) { preview = null; map.clearPin(); }   // ya se está navegando
+        boolean previewing = searching && preview != null;
+        searchBox.setVisibility(searching && !panelHidden && !previewing ? View.VISIBLE : View.GONE);
+        searchFab.setVisibility(searching && panelHidden && !previewing ? View.VISIBLE : View.GONE);
+        previewCard.setVisibility(previewing ? View.VISIBLE : View.GONE);
         guide.setVisibility(searching ? View.GONE : View.VISIBLE);
         bottom.setVisibility(searching ? View.GONE : View.VISIBLE);
         if (searching) {
@@ -256,14 +312,20 @@ public class NavActivity extends Activity implements Nav.Listener {
         infoTv.setText(info(nav, mph, this));
     }
 
-    /** «12 min · 8,4 km · Llegada 14:32» */
+    /** «12 min · 8,4 km · Llegada 14:32 · +5 min de tráfico» (el tráfico solo con rutas de HERE) */
     static String info(Nav nav, boolean mph, Context c) {
         double secs = nav.remainingS();
         if (secs < 0) return "";
         long min = Math.max(1, Math.round(secs / 60));
         String t = min >= 60 ? (min / 60) + " h " + (min % 60) + " min" : min + " min";
         String eta = DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(System.currentTimeMillis() + (long) (secs * 1000)));
-        return t + "  ·  " + Nav.distText(nav.remaining(), mph) + "  ·  " + I18n.t("Llegada " + eta);
+        String out = t + "  ·  " + Nav.distText(nav.remaining(), mph) + "  ·  " + I18n.t("Llegada " + eta);
+        double delay = nav.trafficDelayS();
+        if (delay >= 0) {
+            long dm = Math.round(delay / 60);
+            out += "  ·  " + (dm >= 1 ? I18n.t("+" + dm + " min de tráfico") : I18n.t("Tráfico fluido"));
+        }
+        return out;
     }
 
     static boolean mph(Context c) {
@@ -347,17 +409,42 @@ public class NavActivity extends Activity implements Nav.Listener {
             km.setPadding(px(10), 0, px(10), 0);
             row.addView(km, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
-        TextView go = pill("Ir", Main.RED, 0xFFFFFFFF);
-        row.addView(go, new LinearLayout.LayoutParams(px(64), px(44)));
-        View.OnClickListener start = new View.OnClickListener() { public void onClick(View v) {
-            hideKeyboard();
-            results.removeAllViews();
-            statusTv.setText("");
-            nav.start(p);
-        }};
-        row.setOnClickListener(start);
-        go.setOnClickListener(start);
+        // tocar un resultado muestra el lugar en el mapa; la navegación empieza con «Ir» en la tarjeta
+        row.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { showPreview(p); } });
         results.addView(row);
+    }
+
+    /** Muestra el lugar en el mapa (pin en el centro) con su tarjeta: nombre, dirección, distancia, «Volver» e «Ir». */
+    private void showPreview(Nav.Place p) {
+        hideKeyboard();
+        preview = p;
+        pvName.setText(p.name);
+        pvDetail.setText(p.detail != null ? p.detail : "");
+        pvDetail.setVisibility(p.detail != null && p.detail.length() > 0 ? View.VISIBLE : View.GONE);
+        Location here = nav.bestLocation();
+        pvDist.setText(here == null ? I18n.t("Sin señal GPS")
+                : I18n.t(Nav.distText(Nav.dist(here.getLatitude(), here.getLongitude(), p.lat, p.lon), mph(this)) + " en línea recta"));
+        map.showPin(p.lat, p.lon);
+        onNav();
+    }
+
+    /** «Volver»: quita la vista previa y vuelve a la lista de resultados (que sigue igual). */
+    private void closePreview() {
+        if (preview == null) return;
+        preview = null;
+        map.clearPin();
+        onNav();
+    }
+
+    /** «Ir»: empieza la navegación al lugar de la vista previa. */
+    private void startPreview() {
+        Nav.Place p = preview;
+        if (p == null) return;
+        preview = null;
+        map.clearPin();
+        results.removeAllViews();
+        statusTv.setText("");
+        nav.start(p);
     }
 
     private void hideKeyboard() {

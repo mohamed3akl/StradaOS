@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Navigation search: tapping a result or recent destination only previews it (LiveMapView.showPin centers the map on a pin, card with name, address, straight-line distance, Back and Go); turn-by-turn navigation starts only from the card's Go button.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+        "verification:V-001"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-19T22:30:41.354Z",
+      "factId": "CTX-0035",
+      "promotedAt": "2026-11-19T22:30:42.828Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T22:30:42.828Z",
+  "reviewedAt": "2026-11-19T22:30:42.828Z"
+}

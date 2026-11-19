@@ -718,3 +718,13 @@ Toca ▶ para escuchar la radio	Tap ▶ to listen to the radio
 # Diagnóstico
 No se pudo exportar el diagnóstico	Couldn't export the diagnostics
 La memoria de la pantalla no se puede escribir o falta el permiso de almacenamiento.	The screen's storage can't be written, or the storage permission is missing.
+# Vista previa del destino
+Volver	Back
+{} en línea recta	{} in a straight line
+Sin señal GPS	No GPS signal
+# Clave de HERE incluida
+Incluida en la app	Built into the app
+Se usa la clave de HERE incluida en la app	Using the HERE key built into the app
+# Tráfico
++{} min de tráfico	+{} min traffic
+Tráfico fluido	Traffic is light

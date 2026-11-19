@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "During navigation with HERE, the route line shows live traffic along the way.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T23:16:20.373Z",
+      "updatedAt": "2026-11-19T23:16:20.373Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "During navigation with HERE, the trip info shows how much delay traffic adds.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T23:16:20.373Z",
+      "updatedAt": "2026-11-19T23:16:20.373Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Stretches where HERE's live speed is clearly below the normal speed are drawn orange (slow) or red (heavy) over the blue route, on the navigation screen and the home map.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T23:16:20.373Z",
+      "updatedAt": "2026-11-19T23:16:20.373Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "The bottom bar shows the traffic delay (e.g. '+8 min traffic') when it is at least a minute.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T23:16:20.373Z",
+      "updatedAt": "2026-11-19T23:16:20.373Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-001",
+      "statement": "While guiding on a HERE route, traffic colors and the arrival time refresh every few minutes; OpenStreetMap routes show no traffic.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T23:16:20.373Z",
+      "updatedAt": "2026-11-19T23:16:20.373Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-19T23:16:20.373Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-11-19T23:16:20.373Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-19T23:16:20.373Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-19T23:16:20.373Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-11-19T23:16:20.373Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-19T23:16:20.373Z"
+}

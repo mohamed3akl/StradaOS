@@ -74,4 +74,33 @@
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ b9cb9fd)
   - java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json (passed) (runtime, PF-0002 V-010)
 
+<!-- yallaflow-fact:CTX-0035 -->
+### CTX-0035 — Navigation search: tapping a result or recent destination only previews it (LiveMapView.showPin centers the map on a pin, card with name, address, straight-line distance, Back and Go); turn-by-turn navigation starts only from the card's Go button.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0009
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T22:30:42.828Z
+- **Verified:** 2026-11-19T22:30:42.828Z (commit 2caf4eb)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/NavActivity.java (repository @ 2caf4eb)
+  - F:\Machines\Lab\StradaOS\gradlew.bat -p F:\Machines\Lab\StradaOS --no-daemon assembleDebug -q (passed) (runtime, PF-0009 V-001)
+
+<!-- yallaflow-fact:CTX-0039 -->
+### CTX-0039 — Traffic during HERE navigation: routes request spans=dynamicSpeedInfo; segments with live speed under 70% of normal are drawn orange and under 40% red over the blue route (navigation screen and home map); the bottom bar shows the remaining traffic delay ('+N min traffic' or 'Traffic is light'); the route is re-requested every 5 minutes while guiding. OpenStreetMap routes have no traffic data.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0012
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-19T23:35:30.691Z
+- **Verified:** 2026-11-19T23:35:30.691Z (commit 2caf4eb)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/Nav.java (repository @ 2caf4eb)
+  - app/src/main/java/com/stradaos/launcher/LiveMapView.java (repository @ 2caf4eb)
+  - F:\Machines\Lab\StradaOS\gradlew.bat -p F:\Machines\Lab\StradaOS --no-daemon assembleDebug -q (passed) (runtime, PF-0012 V-001)
+
 <!-- yallaflow-context:end -->

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:42:55.625Z",
+      "completedAt": "2026-11-19T22:42:55.625Z",
+      "summary": "Nav.hereKey reads the user's key from the 'here_key' pref only. local.properties is git-ignored and untracked (holds sdk.dir). app/build.gradle has no buildConfig fields; CI (android.yml, release.yml) builds without local.properties. The developer supplied the key in chat; its value must stay out of git and YallaFlow state."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:43:03.892Z",
+      "completedAt": "2026-11-19T22:43:03.892Z",
+      "summary": "Developer: embed the HERE key only in their own app builds for now; it will be removed before use on more devices. Settings key keeps priority."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:43:05.277Z",
+      "completedAt": "2026-11-19T22:43:05.277Z",
+      "summary": "local.properties here.apiKey (or env STRADAOS_HERE_KEY) -> BuildConfig.HERE_KEY (empty when absent, e.g. CI). Nav.hereKey: Settings value, else BuildConfig.HERE_KEY. Settings row shows 'Built-in' when the built-in key is used. Verify the key is in the local APK and absent from tracked files."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T22:50:24.293Z",
+      "completedAt": "2026-11-19T23:03:28.063Z",
+      "summary": "Added during verification (implementation reopened first): Nav.hereError keeps the last HERE failure reason (search and route) and the navigation credit line shows it under the attribution (up to 3 lines); cleared on success. No other change."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T23:04:03.689Z",
+      "completedAt": "2026-11-19T23:04:03.689Z",
+      "summary": "V-004 debug build; V-005 key check PASS (key only in git-ignored local.properties and the local APK; no tracked or staged file contains it; app/build untracked). Emulator API 19: with no key in Settings the app used the built-in key (credit line 'Search and routing: HERE'); the HERE request then failed with SSLHandshakeException, shown as 'HERE: secure connection refused', and search fell back to Nominatim. With the router DNS it showed 'HERE: no internet (DNS lookup failed)'. No crashes."
+    }
+  },
+  "rulings": [
+    {
+      "decision": "Untrack app/build/ from git (git rm --cached; files kept on disk) as part of this work item",
+      "reason": "Tracked build intermediates (classes.dex, Nav.class, Nav.dex) contain the built-in HERE key, so a normal commit would publish it; developer chose 'Untrack app/build' in the session",
+      "costIfWrong": "Build output stops being versioned; nothing else depends on it (CI rebuilds from source)",
+      "createdAt": "2026-11-19T22:50:09.128Z"
+    }
+  ],
+  "history": [
+    {
+      "skill": "implementation",
+      "from": "completed",
+      "to": "in_progress",
+      "reason": "Emulator: with the built-in key the HERE search silently fell back to Nominatim although the key works from the PC; record and show the last HERE error to find the cause",
+      "changedAt": "2026-11-19T22:54:47.072Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T23:04:03.689Z"
+}

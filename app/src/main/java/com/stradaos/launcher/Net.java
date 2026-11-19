@@ -28,7 +28,13 @@ import javax.net.ssl.X509TrustManager;
  */
 public class Net {
     private static SSLSocketFactory factory;
+    /** Confianza combinada (raíces del sistema + las incluidas): la usan las dos fábricas. */
+    private static X509TrustManager trust;
+    /** Fábrica con Conscrypt (TLS moderno), solo para HERE en Android < 5. null = sin crear o no disponible. */
+    private static SSLSocketFactory modern;
+    private static boolean modernFailed;
     static String initInfo = "sin iniciar";
+    static String modernInfo = "sin usar";
 
     public static synchronized void init(Context c) {
         if (factory != null) return;
@@ -67,6 +73,7 @@ public class Net {
                 }
                 public X509Certificate[] getAcceptedIssuers() { return system.getAcceptedIssuers(); }
             };
+            trust = both;
             SSLContext ctx;
             try { ctx = SSLContext.getInstance("TLSv1.2"); } catch (Throwable e) { ctx = SSLContext.getInstance("TLS"); }
             ctx.init(null, new TrustManager[]{both}, null);
@@ -87,12 +94,52 @@ public class Net {
         throw new IllegalStateException("sin TrustManager");
     }
 
-    public static byte[] get(String url, int timeoutMs) throws Exception {
+    /**
+     * HERE solo acepta TLS 1.2 con cifrados AES-GCM / SHA-256, que Android trae desde la 5.0. En Android 4.x esas
+     * conexiones van por Conscrypt (BoringSSL incluido en la app); todo lo demás sigue con la configuración de siempre.
+     */
+    static boolean needsModernTls(String url) {
+        if (android.os.Build.VERSION.SDK_INT >= 21 || url == null || !url.startsWith("https://")) return false;
         try {
-            return get(url, timeoutMs, factory);
+            String h = new URL(url).getHost();
+            return h != null && (h.endsWith(".hereapi.com") || h.equals("hereapi.com"));
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+
+    /** Fábrica de Conscrypt (se crea la primera vez). Si no se puede cargar, null: se usa la de siempre. */
+    static synchronized SSLSocketFactory modern() {
+        if (modern != null || modernFailed) return modern;
+        try {
+            java.security.Provider p = org.conscrypt.Conscrypt.newProvider();
+            SSLContext ctx = SSLContext.getInstance("TLS", p);
+            ctx.init(null, trust != null ? new TrustManager[]{trust} : null, null);
+            modern = new Tls12Factory(ctx.getSocketFactory());   // TLS 1.2 + SNI, como la otra fábrica
+            modernInfo = "Conscrypt " + p.getVersion();
+        } catch (Throwable e) {
+            modernFailed = true;
+            modernInfo = "Conscrypt no disponible: " + e;
+        }
+        return modern;
+    }
+
+    /** Fábrica para esta dirección: Conscrypt para HERE en Android 4.x, si no la de siempre. */
+    private static SSLSocketFactory factoryFor(String url) {
+        if (needsModernTls(url)) {
+            SSLSocketFactory m = modern();
+            if (m != null) return m;
+        }
+        return factory;
+    }
+
+    public static byte[] get(String url, int timeoutMs) throws Exception {
+        SSLSocketFactory f = factoryFor(url);
+        try {
+            return get(url, timeoutMs, f);
         } catch (javax.net.ssl.SSLException e) {
             // si el saludo seguro falla con nuestra configuración, se reintenta con la del sistema
-            if (factory == null || !url.startsWith("https")) throw e;
+            if (f == null || !url.startsWith("https")) throw e;
             return get(url, timeoutMs, null);
         }
     }
@@ -100,7 +147,8 @@ public class Net {
     /** Conexión configurada (TLS 1.2 y raíces actuales en Android 4.x) para descargas grandes por partes. */
     public static HttpURLConnection open(String url, int timeoutMs) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
-        if (c instanceof HttpsURLConnection && factory != null) ((HttpsURLConnection) c).setSSLSocketFactory(factory);
+        SSLSocketFactory f = factoryFor(url);
+        if (c instanceof HttpsURLConnection && f != null) ((HttpsURLConnection) c).setSSLSocketFactory(f);
         c.setConnectTimeout(timeoutMs);
         c.setReadTimeout(timeoutMs);
         c.setRequestProperty("User-Agent", "StradaOS (Android head unit launcher; offline maps)");
