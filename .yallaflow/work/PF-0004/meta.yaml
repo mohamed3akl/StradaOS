@@ -1,0 +1,38 @@
+{
+  "id": "PF-0004",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Radio controls in the home-screen music player: play/stop and previous/next station without opening the radio app",
+  "status": "VERIFICATION",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-19T09:05:33.021Z",
+  "updatedAt": "2026-11-19T09:36:38.473Z",
+  "title": "Radio controls in the home-screen music player: play/stop and previous/next station without opening the radio app",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-11-19T09:05:33.057Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "lastInvalidationAt": "2026-11-19T09:31:38.664Z"
+}

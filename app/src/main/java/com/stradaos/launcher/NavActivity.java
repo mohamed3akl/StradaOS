@@ -52,6 +52,18 @@ public class NavActivity extends Activity implements Nav.Listener {
     private EditText query;
     private LinearLayout results;
     private TextView statusTv;
+    private TextView attrTv;
+
+    /** Atribución según el servicio que se usó de verdad (HERE u OpenStreetMap); antes de usarlo, según la clave. */
+    private String attribution() {
+        boolean key = Nav.hereKey(this).length() > 0;
+        boolean sHere = Nav.searchBy != null ? "here".equals(Nav.searchBy) : key;
+        boolean rHere = Nav.routeBy != null ? "here".equals(Nav.routeBy) : key;
+        if (sHere && rHere) return "Búsqueda y rutas: HERE · © HERE";
+        if (!sHere && !rHere) return "Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap";
+        return I18n.t(sHere ? "Búsqueda: HERE" : "Búsqueda: Nominatim") + " · " + I18n.t(rHere ? "Rutas: HERE" : "Rutas: OSRM")
+                + " · " + I18n.t("© HERE y colaboradores de OpenStreetMap");
+    }
 
     @Override
     protected void onCreate(Bundle b) {
@@ -156,7 +168,7 @@ public class NavActivity extends Activity implements Nav.Listener {
         row.setGravity(Gravity.CENTER_VERTICAL);
         query = new EditText(this);
         query.setSingleLine(true);
-        query.setHint(I18n.t("Lugar, dirección o negocio"));
+        query.setHint(I18n.t("Lugar, dirección, negocio o coordenadas"));
         query.setTextColor(Main.TEXT);
         query.setHintTextColor(Main.MUTED);
         query.setTextSize(TypedValue.COMPLEX_UNIT_PX, 17 * s);
@@ -183,8 +195,8 @@ public class NavActivity extends Activity implements Nav.Listener {
         LinearLayout.LayoutParams svlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
         svlp.topMargin = px(6);
         searchBox.addView(sv, svlp);
-        TextView attr = tv("Búsqueda y rutas: Nominatim y OSRM · © colaboradores de OpenStreetMap", 11, Main.MUTED, false);
-        searchBox.addView(attr, lpTop(6));
+        attrTv = tv(attribution(), 11, Main.MUTED, false);
+        searchBox.addView(attrTv, lpTop(6));
         FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(px(470), ViewGroup.LayoutParams.MATCH_PARENT);
         slp.leftMargin = slp.topMargin = slp.bottomMargin = px(14);
         root.addView(searchBox, slp);
@@ -204,6 +216,7 @@ public class NavActivity extends Activity implements Nav.Listener {
 
     public void onNav() {
         if (nav.last != null) feed(nav.last);
+        if (attrTv != null) attrTv.setText(I18n.t(attribution()));
         boolean searching = nav.state == Nav.IDLE || nav.state == Nav.ERROR || nav.state == Nav.ARRIVED;
         if (!searching) panelHidden = false;          // la próxima búsqueda vuelve a abrir el panel
         searchBox.setVisibility(searching && !panelHidden ? View.VISIBLE : View.GONE);
@@ -268,8 +281,13 @@ public class NavActivity extends Activity implements Nav.Listener {
         nav.search(q, new Nav.SearchCb() { public void onResult(List<Nav.Place> places, String error) {
             if (isFinishing()) return;
             results.removeAllViews();
+            attrTv.setText(I18n.t(attribution()));
             if (error != null) { statusTv.setText(I18n.lines(error)); return; }
-            if (places.isEmpty()) { statusTv.setText(I18n.t("No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.")); return; }
+            if (places.isEmpty()) {
+                statusTv.setText(I18n.lines("No encontré ese lugar. Prueba con otro nombre o agrega la ciudad.\n"
+                        + "Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí."));
+                return;
+            }
             statusTv.setText("");
             for (Nav.Place p : places) addPlace(p, "location_on");
         }});

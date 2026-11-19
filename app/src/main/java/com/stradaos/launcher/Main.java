@@ -286,6 +286,11 @@ public class Main extends Activity {
         if (top == null) return;
         if (top.equals(BtBridge.PKG)) btRouted = true;
         else for (String p : OTHER_SOURCES) if (p.equals(top)) { if (btRouted) BtBridge.log("otra fuente al frente: " + top); btRouted = false; }
+        // la radio: si su app pasó al frente, el sonido es de la radio; si fue otra app de fuente, ya no
+        ComponentName rc = radioApp();
+        if (rc != null && top.equals(rc.getPackageName())) radioRouted = true;
+        else if (top.equals(BtBridge.PKG)) radioRouted = false;
+        else for (String p : OTHER_SOURCES) if (p.equals(top)) radioRouted = false;
     }
 
     /** El celular empezó a sonar por Bluetooth. */
@@ -328,6 +333,160 @@ public class Main extends Activity {
         return r == null ? null : new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
     }
 
+    // ───────────────────────── radio en el reproductor ─────────────────────────
+    //
+    // Las radios de fábrica no tienen una API estándar. En modo radio, los botones del reproductor:
+    //  ▶  manda «play» a la app de la radio; si su app no fue la última fuente al frente (en Clinkway el sonido sigue a
+    //     la última app de fuente que pasó al frente), la abre ~2 s y vuelve, igual que con el audio Bluetooth.
+    //  ■  manda «pausa» y StradaOS toma el foco de audio, así las radios que respetan el foco se callan.
+    //  ⏮⏭ mandan anterior/siguiente: en las radios de fábrica es la emisora guardada anterior/siguiente.
+
+    private boolean radioMode;
+    /** Lo que StradaOS cree: la radio está sonando (se pidió ▶ y no se pidió ■ después). */
+    private boolean radioOn;
+    /** La app de la radio fue la última app de fuente al frente: el sistema le dio el sonido. */
+    private boolean radioRouted;
+    private FrameLayout radioBtn;
+    private boolean radioHoldsFocus;
+    private final AudioManager.OnAudioFocusChangeListener radioFocus = new AudioManager.OnAudioFocusChangeListener() {
+        public void onAudioFocusChange(int f) { if (f == AudioManager.AUDIOFOCUS_LOSS) radioHoldsFocus = false; }
+    };
+
+    /** App de la radio: la elegida para el botón «Radio» o la que se detecta por el nombre (com.clw.fmam en Clinkway). */
+    private ComponentName radioApp() {
+        String c = prefs.getString("radio", null);
+        if (c != null) {
+            ComponentName cn = ComponentName.unflattenFromString(c);
+            if (cn != null) return cn;
+        }
+        ResolveInfo r = find(SLOTS[0][2], SLOTS[0][3]);
+        return r == null ? null : new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
+    }
+
+    private void setRadioMode(boolean on) {
+        radioMode = on;
+        prefs.edit().putBoolean("radio_mode", on).apply();
+        if (radioBtn != null) ((GradientDrawable) radioBtn.getBackground()).setColor(on ? RED : BTN);
+        // al salir del modo radio no se suelta el foco: si se calló con ■, que no vuelva a sonar sola
+        if (on) {
+            trackSource();
+            radioOn = radioRouted && !radioHoldsFocus;   // si la radio ya tenía el sonido, se asume que suena
+            if (radioApp() == null) { toast("Elige la app de la radio"); pickFor("radio", "Radio"); }
+            else toast("Modo radio: los botones controlan la radio");
+        }
+        renderTrack();
+    }
+
+    private void radioCommand(int which) {
+        ComponentName cn = radioApp();
+        if (cn == null) { toast("Elige la app de la radio"); pickFor("radio", "Radio"); return; }
+        trackSource();
+        if (which == 0) {
+            if (radioOn) radioStop(cn); else radioPlay(cn);
+        } else {
+            int code = which > 0 ? KeyEvent.KEYCODE_MEDIA_NEXT : KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+            radioKey(cn, code);
+            BtBridge.log("radio: " + (which > 0 ? "siguiente" : "anterior") + " emisora → " + cn.getPackageName() + (radioRouted ? " (con el sonido)" : ""));
+        }
+        renderTrack();
+    }
+
+    private void radioPlay(ComponentName cn) {
+        releaseRadioFocus();                          // si la callamos con ■, le devolvemos el foco
+        radioOn = true;
+        if (radioRouted) {
+            radioKey(cn, KeyEvent.KEYCODE_MEDIA_PLAY);
+            BtBridge.log("radio: play → " + cn.getPackageName());
+        } else {
+            radioKey(cn, KeyEvent.KEYCODE_MEDIA_PLAY);
+            openRadioBriefly(cn);                     // el sonido pasa a la radio al poner su app al frente
+        }
+    }
+
+    private void radioStop(ComponentName cn) {
+        radioOn = false;
+        radioKey(cn, KeyEvent.KEYCODE_MEDIA_PAUSE);
+        try {
+            AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+            radioHoldsFocus = am.requestAudioFocus(radioFocus, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+                    == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+        } catch (Throwable ignored) { }
+        BtBridge.log("radio: stop → " + cn.getPackageName() + (radioHoldsFocus ? " (foco tomado)" : ""));
+    }
+
+    private void releaseRadioFocus() {
+        if (!radioHoldsFocus) return;
+        try { ((AudioManager) getSystemService(AUDIO_SERVICE)).abandonAudioFocus(radioFocus); } catch (Throwable ignored) { }
+        radioHoldsFocus = false;
+    }
+
+    /**
+     * Tecla multimedia para la radio: dirigida a los receptores de su paquete y, si la radio tiene el sonido, también
+     * por el sistema (como los botones del volante). Si no tiene el sonido no se manda por el sistema: iría a otra app.
+     */
+    private void radioKey(ComponentName cn, int code) {
+        long t = SystemClock.uptimeMillis();
+        for (int a : new int[]{KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP}) {
+            Intent i = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            i.setPackage(cn.getPackageName());
+            i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(t, t, a, code, 0));
+            try { sendBroadcast(i); } catch (Throwable ignored) { }
+        }
+        if (radioRouted) sendMediaKey(code);
+    }
+
+    /** Abre la radio un instante para que tome el sonido y regresa a donde estaba el usuario (como con el Bluetooth). */
+    private void openRadioBriefly(final ComponentName cn) {
+        final String top = topPackage();
+        int backTask = -1;
+        try {
+            android.app.ActivityManager am = (android.app.ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            List<android.app.ActivityManager.RunningTaskInfo> t = am.getRunningTasks(1);
+            if (top != null && !top.equals(getPackageName()) && !top.equals(cn.getPackageName()) && t != null && !t.isEmpty()) backTask = t.get(0).id;
+        } catch (Throwable ignored) { }
+        final int back = backTask;
+        try {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            i.setComponent(cn);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            startActivity(i);
+            radioRouted = true;
+            btRouted = false;
+            BtBridge.log("radio: abierta " + cn.getPackageName() + " para tomar el sonido");
+        } catch (Throwable e) {
+            radioOn = false;
+            toast("No se pudo abrir la app");
+            return;
+        }
+        h.postDelayed(new Runnable() { public void run() {
+            String now = topPackage();
+            if (now != null && !now.equals(cn.getPackageName())) { BtBridge.log("radio: no se volvió, el usuario abrió " + now); return; }
+            // a la tarea de antes (otra app) o a la de StradaOS; startActivity solo trae StradaOS si es la pantalla de
+            // inicio predeterminada (probado en emulador 4.4: si no lo es, Android no la trae al frente)
+            try {
+                ((android.app.ActivityManager) getSystemService(ACTIVITY_SERVICE)).moveTaskToFront(back >= 0 ? back : getTaskId(), 0);
+                return;
+            } catch (Throwable ignored) { }
+            try {
+                startActivity(new Intent(Main.this, Main.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            } catch (Throwable ignored) { }
+        }}, prefs.getInt("bt_return_ms", clwBt ? 2000 : 2500));
+    }
+
+    /** Reproductor en modo radio: «RADIO», la emisora si la radio la avisa, y una pista de qué hacen los botones. */
+    private void renderRadio() {
+        String src = curSource == null ? "" : curSource.toLowerCase(ES);
+        boolean station = curTitle != null && (src.contains("radio") || src.contains("fm"));
+        trackTv.setText(station ? curTitle : I18n.t("Radio"));
+        artistTv.setText(I18n.t(radioOn ? "Anterior y siguiente cambian de emisora" : "Toca ▶ para escuchar la radio"));
+        sourceTv.setText(I18n.t("Radio").toUpperCase(I18n.loc));
+        timePosTv.setText("");
+        playerArt.setArt(null);
+        playerArt.setProgress(-1);
+        if (playIc != null) playIc.setImageBitmap(asset(radioOn ? "ic/pause.png" : "ic/play_arrow.png"));
+    }
+
     /** Abre la app de música Bluetooth un instante (para que tome el sonido) y regresa a donde estaba el usuario. */
     private void openBtAudioApp(boolean manual) {
         final String top = topPackage();
@@ -361,6 +520,7 @@ public class Main extends Activity {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             startActivity(i);
             btRouted = true;
+            radioRouted = false;
             BtBridge.activations++;
             BtBridge.log("abierta " + cn.getPackageName() + " para tomar el sonido" + (back >= 0 ? " (luego vuelve a " + top + ")" : ""));
         } catch (Throwable e) {
@@ -1936,7 +2096,15 @@ public class Main extends Activity {
         sourceTv.setGravity(Gravity.RIGHT);
         sourceTv.setSingleLine(true);
         sourceTv.setPadding(0, 0, (int) (4 * s), 0);   // la última letra en negrita se recortaba en Android 11
-        place(card, sourceTv, 70, 14, audW - 88, 18);   // ancho de sobra: en Android 11 «BLUETOOTH» salía cortado
+        place(card, sourceTv, 70, 14, audW - 88 - 40, 18);   // ancho de sobra: en Android 11 «BLUETOOTH» salía cortado
+        // botón de la radio: pasa el reproductor a «modo radio» (▶/■ y ⏮⏭ controlan la radio sin abrirla)
+        radioMode = prefs.getBoolean("radio_mode", false);
+        radioBtn = circleIcon("radio", 34, 18, radioMode ? RED : BTN);
+        place(card, radioBtn, audW - 52, 6, 34, 34);
+        radioBtn.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { setRadioMode(!radioMode); } });
+        radioBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) { pickFor("radio", "Radio"); return true; }
+        });
         playerArt = new PlayerArt(this, s, asset("ic/music_note.png"));
         // Tarjeta alta (barra lateral): diseño vertical que llena el alto en vez de dejar espacio vacío (Andrés, Picanto)
         tallPlayer = cardH - 380 >= 60;
@@ -2322,6 +2490,7 @@ public class Main extends Activity {
      * y, si no, el reproductor integrado de StradaOS (música de la USB, la SD y la memoria).
      */
     private void openMusicApp() {
+        if (radioMode) { openSlot(0); return; }       // modo radio: tocar la tarjeta abre la radio
         if (launchSaved("music_app")) return;
         if ("Android Auto".equals(curSource) && launchPkg(PKG_HUR)) return;
         if (launchPkg("com.anghami")) return;            // Anghami instalado (pantallas con Android más nuevo)
@@ -2576,6 +2745,9 @@ public class Main extends Activity {
                 int which = code == KeyEvent.KEYCODE_MEDIA_NEXT ? 1 : code == KeyEvent.KEYCODE_MEDIA_PREVIOUS ? -1 : 0;
                 boolean done = false;
 
+                // modo radio: los botones controlan la radio de fábrica
+                if (radioMode) { radioCommand(which); return; }
+
                 // reproductor integrado: lo controla directamente
                 LocalPlayer lp = LocalPlayer.get(Main.this);
                 if ("local".equals(curOrigin) && lp.hasTrack()) {
@@ -2666,7 +2838,7 @@ public class Main extends Activity {
     private void updatePlayIcon() {
         if (playIc == null) return;
         AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
-        boolean on = playingState != null ? playingState : am.isMusicActive();
+        boolean on = radioMode ? radioOn : playingState != null ? playingState : am.isMusicActive();
         playIc.setImageBitmap(asset(on ? "ic/pause.png" : "ic/play_arrow.png"));
     }
 
@@ -2900,6 +3072,7 @@ public class Main extends Activity {
 
     private void renderTrack() {
         if (trackTv == null) return;
+        if (radioMode) { renderRadio(); return; }
         if (curTitle == null && curArtist == null) {
             trackTv.setText(I18n.t("Nada sonando"));
             artistTv.setText(I18n.t("Radio, Bluetooth o USB"));
@@ -3022,10 +3195,28 @@ public class Main extends Activity {
                     }
                     builtW = 0;
                     build(root.getWidth(), root.getHeight());
+                    if ("here_key".equals(key)) checkHereKey(et.getText().toString().trim());
                 }
             })
             .setNegativeButton("Cancelar", null)
             .show();
+    }
+
+    /** Tras guardar la clave de HERE: la prueba con una búsqueda pequeña y dice si funciona. */
+    private void checkHereKey(final String key) {
+        if (settingsView != null) showSettings(5);
+        if (key.length() == 0) { toast("Navegación con OpenStreetMap"); return; }
+        toast("Probando la clave de HERE…");
+        new Thread(new Runnable() { public void run() {
+            final String err = Nav.testHereKey(key);
+            h.post(new Runnable() { public void run() {
+                if (isFinishing()) return;
+                if (err == null) toast("La clave de HERE funciona");
+                else new TB(Main.this, dlg()).setTitle("La clave de HERE no funcionó")
+                    .setMessage(I18n.t(err) + "\n\n" + I18n.t("Mientras tanto, la navegación usa OpenStreetMap."))
+                    .setPositiveButton("OK", null).show();
+            }});
+        }}).start();
     }
 
     // ───────────────────────── universal: asistente, color, foto, CarPlay ─────────────────────────
@@ -3966,6 +4157,10 @@ public class Main extends Activity {
         LinearLayout nv = section(body, "Navegación");
         row(nv, "App de navegación preferida", "Se abre con el botón del mapa (Waze, Maps, OsmAnd…)", autoLabel("nav_app", NAV_PKGS, "Toca para elegir"),
             new Runnable() { public void run() { pickFor("nav_app", "Navegación"); } });
+        String hk = Nav.hereKey(this);
+        row(nv, "Clave de HERE (API key)", "Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap",
+            hk.length() == 0 ? "Sin clave" : I18n.t("Configurada") + " (…" + hk.substring(Math.max(0, hk.length() - 4)) + ")",
+            edit("here_key", "Clave de API de HERE (vacío = OpenStreetMap)", ""));
         LinearLayout m = section(body, "Mapa");
         segmented(m, "Brillo del mapa", "Solo en modo oscuro", new String[]{"Bajo", "Medio", "Alto"}, prefs.getInt("map_bright", 1), new IntCb() { public void on(int i) {
             prefs.edit().putInt("map_bright", i).apply(); rebuild();

@@ -1,0 +1,577 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "facts": [
+    {
+      "id": "BF-001",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "StradaOS is a free, ad-free, open-source (GPL-3.0) Android home-screen launcher for car head units, installed as a normal app without flashing; it targets old head units that report 'Android 6' but run Android 4.x, and also modern screens.",
+      "evidence": [
+        "README.md",
+        "LICENSE"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-002",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "Single Gradle Android application module ':app' (package com.stradaos.launcher, versionName 2.16.0, versionCode 46); the debug build type uses applicationIdSuffix '.debug' and label 'StradaOS Prueba' so it installs side by side with the release.",
+      "evidence": [
+        "settings.gradle",
+        "app/build.gradle"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-003",
+      "area": "tech-stack",
+      "status": "confirmed",
+      "summary": "Plain Java 8 Android app with no external library dependencies (no AndroidX, no Play Services); minSdk 16, targetSdk 28 (deliberately), compileSdk 35, Android Gradle Plugin 8.7.3, Gradle 8.11.1 wrapper, JDK 17 toolchain.",
+      "evidence": [
+        "app/build.gradle",
+        "build.gradle",
+        "gradle/wrapper/gradle-wrapper.properties",
+        "gradle.properties",
+        "CONTRIBUTING.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-004",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "Code rules: everything must run on Android 4.1 (API 16) with newer APIs behind SDK_INT checks; Java 8 without lambdas and without java.util.Objects or StandardCharsets; no Google Play Services (to stay F-Droid eligible).",
+      "evidence": [
+        "CONTRIBUTING.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-005",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "The UI is built entirely in code (no XML layouts) on a virtual 1024x600 canvas that is scaled to the screen (Main.place()); Main.java (~5,500 lines) holds the home screen, settings, wizard and dialogs.",
+      "evidence": [
+        "CONTRIBUTING.md",
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-006",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "Main supporting classes: LiveMapView (online tile map), OfflineMap (mapsforge .map reader adapted, LGPL-3.0), MapDownload (country map download), NowPlaying/MediaWatcher/BtBridge/NotifArt/MediaListener (now-playing from Android 4.x, MediaSession, factory Bluetooth app and Open Headunit notifications), Weather, Updates, Net (TLS 1.2 + bundled roots on Android 4.x), CarPhoto, Guard (crash log), Diag, I18n/TB (translation and dialogs), plus a vendored QR generator (io.nayuki.qrcodegen, MIT).",
+      "evidence": [
+        "CONTRIBUTING.md",
+        "app/src/main/java/com/stradaos/launcher/OfflineMap.java",
+        "app/src/main/java/com/stradaos/launcher/Net.java",
+        "app/src/main/java/io/nayuki/qrcodegen/QrCode.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-007",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "Hidden Android 4.0-4.3 API IRemoteControlDisplay is used for now-playing: a compile-only stub (src/hiddenapi) is never packaged; RcDisplay (src/legacy) is compiled against it into stradaos-legacy-rc.jar that is packaged and loaded by reflection.",
+      "evidence": [
+        "app/build.gradle",
+        "app/src/legacy/java/com/stradaos/launcher/RcDisplay.java",
+        "app/src/hiddenapi/java/android/media/IRemoteControlDisplay.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-008",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "Android entry points: Main (HOME/LAUNCHER, singleTask), FakeHome (disabled HOME activity used to trigger the launcher chooser on Android 4-9), BootReceiver (optional open on boot via 'boot_open'), NotifArt accessibility service (Android Auto artwork), MediaListener notification listener, MusicActivity + MusicService, NavActivity, and ApkProvider (non-exported content provider for installing APKs).",
+      "evidence": [
+        "app/src/main/AndroidManifest.xml",
+        "app/src/main/java/com/stradaos/launcher/BootReceiver.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-009",
+      "area": "database",
+      "status": "confirmed",
+      "summary": "No database: settings live in SharedPreferences file 'launcher' (and 'local_player' for the built-in music player); map tiles are cached on device and offline maps are .map files in Download/StradaOS (Android 9 and below) or the app folder (Android 10+).",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Main.java",
+        "app/src/main/java/com/stradaos/launcher/LocalPlayer.java",
+        "app/src/main/java/com/stradaos/launcher/MapDownload.java",
+        "docs/ESTADO_PROYECTO.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-010",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "There are no user accounts, login, ads or analytics; nothing is sent to project-owned servers.",
+      "evidence": [
+        "PRIVACY.md",
+        "README.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-011",
+      "area": "environment",
+      "status": "confirmed",
+      "summary": "No in-app roles; the app relies on Android permissions (location, storage, Bluetooth/Wi-Fi state and admin, GET_TASKS/REORDER_TASKS, install/delete packages, boot completed) and optional accessibility and notification-listener access.",
+      "evidence": [
+        "app/src/main/AndroidManifest.xml",
+        "PRIVACY.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-012",
+      "area": "integration",
+      "status": "confirmed",
+      "summary": "Network services used: OSM community tile servers, OpenTopoMap and Esri for the live map; Open-Meteo (and BigDataCloud for the city name) for weather; download.mapsforge.org for offline maps; GitHub API, raw.githubusercontent and jsDelivr for update checks.",
+      "evidence": [
+        "PRIVACY.md",
+        "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+        "app/src/main/java/com/stradaos/launcher/Weather.java",
+        "app/src/main/java/com/stradaos/launcher/MapDownload.java",
+        "app/src/main/java/com/stradaos/launcher/Updates.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-013",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Turn-by-turn navigation (Nav, NavActivity) was added in this fork: destination search via Nominatim and Photon, car routes via OSRM servers (routing.openstreetmap.de, router.project-osrm.org, with http fallbacks), guided by GPS with rerouting off-route; the map itself stays StradaOS's offline or live map.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "app/src/main/java/com/stradaos/launcher/NavActivity.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-014",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "A built-in music player (LocalPlayer, MusicActivity, MusicService) was added in this fork: it scans USB, SD card and internal storage for audio files (mp3, m4a, aac, flac, ogg, opus, wav, 3gp, mka; up to 8000 files, depth 7) and feeds the home-screen player card.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/LocalPlayer.java",
+        "app/src/main/java/com/stradaos/launcher/MusicActivity.java",
+        "app/src/main/java/com/stradaos/launcher/MusicService.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-015",
+      "area": "integration",
+      "status": "confirmed",
+      "summary": "This fork bundles the Open Headunit (headunit-revived) APK (~21 MB) as an app asset; StradaOS can copy it out and launch the system installer to set up Android Auto.",
+      "evidence": [
+        "app/src/main/assets/apps/headunit-revived.apk",
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-016",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Updates are trusted only if the version string is digits and dots (Updates.safeVersion), the APK URL starts with the upstream Releases prefix (Updates.APK_PREFIX), and the downloaded APK has the same package and signature (Main.verifyApk).",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Updates.java",
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-017",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Oil-change reminder keeps all values in km in prefs (odo_base_km, oil_last_km, oil_interval_km, oil_snooze_km) with GPS distance accumulated in odo_gps_m; km/h vs mph is a display preference (speed_unit).",
+      "evidence": [
+        "docs/ESTADO_PROYECTO.md",
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-018",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "Source text is written in Spanish and translated at display time: assets/i18n/<lang>.txt holds 'spanish<TAB>translation' lines with {} placeholders; missing lines fall back to Spanish. Languages: es (source), en, pt, it, de, ms, ar; values-xx/strings.xml only covers system-facing labels.",
+      "evidence": [
+        "CONTRIBUTING.md",
+        "app/src/main/java/com/stradaos/launcher/I18n.java",
+        "app/src/main/assets/i18n/en.txt",
+        "app/src/main/assets/i18n/ar.txt"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-019",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "Code comments, commit messages, docs, CI workflow names and test-hook names are in Spanish (upstream author); newer fork commits are in English.",
+      "evidence": [
+        "docs/ESTADO_PROYECTO.md",
+        ".github/workflows/pruebas.yml"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-020",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "There are no unit tests (no src/test or src/androidTest); testing is emulator smoke tests (pruebas.yml running .github/scripts/smoke.sh on API 16, 19, 21, 23/24, 28, 30, 34 at 1024x600, failing on crashes or hangs), plus manual testing on phones and real head units. Debug builds accept '--es prueba <value>' intent extras (Main.testHook) to open screens without tapping.",
+      "evidence": [
+        "docs/PRUEBAS.md",
+        ".github/workflows/pruebas.yml",
+        ".github/scripts/smoke.sh",
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-021",
+      "area": "environment",
+      "status": "confirmed",
+      "summary": "GitHub Actions: android.yml builds the debug APK on each push/PR and publishes it to the moving 'prueba' prerelease; release.yml builds a signed release when versionName changes (or on a vX.Y.Z tag), creates the GitHub Release from changelogs/X.Y.Z.md, rewrites update.json on main and purges jsDelivr; pages.yml publishes site/ to GitHub Pages; other workflows (mapa, capturas, instalador, salida, ajustes-emulador, bloque5) are targeted emulator/screenshot jobs.",
+      "evidence": [
+        ".github/workflows/android.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/pages.yml",
+        "CONTRIBUTING.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-022",
+      "area": "environment",
+      "status": "confirmed",
+      "summary": "Release signing reads STRADAOS_KEYSTORE, STRADAOS_KEYSTORE_PASSWORD, STRADAOS_KEY_ALIAS and STRADAOS_KEY_PASSWORD from the environment (CI secrets KEYSTORE_BASE64 etc.); without them the release APK is unsigned (as F-Droid needs). V1 signing is kept on because Android 4.x only understands it.",
+      "evidence": [
+        "app/build.gradle",
+        ".github/workflows/release.yml"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-023",
+      "area": "environment",
+      "status": "confirmed",
+      "summary": "The in-app updater and release links are hard-coded to the upstream repository owner 'lordnordic-debug' (Updates.OWNER), while this checkout's git remote is a fork; fork builds therefore check and offer upstream releases.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Updates.java",
+        "update.json"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-024",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "A static project website lives in site/ (index.html, i18n.js with ES/EN/PT/MS, images) and is published by pages.yml; store metadata for F-Droid style listings is under fastlane/metadata/android (en-US, es-ES).",
+      "evidence": [
+        "site/index.html",
+        "site/i18n.js",
+        ".github/workflows/pages.yml",
+        "fastlane/metadata/android/en-US/full_description.txt"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-025",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "The whole Gradle build output directory app/build/ (about 1,400 files) is committed to git even though .gitignore lists build/, so every build produces large noisy diffs; a 17 MB test APK (StradaOS-2.16.0-prueba.apk) is also committed at the repository root.",
+      "evidence": [
+        ".gitignore",
+        "StradaOS-2.16.0-prueba.apk",
+        "app/build/intermediates/apk_ide_redirect_file/debug/createDebugApkListingFileRedirect/redirect.txt"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-026",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "The manifest allows cleartext traffic and several services have http fallbacks (weather, map download, OSRM routing, jsDelivr updates) for Android 4.x TLS limits; update downloads remain protected by the signature check.",
+      "evidence": [
+        "app/src/main/AndroidManifest.xml",
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "app/src/main/java/com/stradaos/launcher/Weather.java",
+        "app/src/main/java/com/stradaos/launcher/MapDownload.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-027",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "PRIVACY.md and the README do not yet mention the fork's new network services (Nominatim, Photon and OSRM for navigation) or the bundled Open Headunit APK, and the README still says the app weighs under 1 MB.",
+      "evidence": [
+        "PRIVACY.md",
+        "README.md",
+        "app/src/main/java/com/stradaos/launcher/Nav.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-028",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Head-unit vendor specifics: on Clinkway/Autochips units StradaOS binds the factory Bluetooth music service (com.clw.btmusic) to detect play state and briefly brings its screen to the front so audio routes to Bluetooth; Android Auto connection is detected via USB accessory mode (VID 0x18D1) or recent Open Headunit notifications.",
+      "evidence": [
+        "docs/ESTADO_PROYECTO.md",
+        "app/src/main/java/com/stradaos/launcher/BtBridge.java"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-029",
+      "area": "project",
+      "status": "unresolved",
+      "summary": "Whether this fork intends to publish its own releases (own signing key, own update source, own Releases URL) or to contribute changes back upstream cannot be established from the repository.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Updates.java",
+        "update.json"
+      ],
+      "source": "repository"
+    }
+  ],
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "not-inspected",
+      "area": "architecture",
+      "summary": "Main.java (~5,500 lines) was sampled by search, not read in full; settings screens, wizard and layout code are known mainly from docs.",
+      "reason": "Size; bootstrap discovery focused on structure and contracts.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    },
+    {
+      "id": "DL-002",
+      "type": "not-inspected",
+      "area": "architecture",
+      "summary": "OfflineMap, LiveMapView, NowPlaying, MediaWatcher, BtBridge, CarPhoto and the site/ JavaScript were identified by headers and docs, not read line by line.",
+      "reason": "Bootstrap scope.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    },
+    {
+      "id": "DL-003",
+      "type": "not-inspected",
+      "area": "environment",
+      "summary": "The secondary workflows (mapa, mapa-emulador, capturas, instalador, salida, ajustes-emulador, bloque5) and their scripts were not read.",
+      "reason": "Only the main build, release and test workflows were inspected.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    },
+    {
+      "id": "DL-004",
+      "type": "not-inspected",
+      "area": "project",
+      "summary": "Per-version changelogs, fastlane changelogs and F-Droid/IzzyOnDroid submission docs were not read.",
+      "reason": "History, not current behavior.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    },
+    {
+      "id": "DL-005",
+      "type": "runtime-unavailable",
+      "area": "testing",
+      "summary": "No build, emulator run or device test was performed during discovery; facts about behavior come from code and docs.",
+      "reason": "Discovery is read-only; no runtime was started.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    },
+    {
+      "id": "DL-006",
+      "type": "insufficient-evidence",
+      "area": "testing",
+      "summary": "The fork's new features (navigation, local music player, bundled Open Headunit) are not mentioned in docs/PRUEBAS.md or the smoke script, so whether CI covers them was not established.",
+      "reason": "Smoke script not read in full.",
+      "recordedAt": "2026-11-19T07:42:14.346Z"
+    }
+  ],
+  "coverage": {
+    "inspected": [
+      "README.md",
+      "CONTRIBUTING.md",
+      "PRIVACY.md",
+      "docs/ESTADO_PROYECTO.md",
+      "docs/PRUEBAS.md",
+      "build.gradle",
+      "app/build.gradle",
+      "settings.gradle",
+      "gradle.properties",
+      "app/src/main/AndroidManifest.xml",
+      ".gitignore",
+      ".github/workflows/android.yml",
+      ".github/workflows/release.yml",
+      "update.json",
+      "git history (recent commits)"
+    ],
+    "sampled": [
+      "app/src/main/java/com/stradaos/launcher (headers, grep)",
+      ".github/workflows/pruebas.yml",
+      "app/src/main/java/com/stradaos/launcher/Main.java",
+      "app/src/main/assets"
+    ]
+  },
+  "brief": {
+    "summary": {
+      "text": "StradaOS is an open-source Android home screen for car head units, built to run even on old Android 4.x radios.",
+      "facts": [
+        "BF-001",
+        "BF-003"
+      ]
+    },
+    "users": [
+      {
+        "text": "Drivers with aftermarket Android car screens, including cheap units that really run Android 4.x.",
+        "facts": [
+          "BF-001"
+        ]
+      }
+    ],
+    "capabilities": [
+      {
+        "text": "Home screen with live or offline map, speedometer, weather and an oil-change reminder.",
+        "facts": [
+          "BF-012",
+          "BF-017"
+        ]
+      },
+      {
+        "text": "Shows and controls what is playing from Bluetooth, Android Auto or other music apps.",
+        "facts": [
+          "BF-006",
+          "BF-028"
+        ]
+      },
+      {
+        "text": "This fork adds turn-by-turn navigation using free OpenStreetMap search and routing services.",
+        "facts": [
+          "BF-013"
+        ]
+      },
+      {
+        "text": "This fork adds a built-in music player for files on USB, SD card or internal storage.",
+        "facts": [
+          "BF-014"
+        ]
+      },
+      {
+        "text": "This fork ships Open Headunit inside the app so Android Auto can be installed from the launcher.",
+        "facts": [
+          "BF-015"
+        ]
+      },
+      {
+        "text": "Checks for updates and only installs ones signed with the same key.",
+        "facts": [
+          "BF-016"
+        ]
+      }
+    ],
+    "components": [
+      {
+        "text": "One Android app written in plain Java with no outside libraries, drawing its whole interface in code.",
+        "facts": [
+          "BF-003",
+          "BF-005"
+        ]
+      },
+      {
+        "text": "Settings are stored on the device; there is no server and no account.",
+        "facts": [
+          "BF-009",
+          "BF-010"
+        ]
+      },
+      {
+        "text": "GitHub Actions builds test and release versions and runs crash checks on emulators.",
+        "facts": [
+          "BF-020",
+          "BF-021"
+        ]
+      }
+    ],
+    "worthKnowing": [
+      {
+        "text": "Build output and a large test APK are committed to git, so every build makes big diffs.",
+        "facts": [
+          "BF-025"
+        ]
+      },
+      {
+        "text": "The in-app updater still points to the original project, not this fork.",
+        "facts": [
+          "BF-023"
+        ]
+      },
+      {
+        "text": "The privacy notes and README do not cover the new navigation services or the bundled Android Auto app.",
+        "facts": [
+          "BF-027"
+        ]
+      },
+      {
+        "text": "There are no automated unit tests; checks are emulator smoke runs and manual testing.",
+        "facts": [
+          "BF-020"
+        ]
+      },
+      {
+        "text": "It is not yet clear whether this fork will publish its own releases or send changes upstream.",
+        "facts": [
+          "BF-029"
+        ]
+      }
+    ]
+  },
+  "suggestions": [
+    {
+      "title": "Stop tracking build output and the test APK in git",
+      "why": "app/build and a 17 MB APK are committed despite .gitignore, creating noisy diffs on every build.",
+      "type": "change",
+      "facts": [
+        "BF-025"
+      ]
+    },
+    {
+      "title": "Point the updater at this fork (or disable it)",
+      "why": "Fork builds currently check and offer upstream releases signed with a different key.",
+      "type": "change",
+      "facts": [
+        "BF-023",
+        "BF-029"
+      ]
+    },
+    {
+      "title": "Update privacy notes and README for navigation and bundled Open Headunit",
+      "why": "New network services and a ~21 MB bundled APK are not disclosed.",
+      "type": "change",
+      "facts": [
+        "BF-027"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "action": "drafted",
+      "at": "2026-11-19T07:42:14.346Z",
+      "factCount": 29
+    },
+    {
+      "action": "approved",
+      "at": "2026-11-19T07:43:22.946Z",
+      "note": "Approved by Mohamed Akl in the agent session: Approve"
+    }
+  ],
+  "draftedAt": "2026-11-19T07:42:14.346Z",
+  "updatedAt": "2026-11-19T07:43:22.946Z",
+  "approvedAt": "2026-11-19T07:43:22.946Z"
+}

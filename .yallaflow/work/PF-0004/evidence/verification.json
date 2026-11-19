@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T09:23:42.035Z",
+      "finishedAt": "2026-11-19T09:24:44.163Z",
+      "verifiedAt": "2026-11-19T09:24:44.163Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/radio_emu_test.sh",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/radio_emu_test.sh"
+      ],
+      "displayCommand": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/radio_emu_test.sh",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T09:37:51.342Z",
+      "finishedAt": "2026-11-19T09:38:05.365Z",
+      "verifiedAt": "2026-11-19T09:38:05.365Z",
+      "log": "V-002-verification.log"
+    },
+    {
+      "id": "V-003",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T09:38:36.378Z",
+      "finishedAt": "2026-11-19T09:39:03.223Z",
+      "verifiedAt": "2026-11-19T09:39:03.223Z",
+      "log": "V-003-verification.log"
+    }
+  ]
+}

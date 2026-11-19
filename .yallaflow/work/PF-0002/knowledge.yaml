@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Turn-by-turn navigation (Nav, NavActivity): with a HERE API key in the 'here_key' pref (Settings > Map and weather > Navigation), destination search uses HERE Discover/Geocode and car routes use HERE Routing v8 (traffic-aware, flexible polyline, turnByTurnActions mapped to OSRM-style steps); without a key or when HERE fails it falls back to Nominatim+Photon search and OSRM servers. Guidance runs on GPS with rerouting; the displayed map stays StradaOS's offline or live map.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Nav.java",
+        "app/src/main/java/com/stradaos/launcher/Main.java",
+        "verification:V-010"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0013"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-19T08:04:38.061Z",
+      "factId": "CTX-0030",
+      "promotedAt": "2026-11-19T08:04:52.414Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-11-19T08:04:52.414Z",
+  "reviewedAt": "2026-11-19T08:04:52.414Z"
+}

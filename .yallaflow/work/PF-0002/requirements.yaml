@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The user can enter their own HERE API key in Settings.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "With a HERE key set, built-in navigation uses HERE to search destinations and calculate routes; the displayed map stays StradaOS's own map.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "If HERE is not configured or a HERE request fails, navigation falls back to the existing OpenStreetMap services.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Settings > Map and weather > Navigation has a HERE API key row that saves the key, shows whether it is set without displaying it in full, and can be cleared.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "With a key, destination search queries HERE and returns places near the current position.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-002",
+      "statement": "With a key, routes come from HERE Routing v8 (car, traffic-aware) and drive the existing turn-by-turn guidance: route line, next turn, distance, arrival time, rerouting.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "REQ-003",
+      "statement": "Without a key, or when HERE search/routing fails, the OSM search and OSRM routing are used as before.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    },
+    {
+      "id": "AC-005",
+      "requirement": "REQ-002",
+      "statement": "The navigation screen attribution names the service actually used.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T07:49:05.554Z",
+      "updatedAt": "2026-11-19T07:49:05.554Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-004",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-005",
+      "at": "2026-11-19T07:49:05.554Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-19T07:49:05.554Z"
+}

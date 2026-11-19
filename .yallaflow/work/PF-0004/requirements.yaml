@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The home-screen music player has radio options.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "From the home screen the user can play and stop the radio without opening the radio app (opening it for about 2 seconds and returning is allowed as a fallback).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "From the home screen the user can move to the next or previous radio channel (saved preset).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "The player card has a radio button that switches the player into radio mode and back; the mode is remembered and the player shows RADIO while it is on.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "In radio mode, play sends a play command to the radio app in the background; if the radio does not start, StradaOS opens the radio app for about 2 seconds and returns to where the user was.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-002",
+      "statement": "In radio mode, stop sends a pause command to the radio app and takes audio focus so the radio goes silent, without opening the radio app.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "REQ-003",
+      "statement": "In radio mode, previous/next (buttons and swipe) send previous/next commands to the radio app, which on factory radios moves between saved presets.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    },
+    {
+      "id": "AC-005",
+      "requirement": "REQ-001",
+      "statement": "The radio app is the one chosen for the Radio button, or the detected one (com.clw.fmam on Clinkway units).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-19T09:21:30.342Z",
+      "updatedAt": "2026-11-19T09:21:30.342Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-004",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-005",
+      "at": "2026-11-19T09:21:30.342Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-19T09:21:30.342Z"
+}

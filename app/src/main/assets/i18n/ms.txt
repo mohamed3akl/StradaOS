@@ -689,3 +689,29 @@ Llegaste	Tiba
 Reloj y clima en la tarjeta	Jam dan cuaca pada kad
 En lugar del nombre y la foto del vehículo	Menggantikan nama dan foto kenderaan
 Actualizando el clima…	Mengemas kini cuaca…
+Ubicación por coordenadas	Lokasi daripada koordinat
+Lugar, dirección, negocio o coordenadas	Tempat, alamat, perniagaan atau koordinat
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	Jika ada di Google Maps: buka tempat itu di telefon, salin koordinatnya (cth. 30.0444, 31.2357) dan taip di sini.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	Kunci HERE (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	Pilihan: carian dan laluan dengan trafik daripada HERE dalam navigasi StradaOS. Tanpa kunci atau jika gagal, OpenStreetMap digunakan
+Sin clave	Tiada kunci
+Clave de API de HERE (vacío = OpenStreetMap)	Kunci API HERE (kosong = OpenStreetMap)
+Navegación con OpenStreetMap	Navigasi dengan OpenStreetMap
+Probando la clave de HERE…	Menguji kunci HERE…
+La clave de HERE funciona	Kunci HERE berfungsi
+La clave de HERE no funcionó	Kunci HERE tidak berfungsi
+Mientras tanto, la navegación usa OpenStreetMap.	Sementara itu, navigasi menggunakan OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	Kunci tidak sah atau tidak dibenarkan untuk perkhidmatan ini
+Se acabó la cuota de la clave	Kuota kunci telah habis
+Búsqueda y rutas: HERE · © HERE	Carian dan laluan: HERE · © HERE
+Búsqueda: HERE	Carian: HERE
+Búsqueda: Nominatim	Carian: Nominatim
+Rutas: HERE	Laluan: HERE
+Rutas: OSRM	Laluan: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE dan penyumbang OpenStreetMap
+# Radio en el reproductor
+Elige la app de la radio	Pilih aplikasi radio
+Modo radio: los botones controlan la radio	Mod radio: butang mengawal radio
+Anterior y siguiente cambian de emisora	Sebelum dan seterusnya menukar stesen
+Toca ▶ para escuchar la radio	Ketik ▶ untuk mendengar radio

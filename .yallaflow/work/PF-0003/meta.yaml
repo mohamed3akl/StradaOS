@@ -1,0 +1,45 @@
+{
+  "id": "PF-0003",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Stop tracking the root build/ folder in git (already listed in .gitignore)",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-19T08:07:52.270Z",
+  "updatedAt": "2026-11-19T08:08:46.529Z",
+  "title": "Stop tracking the root build/ folder in git (already listed in .gitignore)",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-11-19T08:07:52.293Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-19T08:08:46.529Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

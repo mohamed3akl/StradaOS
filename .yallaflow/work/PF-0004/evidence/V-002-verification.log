@@ -1,0 +1,6 @@
+1 s after play: com.android.deskclock/.DeskClock
+4.5 s after play: com.stradaos.launcher.debug/com.stradaos.launcher.Main
+after next/prev/swipe: com.stradaos.launcher.debug/com.stradaos.launcher.Main
+after stop: com.stradaos.launcher.debug/com.stradaos.launcher.Main
+StradaOS audio-focus entries after stop: 1
+PASS

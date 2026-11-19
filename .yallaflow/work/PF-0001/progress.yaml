@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "repository-baseline": {
+      "status": "completed",
+      "startedAt": "2026-11-19T07:41:59.380Z",
+      "completedAt": "2026-11-19T07:41:59.380Z",
+      "summary": "Read docs, build, manifest, main CI workflows and sampled sources; recorded 29 facts and 6 limitations"
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-19T07:41:59.380Z"
+}

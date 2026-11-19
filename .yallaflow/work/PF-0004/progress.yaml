@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T09:21:27.908Z",
+      "completedAt": "2026-11-19T09:21:27.908Z",
+      "summary": "Home player card built in Main.buildAudioCard; buttons go through Main.mediaClick (local player, MediaSession, Clinkway BT service, then media keys). Clinkway radio package com.clw.fmam is listed in OTHER_SOURCES; its control API is unknown (ESTADO_PROYECTO Bloque 4). Radio app resolution: openSlot(0) with saved pref 'radio' or name match. openBtAudioApp shows the open-briefly-and-return pattern (getRunningTasks + moveTaskToFront)."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T09:21:31.496Z",
+      "completedAt": "2026-11-19T09:21:31.496Z",
+      "summary": "Developer: test unit is Clinkway/Autochips; prev/next = saved presets; opening the radio app ~2 s and returning is allowed as fallback."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T09:23:38.329Z",
+      "completedAt": "2026-11-19T09:36:37.689Z",
+      "summary": "Correction after the emulator test: openRadioBriefly returns with moveTaskToFront (previous task, or StradaOS's own task) before falling back to startActivity; hint/toast texts no longer use the ⏮⏭ glyphs, which Android 4.x fonts do not draw."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T09:39:22.471Z",
+      "completedAt": "2026-11-19T09:39:22.471Z",
+      "summary": "V-003 debug build. V-002 emulator (API 19, 1024x600, Clock as stand-in radio app): play opens the radio app and StradaOS returns by itself in ~2.5 s; next/prev/swipe stay on StradaOS without crash; stop keeps StradaOS in front and takes audio focus; radio mode and chosen app persist across restart; screenshots show RADIO label, red radio button, pause icon and hint. Not tested: the real Clinkway radio app (com.clw.fmam) on a head unit."
+    },
+    "delivery-convergence": {
+      "status": "pending"
+    }
+  },
+  "rulings": [],
+  "history": [
+    {
+      "skill": "implementation",
+      "from": "completed",
+      "to": "in_progress",
+      "reason": "Emulator test (API 19): after opening the radio app, startActivity(Main) did not bring StradaOS back when it is not the default home; use moveTaskToFront(getTaskId()) first",
+      "changedAt": "2026-11-19T09:31:38.644Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T09:39:22.471Z"
+}

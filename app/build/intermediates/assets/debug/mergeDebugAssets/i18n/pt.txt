@@ -689,3 +689,29 @@ Llegaste	Chegou
 Reloj y clima en la tarjeta	Relógio e clima no cartão
 En lugar del nombre y la foto del vehículo	No lugar do nome e da foto do veículo
 Actualizando el clima…	Atualizando o clima…
+Ubicación por coordenadas	Local por coordenadas
+Lugar, dirección, negocio o coordenadas	Lugar, endereço, estabelecimento ou coordenadas
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	Se estiver no Google Maps: abra o lugar no celular, copie as coordenadas (ex. 30.0444, 31.2357) e digite aqui.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	Chave da HERE (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	Opcional: busca e rotas com trânsito da HERE na navegação do StradaOS. Sem chave ou se falhar, usa-se o OpenStreetMap
+Sin clave	Sem chave
+Clave de API de HERE (vacío = OpenStreetMap)	Chave de API da HERE (vazio = OpenStreetMap)
+Navegación con OpenStreetMap	Navegação com OpenStreetMap
+Probando la clave de HERE…	Testando a chave da HERE…
+La clave de HERE funciona	A chave da HERE funciona
+La clave de HERE no funcionó	A chave da HERE não funcionou
+Mientras tanto, la navegación usa OpenStreetMap.	Enquanto isso, a navegação usa o OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	A chave não é válida ou não tem permissão para este serviço
+Se acabó la cuota de la clave	A cota da chave acabou
+Búsqueda y rutas: HERE · © HERE	Busca e rotas: HERE · © HERE
+Búsqueda: HERE	Busca: HERE
+Búsqueda: Nominatim	Busca: Nominatim
+Rutas: HERE	Rotas: HERE
+Rutas: OSRM	Rotas: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE e colaboradores do OpenStreetMap
+# Radio en el reproductor
+Elige la app de la radio	Escolha o app do rádio
+Modo radio: los botones controlan la radio	Modo rádio: os botões controlam o rádio
+Anterior y siguiente cambian de emisora	Anterior e próximo mudam de estação
+Toca ▶ para escuchar la radio	Toque em ▶ para ouvir o rádio

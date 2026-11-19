@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-19T07:56:27.092Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+        "verificationRunIds": [
+          "V-005",
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-005 (build) and V-002 (polyline decoder) passed. HERE docs could not be fetched (HTTP 403) and no HERE key was available, so the HERE request/response handling is unconfirmed against the live API.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Navigation section has a 'Clave de HERE (API key)' row saving pref here_key, showing 'Sin clave' or 'Configurada (…last4)'; saving empty clears it; the key is tested after saving.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "catMapWeather",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "checkHereKey",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+              "workId": "PF-0002",
+              "verificationRunId": "V-005"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "partial",
+          "reason": "Nav.search calls HERE Discover (with position) or Geocode when a key is set, but the request and response format has not been confirmed against the live HERE API or its docs.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereSearch",
+              "contentHash": "sha256:74733d9bc35c32552f99d50a530ababf8acfb54880ce7d6601403a986aef90c8",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "partial",
+          "reason": "Nav.route requests HERE Routing v8 and maps actions onto the existing guidance; the flexible polyline decoder is verified, but the action fields, offsets and course syntax are unconfirmed against a live HERE response.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereRoute",
+              "contentHash": "sha256:74733d9bc35c32552f99d50a530ababf8acfb54880ce7d6601403a986aef90c8",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereStep",
+              "contentHash": "sha256:74733d9bc35c32552f99d50a530ababf8acfb54880ce7d6601403a986aef90c8",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest (passed)",
+              "workId": "PF-0002",
+              "verificationRunId": "V-002"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Without a key, the HERE branches are skipped and the unchanged Nominatim/Photon and OSRM code runs; HERE exceptions or empty results fall through to the same code.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "search",
+              "contentHash": "sha256:74733d9bc35c32552f99d50a530ababf8acfb54880ce7d6601403a986aef90c8",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "route",
+              "contentHash": "sha256:74733d9bc35c32552f99d50a530ababf8acfb54880ce7d6601403a986aef90c8",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "NavActivity.attribution() names HERE, Nominatim/OSRM or both, based on Nav.searchBy/routeBy, and refreshes after each search and navigation update.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "attribution",
+              "contentHash": "sha256:2297b6a11ebd5077393aa7d28a368b247df4c2218e682085f657f5c712ecb924",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "Key check after saving it (a small HERE geocode request with a toast or error dialog).",
+          "reason": "Lets the user know immediately whether the key works; supports AC-001.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "checkHereKey",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CV-002",
+      "recordedAt": "2026-11-19T08:04:12.938Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+        "verificationRunIds": [
+          "V-009",
+          "V-010",
+          "V-011"
+        ]
+      },
+      "summary": "Re-assessed after the correction and fresh V-009 (build), V-010 (live route decode) and V-011 (decoder example), using live HERE responses fetched with the developer's key. The app itself was not run on a device or emulator.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Navigation section has a 'Clave de HERE (API key)' row saving pref here_key, showing 'Sin clave' or 'Configurada (…last4)'; saving empty clears it; the key is tested after saving.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "catMapWeather",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "checkHereKey",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q (passed)",
+              "workId": "PF-0002",
+              "verificationRunId": "V-009"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "A live HERE Discover call near Cairo and a Geocode call returned items with title, address.label and position.lat/lng, exactly the fields Nav.hereSearch reads.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereSearch",
+              "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "live HERE discover (Cairo Tower near 30.0444,31.2357) and geocode (Berlin) responses had items[].title, address.label, position.lat/lng"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "A live HERE v8 route accepted the course syntax and returned a turnByTurnActions array with action, offset, direction, severity, exit and nextRoad names, plus summary length/duration (traffic-aware, with baseDuration). The polyline decodes to the full route with offsets in range; hereStep now maps the lone roundaboutExit with its exit number and picks names in the app language.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereRoute",
+              "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "hereStep",
+              "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json (passed)",
+              "workId": "PF-0002",
+              "verificationRunId": "V-010"
+            },
+            {
+              "type": "runtime",
+              "description": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest (passed)",
+              "workId": "PF-0002",
+              "verificationRunId": "V-011"
+            },
+            {
+              "type": "runtime",
+              "description": "live HERE route Tahrir to Giza: 1 section, 16 turnByTurnActions (depart, roundaboutExit exit 4, turn, keep, enterHighway, continueHighway, arrive), summary 28625 m / 2197 s"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Without a key, the HERE branches are skipped and the unchanged Nominatim/Photon and OSRM code runs; HERE exceptions or empty results fall through to the same code.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "search",
+              "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+              "symbol": "route",
+              "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "NavActivity.attribution() names HERE, Nominatim/OSRM or both, based on Nav.searchBy/routeBy, and refreshes after each search and navigation update.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "attribution",
+              "contentHash": "sha256:2297b6a11ebd5077393aa7d28a368b247df4c2218e682085f657f5c712ecb924",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-002",
+          "disposition": "accepted",
+          "summary": "Key check after saving it (a small HERE geocode request with a toast or error dialog).",
+          "reason": "Lets the user know immediately whether the key works; supports AC-001.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "checkHereKey",
+              "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+              "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-11-19T08:04:12.938Z"
+}

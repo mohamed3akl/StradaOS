@@ -689,3 +689,29 @@ Llegaste	Arrived
 Reloj y clima en la tarjeta	Clock and weather on the card
 En lugar del nombre y la foto del vehículo	Instead of the vehicle name and photo
 Actualizando el clima…	Updating the weather…
+Ubicación por coordenadas	Location from coordinates
+Lugar, dirección, negocio o coordenadas	Place, address, business or coordinates
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	If it's on Google Maps: open the place on your phone, copy its coordinates (e.g. 30.0444, 31.2357) and type them here.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	HERE key (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	Optional: HERE search and traffic-aware routes in StradaOS navigation. Without a key, or if it fails, OpenStreetMap is used
+Sin clave	No key
+Clave de API de HERE (vacío = OpenStreetMap)	HERE API key (empty = OpenStreetMap)
+Navegación con OpenStreetMap	Navigation with OpenStreetMap
+Probando la clave de HERE…	Testing the HERE key…
+La clave de HERE funciona	The HERE key works
+La clave de HERE no funcionó	The HERE key didn't work
+Mientras tanto, la navegación usa OpenStreetMap.	Meanwhile, navigation uses OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	The key is invalid or isn't allowed for this service
+Se acabó la cuota de la clave	The key's quota is used up
+Búsqueda y rutas: HERE · © HERE	Search and routing: HERE · © HERE
+Búsqueda: HERE	Search: HERE
+Búsqueda: Nominatim	Search: Nominatim
+Rutas: HERE	Routing: HERE
+Rutas: OSRM	Routing: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE and OpenStreetMap contributors
+# Radio en el reproductor
+Elige la app de la radio	Choose the radio app
+Modo radio: los botones controlan la radio	Radio mode: the buttons control the radio
+Anterior y siguiente cambian de emisora	Previous and next change the station
+Toca ▶ para escuchar la radio	Tap ▶ to listen to the radio

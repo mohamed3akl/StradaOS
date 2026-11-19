@@ -49,7 +49,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="StradaOS Prueba"
         android:largeHeap="true"
-        android:testOnly="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
         android:usesCleartextTraffic="true" >
         <activity

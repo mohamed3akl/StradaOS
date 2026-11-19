@@ -689,3 +689,29 @@ Llegaste	وصلت
 Reloj y clima en la tarjeta	الساعة والطقس في البطاقة
 En lugar del nombre y la foto del vehículo	بدلًا من اسم المركبة وصورتها
 Actualizando el clima…	جارٍ تحديث الطقس…
+Ubicación por coordenadas	موقع من الإحداثيات
+Lugar, dirección, negocio o coordenadas	مكان أو عنوان أو نشاط تجاري أو إحداثيات
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	لو المكان موجود على خرائط Google: افتحه على الموبايل، وانسخ إحداثياته (مثل 30.0444, 31.2357) واكتبها هنا.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	مفتاح HERE (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	اختياري: البحث والطرق مع حركة المرور من HERE في ملاحة StradaOS. بدون مفتاح أو عند الفشل يُستخدم OpenStreetMap
+Sin clave	بدون مفتاح
+Clave de API de HERE (vacío = OpenStreetMap)	مفتاح API من HERE (فارغ = OpenStreetMap)
+Navegación con OpenStreetMap	الملاحة باستخدام OpenStreetMap
+Probando la clave de HERE…	جارٍ اختبار مفتاح HERE…
+La clave de HERE funciona	مفتاح HERE يعمل
+La clave de HERE no funcionó	مفتاح HERE لم يعمل
+Mientras tanto, la navegación usa OpenStreetMap.	في الأثناء، تستخدم الملاحة OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	المفتاح غير صالح أو غير مسموح له بهذه الخدمة
+Se acabó la cuota de la clave	انتهت حصة المفتاح
+Búsqueda y rutas: HERE · © HERE	البحث والطرق: HERE · © HERE
+Búsqueda: HERE	البحث: HERE
+Búsqueda: Nominatim	البحث: Nominatim
+Rutas: HERE	الطرق: HERE
+Rutas: OSRM	الطرق: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE والمساهمون في OpenStreetMap
+# Radio en el reproductor
+Elige la app de la radio	اختر تطبيق الراديو
+Modo radio: los botones controlan la radio	وضع الراديو: الأزرار تتحكم في الراديو
+Anterior y siguiente cambian de emisora	السابق والتالي لتغيير المحطة
+Toca ▶ para escuchar la radio	اضغط ▶ للاستماع إلى الراديو

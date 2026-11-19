@@ -24,6 +24,7 @@ import java.util.Locale;
  * Navegación paso a paso: busca destinos (Nominatim), calcula la ruta en carro (OSRM) por internet y guía con la
  * posición GPS: siguiente giro, distancia, tiempo y hora de llegada. Recalcula si te sales de la ruta.
  * El mapa sigue siendo el de StradaOS (sin conexión o en vivo); solo la búsqueda y el cálculo de ruta usan internet.
+ * Con una clave de HERE (Ajustes) la búsqueda y la ruta (con tráfico) se piden primero a HERE; si falla, OpenStreetMap.
  * Datos © colaboradores de OpenStreetMap (ODbL). Una sola instancia; todo en el hilo principal.
  */
 public class Nav {
@@ -57,6 +58,7 @@ public class Nav {
         public int exit;
         public double lat, lon;
         public double at;          // metros desde el inicio de la ruta hasta este giro
+        int pt;                    // índice del punto de la ruta (rutas de HERE)
         boolean warnedFar, warnedNear;
     }
 
@@ -70,7 +72,22 @@ public class Nav {
             "https://router.project-osrm.org/route/v1/driving/",
             "http://router.project-osrm.org/route/v1/driving/",
             "http://routing.openstreetmap.de/routed-car/route/v1/driving/"};
-    static final String PHOTON = "https://photon.komoot.io/api/?limit=8";
+    static final String PHOTON = "https://photon.komoot.io/api/?limit=10";
+
+    /**
+     * HERE (opcional): con la clave de API del usuario (Ajustes → Mapa y clima → Navegación, pref «here_key») la
+     * búsqueda y la ruta (con tráfico) se piden a HERE. Si no hay clave o HERE falla, se usa OpenStreetMap como siempre.
+     */
+    static final String HERE_DISCOVER = "https://discover.search.hereapi.com/v1/discover?limit=10";
+    static final String HERE_GEOCODE = "https://geocode.search.hereapi.com/v1/geocode?limit=10";
+    static final String HERE_ROUTES = "https://router.hereapi.com/v8/routes?transportMode=car&return=polyline,summary,actions,turnByTurnActions";
+
+    /** Servicio que dio el último resultado: "here" u "osm" (null = aún nada). Para la atribución. */
+    static volatile String searchBy, routeBy;
+
+    static String hereKey(Context c) {
+        return c.getSharedPreferences("launcher", 0).getString("here_key", "").trim();
+    }
 
     /** Motivo corto del último fallo de red (para mostrarlo y saber qué pasó). */
     static String netWhy(Throwable e) {
@@ -132,22 +149,124 @@ public class Nav {
 
     void search(final String q, final SearchCb cb) {
         final Location here = bestLocation();
+        final String key = hereKey(ctx);
         new Thread(new Runnable() { public void run() {
             List<Place> out = new ArrayList<Place>();
             String err = null;
             Throwable why = null;
-            try {
-                out = nominatim(q, here);
-            } catch (Throwable e) {
-                why = e;
-                try { out = photon(q, here); why = null; } catch (Throwable e2) { if (!(e instanceof java.net.UnknownHostException)) why = e2; }
+            // 1) coordenadas o enlace de Google Maps pegado: se va directo a ese punto
+            Place exact = null;
+            try { exact = fromCoords(q); } catch (Throwable ignored) { }
+            // 2) con clave de HERE: primero HERE; si falla o no encuentra nada, OpenStreetMap
+            List<Place> fromHere = null;
+            if (exact == null && key.length() > 0) {
+                try { fromHere = hereSearch(q, here, key); } catch (Throwable ignored) { }
+            }
+            if (exact != null) {
+                out.add(exact);
+            } else if (fromHere != null && !fromHere.isEmpty()) {
+                out.addAll(fromHere);
+                searchBy = "here";
+            } else {
+                searchBy = "osm";
+                // 2) los dos buscadores juntos: Photon tolera errores de escritura, Nominatim es más preciso
+                boolean any = false;
+                try { out.addAll(nominatim(q, here)); any = true; } catch (Throwable e) { why = e; }
+                try { merge(out, photon(q, here)); any = true; } catch (Throwable e) { if (why == null) why = e; }
+                if (any) why = null;
             }
             if (why != null) err = "Sin internet: no se pudo buscar. Activa el punto de acceso del celular.\n" + netWhy(why);
-            else if (here != null) sortByDistance(out, here);
+            else if (here != null && exact == null && "osm".equals(searchBy)) sortByDistance(out, here);   // HERE ya ordena por cercanía y relevancia
             final List<Place> res = out;
             final String e2 = err;
             h.post(new Runnable() { public void run() { cb.onResult(res, e2); } });
         }}).start();
+    }
+
+    /** Agrega los lugares de b que no estén ya en a (mismo sitio: a menos de 150 m). */
+    private static void merge(List<Place> a, List<Place> b) {
+        for (Place p : b) {
+            boolean dup = false;
+            for (Place x : a) if (dist(x.lat, x.lon, p.lat, p.lon) < 150) { dup = true; break; }
+            if (!dup) a.add(p);
+        }
+    }
+
+    // ── coordenadas y enlaces de Google Maps ──
+
+    private static final java.util.regex.Pattern[] COORD_RES = {
+        java.util.regex.Pattern.compile("!3d(-?\\d+\\.\\d+)!4d(-?\\d+\\.\\d+)"),                 // lugar exacto en enlaces largos
+        java.util.regex.Pattern.compile("[?&](?:q|ll|query|destination|daddr|center)=(-?\\d+\\.\\d+),\\s*\\+?(-?\\d+\\.\\d+)"),
+        java.util.regex.Pattern.compile("@(-?\\d+\\.\\d+),(-?\\d+\\.\\d+)"),                     // centro del mapa
+        java.util.regex.Pattern.compile("(-?\\d{1,2}\\.\\d{3,})\\s*[,;\\s]\\s*(-?\\d{1,3}\\.\\d{3,})"),   // «30.0444, 31.2357»
+    };
+    private static final java.util.regex.Pattern DMS = java.util.regex.Pattern.compile(
+        "(\\d{1,2})°\\s*(\\d{1,2})['′]\\s*([\\d.]+)[\"″]?\\s*([NS])[,\\s]+(\\d{1,3})°\\s*(\\d{1,2})['′]\\s*([\\d.]+)[\"″]?\\s*([EW])");
+
+    /** Lugar a partir de coordenadas o de un enlace de Google Maps (también los cortos maps.app.goo.gl). */
+    static Place fromCoords(String raw) throws Exception {
+        String t = normalizeDigits(raw.trim());
+        if (t.contains("goo.gl/") || t.contains("maps.app")) {
+            java.util.regex.Matcher m = java.util.regex.Pattern.compile("https?://\\S+").matcher(t);
+            if (m.find()) t = resolveRedirects(m.group());
+        }
+        if (t.contains("%")) try { t = java.net.URLDecoder.decode(t, "UTF-8"); } catch (Throwable ignored) { }
+        double la = Double.NaN, lo = Double.NaN;
+        java.util.regex.Matcher d = DMS.matcher(t);
+        if (d.find()) {
+            la = Integer.parseInt(d.group(1)) + Integer.parseInt(d.group(2)) / 60.0 + Double.parseDouble(d.group(3)) / 3600.0;
+            lo = Integer.parseInt(d.group(5)) + Integer.parseInt(d.group(6)) / 60.0 + Double.parseDouble(d.group(7)) / 3600.0;
+            if ("S".equals(d.group(4))) la = -la;
+            if ("W".equals(d.group(8))) lo = -lo;
+        } else {
+            for (java.util.regex.Pattern p : COORD_RES) {
+                java.util.regex.Matcher m = p.matcher(t);
+                if (m.find()) { la = Double.parseDouble(m.group(1)); lo = Double.parseDouble(m.group(2)); break; }
+            }
+        }
+        if (Double.isNaN(la) || Math.abs(la) > 90 || Math.abs(lo) > 180 || (la == 0 && lo == 0)) return null;
+        Place p = new Place();
+        p.lat = la;
+        p.lon = lo;
+        p.name = String.format(Locale.US, "%.5f, %.5f", la, lo);
+        p.detail = I18n.t("Ubicación por coordenadas");
+        return p;
+    }
+
+    /** Dígitos árabes (٠١٢…) y la coma árabe a los de siempre. */
+    private static String normalizeDigits(String s) {
+        StringBuilder b = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '\u0660' && c <= '\u0669') c = (char) ('0' + (c - '\u0660'));
+            else if (c >= '\u06F0' && c <= '\u06F9') c = (char) ('0' + (c - '\u06F0'));
+            else if (c == '\u060C') c = ',';
+            else if (c == '\u066B') c = '.';
+            b.append(c);
+        }
+        return b.toString();
+    }
+
+    /** Sigue las redirecciones de un enlace corto hasta encontrar uno con coordenadas (máximo 5 saltos). */
+    private static String resolveRedirects(String url) {
+        String u = url;
+        for (int i = 0; i < 5; i++) {
+            java.net.HttpURLConnection c = null;
+            try {
+                c = Net.open(u, 10000);
+                c.setInstanceFollowRedirects(false);
+                int code = c.getResponseCode();
+                String loc = c.getHeaderField("Location");
+                if (code / 100 != 3 || loc == null) return u;
+                u = new java.net.URL(new java.net.URL(u), loc).toString();
+                if (u.contains("@") || u.contains("!3d") || u.contains("q=")) return u;
+            } catch (Throwable e) {
+                return u;
+            } finally {
+                if (c != null) try { c.disconnect(); } catch (Throwable ignored) { }
+            }
+        }
+        return u;
     }
 
     private static List<Place> nominatim(String q, Location here) throws Exception {
@@ -201,6 +320,45 @@ public class Nav {
             out.add(p);
         }
         return out;
+    }
+
+    /** Buscador de HERE: «discover» cerca de la posición (lugares, negocios y direcciones); sin posición, «geocode». */
+    static List<Place> hereSearch(String q, Location here, String key) throws Exception {
+        List<Place> out = new ArrayList<Place>();
+        StringBuilder u = new StringBuilder(here != null ? HERE_DISCOVER : HERE_GEOCODE);
+        u.append("&q=").append(URLEncoder.encode(q, "UTF-8"));
+        if (here != null) u.append(String.format(Locale.US, "&at=%.5f,%.5f", here.getLatitude(), here.getLongitude()));
+        u.append("&lang=").append(URLEncoder.encode(I18n.lang + "," + Locale.getDefault().getLanguage(), "UTF-8"));
+        u.append("&apiKey=").append(URLEncoder.encode(key, "UTF-8"));
+        JSONArray items = new JSONObject(new String(Net.get(u.toString(), 15000), "UTF-8")).getJSONArray("items");
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject o = items.getJSONObject(i);
+            JSONObject pos = o.optJSONObject("position");
+            if (pos == null) continue;
+            Place p = new Place();
+            String title = o.optString("title", "");
+            String label = o.optJSONObject("address") != null ? o.getJSONObject("address").optString("label", "") : "";
+            p.name = title.length() > 0 ? title : label;
+            // la dirección sin repetir el nombre del lugar al principio
+            p.detail = label.startsWith(title) && label.length() > title.length() ? label.substring(title.length()).replaceFirst("^[,\\s]+", "") : label.equals(title) ? "" : label;
+            p.lat = pos.getDouble("lat");
+            p.lon = pos.getDouble("lng");
+            out.add(p);
+        }
+        return out;
+    }
+
+    /** Comprueba la clave con una búsqueda pequeña. null = funciona; si no, el motivo. Llamar fuera del hilo principal. */
+    static String testHereKey(String key) {
+        try {
+            Net.get(HERE_GEOCODE + "&q=Berlin&apiKey=" + URLEncoder.encode(key, "UTF-8"), 15000);
+            return null;
+        } catch (Throwable e) {
+            String m = String.valueOf(e.getMessage());
+            if (m.contains("401") || m.contains("403")) return I18n.t("La clave no es válida o no tiene permiso para este servicio");
+            if (m.contains("429")) return I18n.t("Se acabó la cuota de la clave");
+            return netWhy(e);
+        }
     }
 
     private static void sortByDistance(List<Place> l, final Location here) {
@@ -271,10 +429,17 @@ public class Nav {
         routing = true;
         lastReroute = SystemClock.elapsedRealtime();
         final Place to = dest;
+        final String key = hereKey(ctx);
         new Thread(new Runnable() { public void run() {
             JSONObject r = null;
             Throwable why = null;
-            for (String base : OSRMS) {
+            // con clave: HERE (ruta con tráfico); si falla, los servidores OSRM de siempre
+            HereRoute parsed = null;
+            if (key.length() > 0) {
+                try { parsed = hereRoute(from, to, key); } catch (Throwable e) { why = e; }
+            }
+            final HereRoute hereR = parsed;
+            if (hereR == null) for (String base : OSRMS) {
             try {
                 String u = base + String.format(Locale.US, "%.6f,%.6f;%.6f,%.6f", from.getLongitude(), from.getLatitude(), to.lon, to.lat)
                         + "?overview=full&geometries=polyline&steps=true"
@@ -289,12 +454,15 @@ public class Nav {
             h.post(new Runnable() { public void run() {
                 routing = false;
                 if (dest != to) return;                       // terminó o cambió de destino mientras tanto
-                if (route == null) {
+                if (route == null && hereR == null) {
                     if (lat == null) { state = ERROR; error = I18n.t("Sin internet: no se pudo calcular la ruta") + "\n" + reason; }
                     fire();                                    // si ya había ruta se sigue con ella
                     return;
                 }
-                try { load(route); } catch (Throwable e) { state = ERROR; error = "No se pudo calcular la ruta"; fire(); return; }
+                try {
+                    if (hereR != null) loadHere(hereR); else load(route);
+                    routeBy = hereR != null ? "here" : "osm";
+                } catch (Throwable e) { state = ERROR; error = "No se pudo calcular la ruta"; fire(); return; }
                 state = GUIDING;
                 offCount = 0;
                 if (last != null) progress(last);
@@ -303,8 +471,10 @@ public class Nav {
         }}).start();
     }
 
-    private void load(JSONObject r) throws Exception {
-        List<double[]> pts = decode(r.getString("geometry"));
+    private double[] pendMx, pendMy;
+
+    /** Puntos de la ruta, distancia acumulada y coordenadas para dibujarla (se publican en finishLoad). */
+    private void setGeometry(List<double[]> pts) {
         int n = pts.size();
         lat = new double[n]; lon = new double[n]; cum = new double[n];
         double[] mx = new double[n], my = new double[n];
@@ -316,6 +486,175 @@ public class Nav {
             double lr = Math.toRadians(lat[i]);
             my[i] = (1.0 - Math.log(Math.tan(lr) + 1.0 / Math.cos(lr)) / Math.PI) / 2.0;
         }
+        pendMx = mx;
+        pendMy = my;
+    }
+
+    private void finishLoad() {
+        matchIdx = 0;
+        along = 0;
+        stepIdx = 0;
+        routeFrom = 0;
+        routeMy = pendMy;
+        routeMx = pendMx;
+    }
+
+    /** Ruta de HERE ya leída (en el hilo de red, así un error de formato pasa a OSRM). */
+    static class HereRoute {
+        final List<double[]> pts = new ArrayList<double[]>();
+        final List<Step> steps = new ArrayList<Step>();
+        double m, s;
+    }
+
+    /** Ruta en carro de HERE Routing v8; el tiempo ya cuenta el tráfico del momento. */
+    static HereRoute hereRoute(Location from, Place to, String key) throws Exception {
+        StringBuilder u = new StringBuilder(HERE_ROUTES);
+        u.append(String.format(Locale.US, "&origin=%.6f,%.6f", from.getLatitude(), from.getLongitude()));
+        if (from.hasBearing() && from.hasSpeed() && from.getSpeed() > 2)
+            u.append(String.format(Locale.US, ";course=%d", Math.round(from.getBearing()) % 360));
+        u.append(String.format(Locale.US, "&destination=%.6f,%.6f", to.lat, to.lon));
+        u.append("&apiKey=").append(URLEncoder.encode(key, "UTF-8"));
+        JSONObject o = new JSONObject(new String(Net.get(u.toString(), 20000), "UTF-8"));
+        JSONArray routes = o.optJSONArray("routes");
+        if (routes == null || routes.length() == 0) {
+            JSONArray ns = o.optJSONArray("notices");
+            throw new Exception("HERE: " + (ns != null && ns.length() > 0 ? ns.getJSONObject(0).optString("title", "no route") : "no route"));
+        }
+        JSONArray secs = routes.getJSONObject(0).getJSONArray("sections");
+        HereRoute hr = new HereRoute();
+        for (int si = 0; si < secs.length(); si++) {
+            JSONObject sec = secs.getJSONObject(si);
+            List<double[]> p = decodeFlex(sec.getString("polyline"));
+            int base = hr.pts.size(), skip = 0;
+            if (base > 0 && !p.isEmpty()) { skip = 1; base -= 1; }   // el primer punto repite el último de la sección anterior
+            for (int k = skip; k < p.size(); k++) hr.pts.add(p.get(k));
+            JSONObject sum = sec.optJSONObject("summary");
+            if (sum != null) { hr.m += sum.optDouble("length", 0); hr.s += sum.optDouble("duration", 0); }
+            JSONArray acts = sec.optJSONArray("turnByTurnActions");
+            if (acts == null) acts = sec.optJSONArray("actions");
+            if (acts == null) continue;
+            for (int i = 0; i < acts.length(); i++) {
+                Step st = hereStep(acts, i);
+                if (st == null) continue;
+                st.pt = base + acts.getJSONObject(i).optInt("offset", 0);
+                hr.steps.add(st);
+            }
+        }
+        if (hr.pts.size() < 2) throw new Exception("HERE: empty route");
+        for (Step st : hr.steps) st.pt = Math.max(0, Math.min(hr.pts.size() - 1, st.pt));
+        return hr;
+    }
+
+    /** Acción de HERE → giro con los mismos tipos que OSRM (así se reutilizan textos y flechas). null = no se anuncia. */
+    static Step hereStep(JSONArray acts, int i) throws Exception {
+        JSONObject a = acts.getJSONObject(i);
+        String act = a.optString("action", ""), dir = a.optString("direction", ""), sev = a.optString("severity", "");
+        Step st = new Step();
+        st.modifier = "";
+        if ("depart".equals(act) || "roundaboutPass".equals(act)) return null;
+        if ("arrive".equals(act)) st.type = "arrive";
+        else if ("turn".equals(act)) { st.type = "turn"; st.modifier = "middle".equals(dir) ? "straight" : "light".equals(sev) ? "slight " + dir : "heavy".equals(sev) ? "sharp " + dir : dir; }
+        else if ("uTurn".equals(act)) { st.type = "turn"; st.modifier = "uturn"; }
+        else if ("keep".equals(act)) { if ("middle".equals(dir) || dir.length() == 0) { st.type = "continue"; st.modifier = "straight"; } else { st.type = "fork"; st.modifier = dir; } }
+        else if ("roundaboutEnter".equals(act)) {
+            st.type = "roundabout";
+            st.exit = a.optInt("exit", 0);
+            for (int k = i + 1; st.exit == 0 && k < acts.length(); k++) {        // la salida suele venir en roundaboutExit
+                JSONObject b = acts.getJSONObject(k);
+                if ("roundaboutExit".equals(b.optString("action"))) { st.exit = b.optInt("exit", 0); break; }
+            }
+        }
+        else if ("roundaboutExit".equals(act)) {
+            // HERE suele mandar solo «roundaboutExit» con el número de salida (sin «roundaboutEnter»): se anuncia
+            // como «En la glorieta, toma la salida N». Si ya se anunció la entrada, solo «Sal de la glorieta».
+            boolean entered = i > 0 && "roundaboutEnter".equals(acts.getJSONObject(i - 1).optString("action"));
+            st.type = entered ? "exit roundabout" : "roundabout";
+            st.exit = entered ? 0 : a.optInt("exit", 0);
+        }
+        else if ("exit".equals(act)) { st.type = "off ramp"; st.modifier = dir; }
+        else if ("enterHighway".equals(act) || "ramp".equals(act)) st.type = "on ramp";
+        else { st.type = "continue"; st.modifier = "straight"; }
+        st.name = "";
+        JSONObject road = a.optJSONObject("nextRoad");
+        if (road != null) {
+            JSONArray nm = road.optJSONArray("name");
+            if (nm == null || nm.length() == 0) nm = road.optJSONArray("number");
+            st.name = pickLang(nm);
+        }
+        return st;
+    }
+
+    /** HERE da cada nombre en varios idiomas ([{value, language}]): el del idioma de la app, si no el del sistema, si no el primero. */
+    static String pickLang(JSONArray vals) throws Exception {
+        if (vals == null || vals.length() == 0) return "";
+        String[] want = {I18n.lang, Locale.getDefault().getLanguage()};
+        for (String w : want) {
+            if (w == null || w.length() == 0) continue;
+            for (int k = 0; k < vals.length(); k++) {
+                JSONObject v = vals.getJSONObject(k);
+                String l = v.optString("language", "");
+                if (l.equals(w) || l.startsWith(w + "-")) return v.optString("value", "");
+            }
+        }
+        return vals.getJSONObject(0).optString("value", "");
+    }
+
+    private void loadHere(HereRoute hr) {
+        setGeometry(hr.pts);
+        totalM = hr.m > 0 ? hr.m : cum[cum.length - 1];
+        totalS = hr.s;
+        steps.clear();
+        for (Step st : hr.steps) {
+            st.lat = lat[st.pt];
+            st.lon = lon[st.pt];
+            st.at = cum[st.pt];
+            steps.add(st);
+        }
+        finishLoad();
+    }
+
+    private static final String FLEX = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+    /** «Flexible polyline» de HERE: versión, encabezado (precisión, tercera dimensión) y luego deltas lat/lon. */
+    static List<double[]> decodeFlex(String s) throws Exception {
+        int[] pos = {0};
+        if (flexU(s, pos) != 1) throw new Exception("HERE: polyline version");
+        long hdr = flexU(s, pos);
+        double f = Math.pow(10, hdr & 15);
+        boolean third = ((hdr >> 4) & 7) != 0;
+        List<double[]> out = new ArrayList<double[]>();
+        long la = 0, lo = 0;
+        while (pos[0] < s.length()) {
+            la += flexS(s, pos);
+            lo += flexS(s, pos);
+            if (third) flexS(s, pos);
+            out.add(new double[]{la / f, lo / f});
+        }
+        return out;
+    }
+
+    private static long flexU(String s, int[] pos) throws Exception {
+        long r = 0;
+        int shift = 0;
+        while (true) {
+            if (pos[0] >= s.length()) throw new Exception("HERE: polyline truncated");
+            int c = FLEX.indexOf(s.charAt(pos[0]++));
+            if (c < 0) throw new Exception("HERE: polyline char");
+            r |= (long) (c & 0x1F) << shift;
+            if ((c & 0x20) == 0) return r;
+            shift += 5;
+        }
+    }
+
+    private static long flexS(String s, int[] pos) throws Exception {
+        long v = flexU(s, pos);
+        return (v & 1) != 0 ? ~(v >> 1) : (v >> 1);
+    }
+
+    private void load(JSONObject r) throws Exception {
+        List<double[]> pts = decode(r.getString("geometry"));
+        int n = pts.size();
+        setGeometry(pts);
         totalM = r.optDouble("distance", n > 0 ? cum[n - 1] : 0);
         totalS = r.optDouble("duration", 0);
         steps.clear();
@@ -350,12 +689,7 @@ public class Nav {
                 steps.add(st);
             }
         }
-        matchIdx = 0;
-        along = 0;
-        stepIdx = 0;
-        routeFrom = 0;
-        routeMy = my;
-        routeMx = mx;
+        finishLoad();
     }
 
     /** Polilínea codificada de Google (precisión 5), la que usa OSRM. */

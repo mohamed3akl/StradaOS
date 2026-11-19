@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "cd /d F:\\Machines\\Lab\\StradaOS && git ls-files --cached build | findstr . && exit 1 || git check-ignore build/reports/problems/problems-report.html",
+      "executionMode": "shell",
+      "executable": "cd /d F:\\Machines\\Lab\\StradaOS && git ls-files --cached build | findstr . && exit 1 || git check-ignore build/reports/problems/problems-report.html",
+      "args": [],
+      "displayCommand": "cd /d F:\\Machines\\Lab\\StradaOS && git ls-files --cached build | findstr . && exit 1 || git check-ignore build/reports/problems/problems-report.html",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:08:36.580Z",
+      "finishedAt": "2026-11-19T08:08:36.880Z",
+      "verifiedAt": "2026-11-19T08:08:36.880Z",
+      "log": "V-001-verification.log"
+    }
+  ]
+}

@@ -689,3 +689,29 @@ Llegaste	Angekommen
 Reloj y clima en la tarjeta	Uhr und Wetter auf der Karte
 En lugar del nombre y la foto del vehículo	Anstelle von Fahrzeugname und -foto
 Actualizando el clima…	Wetter wird aktualisiert…
+Ubicación por coordenadas	Ort aus Koordinaten
+Lugar, dirección, negocio o coordenadas	Ort, Adresse, Geschäft oder Koordinaten
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	Wenn es in Google Maps ist: Öffne den Ort auf dem Handy, kopiere die Koordinaten (z. B. 30.0444, 31.2357) und gib sie hier ein.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	HERE-Schlüssel (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	Optional: Suche und Routen mit Verkehr von HERE in der StradaOS-Navigation. Ohne Schlüssel oder bei Fehlern wird OpenStreetMap verwendet
+Sin clave	Kein Schlüssel
+Clave de API de HERE (vacío = OpenStreetMap)	HERE-API-Schlüssel (leer = OpenStreetMap)
+Navegación con OpenStreetMap	Navigation mit OpenStreetMap
+Probando la clave de HERE…	HERE-Schlüssel wird geprüft…
+La clave de HERE funciona	Der HERE-Schlüssel funktioniert
+La clave de HERE no funcionó	Der HERE-Schlüssel hat nicht funktioniert
+Mientras tanto, la navegación usa OpenStreetMap.	Bis dahin nutzt die Navigation OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	Der Schlüssel ist ungültig oder für diesen Dienst nicht freigegeben
+Se acabó la cuota de la clave	Das Kontingent des Schlüssels ist aufgebraucht
+Búsqueda y rutas: HERE · © HERE	Suche und Routen: HERE · © HERE
+Búsqueda: HERE	Suche: HERE
+Búsqueda: Nominatim	Suche: Nominatim
+Rutas: HERE	Routen: HERE
+Rutas: OSRM	Routen: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE und OpenStreetMap-Mitwirkende
+# Radio en el reproductor
+Elige la app de la radio	Radio-App auswählen
+Modo radio: los botones controlan la radio	Radiomodus: die Tasten steuern das Radio
+Anterior y siguiente cambian de emisora	Zurück und Weiter wechseln den Sender
+Toca ▶ para escuchar la radio	Tippe auf ▶, um Radio zu hören

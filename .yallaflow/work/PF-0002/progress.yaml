@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-19T07:48:40.480Z",
+      "completedAt": "2026-11-19T07:48:40.480Z",
+      "summary": "Nav.java does search (Nominatim+Photon, merged) and routing (OSRM list with fallback, Google polyline5, OSRM maneuver type/modifier mapped to Spanish instructions and arrow angles). Settings: Main.catMapWeather has a Navegacion section; editText/edit helpers store strings in 'launcher' prefs. NavActivity shows OSM attribution. No prefs export in diagnostics. Developer chose: HERE for search+routing (map tiles unchanged) and silent fallback to OSM on failure."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T07:49:06.832Z",
+      "completedAt": "2026-11-19T07:49:06.832Z",
+      "summary": "Developer answered: HERE for search+routing only (map tiles unchanged); on missing key or HERE failure fall back silently to OSM. Requirements REQ-001..003 recorded."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-19T07:54:28.812Z",
+      "completedAt": "2026-11-19T08:03:24.234Z",
+      "summary": "Correction (already in the working tree, see ruling): hereStep maps a lone roundaboutExit to 'take exit N'; pickLang picks road names in the app language. No further edits."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-19T08:03:57.289Z",
+      "completedAt": "2026-11-19T08:03:57.289Z",
+      "summary": "Fresh after the correction: debug build compiles; decoder matches HERE's published example; a live HERE route (Tahrir to Giza pyramids) decodes to 428 points, 28,602 m vs HERE summary 28,625 m, last action offset 427. Live discover/geocode responses had the fields the parser reads (items, title, address.label, position.lat/lng). Not run: the app itself on a device or emulator with the key."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-19T08:04:19.023Z",
+      "completedAt": "2026-11-19T08:04:19.023Z",
+      "summary": "All 5 criteria satisfied with live HERE evidence; key check accepted as unrequested."
+    }
+  },
+  "rulings": [
+    {
+      "decision": "app/src/main/java/com/stradaos/launcher/Nav.java (hereStep roundaboutExit mapping, new pickLang) was edited during VERIFICATION, without workflow authorization; adopted for review and re-verification",
+      "reason": "Live HERE responses showed roundabouts come only as roundaboutExit with an exit number and road names in several languages; the fix was made before reopening implementation",
+      "costIfWrong": "Roundabout or street-name announcements could be wrong in HERE routes; OSM routes are unaffected",
+      "createdAt": "2026-11-19T08:02:58.656Z"
+    }
+  ],
+  "history": [
+    {
+      "skill": "implementation",
+      "from": "completed",
+      "to": "in_progress",
+      "reason": "Live HERE responses: roundaboutExit carries the exit number without roundaboutEnter; road names come in several languages",
+      "changedAt": "2026-11-19T08:03:07.977Z"
+    },
+    {
+      "skill": "verification",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Downstream of implementation revision: Live HERE responses: roundaboutExit carries the exit number without roundaboutEnter; road names come in several languages",
+      "changedAt": "2026-11-19T08:03:07.977Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T08:04:19.023Z"
+}

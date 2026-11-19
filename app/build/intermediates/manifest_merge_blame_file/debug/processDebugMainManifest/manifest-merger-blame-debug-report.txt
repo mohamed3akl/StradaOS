@@ -101,180 +101,179 @@
 50-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:27:18-45
 51        android:largeHeap="true"
 51-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:29:44-68
-52        android:testOnly="true"
-53        android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
-53-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:28:9-82
-54        android:usesCleartextTraffic="true" >
-54-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:30:9-44
-55        <activity
-56            android:name="com.stradaos.launcher.Main"
-56-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:31:19-60
-57            android:clearTaskOnLaunch="true"
-57-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:75-107
-58            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-58-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:34:13-133
-59            android:excludeFromRecents="true"
-59-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:33:13-46
-60            android:label="StradaOS Prueba"
-60-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:31:61-88
-61            android:launchMode="singleTask"
-61-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:13-44
-62            android:screenOrientation="unspecified"
-62-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:33:47-86
-63            android:stateNotNeeded="true"
-63-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:45-74
-64            android:windowSoftInputMode="adjustNothing" >
-64-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:35:13-56
-65            <intent-filter>
-65-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:36:13-41:29
-66                <action android:name="android.intent.action.MAIN" />
-66-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:17-68
-66-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:25-66
-67
-68                <category android:name="android.intent.category.HOME" />
-68-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:17-72
-68-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:27-70
-69                <category android:name="android.intent.category.DEFAULT" />
-69-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:17-75
-69-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:27-73
-70                <category android:name="android.intent.category.LAUNCHER" />
-70-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:40:17-76
-70-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:40:27-74
-71            </intent-filter>
-72        </activity>
-73        <activity
-73-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:9-50:20
-74            android:name="com.stradaos.launcher.FakeHome"
-74-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:19-64
-75            android:enabled="false"
-75-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:65-88
-76            android:excludeFromRecents="true"
-76-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:44:13-46
-77            android:exported="true"
-77-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:89-112
-78            android:theme="@android:style/Theme.NoDisplay" >
-78-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:44:47-93
-79            <intent-filter>
-79-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:45:13-49:29
-80                <action android:name="android.intent.action.MAIN" />
-80-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:17-68
-80-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:25-66
-81
-82                <category android:name="android.intent.category.HOME" />
-82-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:17-72
-82-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:27-70
-83                <category android:name="android.intent.category.DEFAULT" />
-83-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:17-75
-83-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:27-73
-84            </intent-filter>
-85        </activity>
-86
-87        <receiver
-87-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:9-57:20
-88            android:name="com.stradaos.launcher.BootReceiver"
-88-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:19-68
-89            android:exported="true" >
-89-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:69-92
-90            <intent-filter>
-90-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:52:13-56:29
-91                <action android:name="android.intent.action.BOOT_COMPLETED" />
-91-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:53:17-78
-91-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:53:25-76
-92                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-92-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:54:17-81
-92-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:54:25-79
-93                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-93-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:55:17-81
-93-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:55:25-79
-94            </intent-filter>
-95        </receiver>
-96
-97        <service
-97-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:9-64:19
-98            android:name="com.stradaos.launcher.NotifArt"
-98-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:18-63
-99            android:label="@string/acc_label"
-99-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:64-97
-100            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
-100-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:59:13-79
-101            <intent-filter>
-101-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:60:13-62:29
-102                <action android:name="android.accessibilityservice.AccessibilityService" />
-102-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:61:17-91
-102-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:61:25-89
-103            </intent-filter>
-104
-105            <meta-data
-105-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:13-115
-106                android:name="android.accessibilityservice"
-106-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:24-67
-107                android:resource="@xml/accessibility_service" />
-107-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:68-113
-108        </service>
-109        <service
-109-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:9-70:19
-110            android:name="com.stradaos.launcher.MediaListener"
-110-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:18-68
-111            android:label="StradaOS · música"
-111-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-102
-112            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
-112-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:66:13-87
-113            <intent-filter>
-113-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:67:13-69:29
-114                <action android:name="android.service.notification.NotificationListenerService" />
-114-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:68:17-98
-114-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:68:25-96
-115            </intent-filter>
-116        </service>
-117
-118        <activity
-118-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:9-73:135
-119            android:name="com.stradaos.launcher.MusicActivity"
-119-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:19-69
-120            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-120-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:73:13-133
-121            android:excludeFromRecents="true"
-121-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:45-78
-122            android:exported="false"
-122-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:79-103
-123            android:label="StradaOS · música"
-123-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-103
-124            android:launchMode="singleTask" />
-124-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:13-44
-125
-126        <service
-126-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:9-94
-127            android:name="com.stradaos.launcher.MusicService"
-127-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:18-67
-128            android:exported="false" />
-128-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:68-92
-129
-130        <activity
-130-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:9-78:135
-131            android:name="com.stradaos.launcher.NavActivity"
-131-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:19-67
-132            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-132-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:78:13-133
-133            android:excludeFromRecents="true"
-133-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:45-78
-134            android:exported="false"
-134-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:79-103
-135            android:label="StradaOS · navegación"
-135-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-105
-136            android:launchMode="singleTask"
-136-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:13-44
-137            android:windowSoftInputMode="adjustResize" />
-137-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:77:13-55
-138
-139        <provider
-140            android:name="com.stradaos.launcher.ApkProvider"
-140-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:79:19-67
-141            android:authorities="com.stradaos.launcher.debug.apk"
-141-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:79:68-110
-142            android:exported="false"
-142-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:13-37
-143            android:grantUriPermissions="true" />
-143-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:38-72
-144    </application>
-145
-146</manifest>
+52        android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+52-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:28:9-82
+53        android:usesCleartextTraffic="true" >
+53-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:30:9-44
+54        <activity
+55            android:name="com.stradaos.launcher.Main"
+55-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:31:19-60
+56            android:clearTaskOnLaunch="true"
+56-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:75-107
+57            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+57-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:34:13-133
+58            android:excludeFromRecents="true"
+58-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:33:13-46
+59            android:label="StradaOS Prueba"
+59-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:31:61-88
+60            android:launchMode="singleTask"
+60-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:13-44
+61            android:screenOrientation="unspecified"
+61-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:33:47-86
+62            android:stateNotNeeded="true"
+62-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:32:45-74
+63            android:windowSoftInputMode="adjustNothing" >
+63-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:35:13-56
+64            <intent-filter>
+64-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:36:13-41:29
+65                <action android:name="android.intent.action.MAIN" />
+65-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:17-68
+65-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:25-66
+66
+67                <category android:name="android.intent.category.HOME" />
+67-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:17-72
+67-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:27-70
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:17-75
+68-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:27-73
+69                <category android:name="android.intent.category.LAUNCHER" />
+69-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:40:17-76
+69-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:40:27-74
+70            </intent-filter>
+71        </activity>
+72        <activity
+72-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:9-50:20
+73            android:name="com.stradaos.launcher.FakeHome"
+73-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:19-64
+74            android:enabled="false"
+74-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:65-88
+75            android:excludeFromRecents="true"
+75-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:44:13-46
+76            android:exported="true"
+76-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:43:89-112
+77            android:theme="@android:style/Theme.NoDisplay" >
+77-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:44:47-93
+78            <intent-filter>
+78-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:45:13-49:29
+79                <action android:name="android.intent.action.MAIN" />
+79-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:17-68
+79-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:37:25-66
+80
+81                <category android:name="android.intent.category.HOME" />
+81-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:17-72
+81-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:38:27-70
+82                <category android:name="android.intent.category.DEFAULT" />
+82-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:17-75
+82-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:39:27-73
+83            </intent-filter>
+84        </activity>
+85
+86        <receiver
+86-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:9-57:20
+87            android:name="com.stradaos.launcher.BootReceiver"
+87-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:19-68
+88            android:exported="true" >
+88-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:51:69-92
+89            <intent-filter>
+89-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:52:13-56:29
+90                <action android:name="android.intent.action.BOOT_COMPLETED" />
+90-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:53:17-78
+90-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:53:25-76
+91                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+91-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:54:17-81
+91-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:54:25-79
+92                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+92-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:55:17-81
+92-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:55:25-79
+93            </intent-filter>
+94        </receiver>
+95
+96        <service
+96-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:9-64:19
+97            android:name="com.stradaos.launcher.NotifArt"
+97-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:18-63
+98            android:label="@string/acc_label"
+98-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:58:64-97
+99            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+99-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:59:13-79
+100            <intent-filter>
+100-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:60:13-62:29
+101                <action android:name="android.accessibilityservice.AccessibilityService" />
+101-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:61:17-91
+101-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:61:25-89
+102            </intent-filter>
+103
+104            <meta-data
+104-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:13-115
+105                android:name="android.accessibilityservice"
+105-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:24-67
+106                android:resource="@xml/accessibility_service" />
+106-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:63:68-113
+107        </service>
+108        <service
+108-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:9-70:19
+109            android:name="com.stradaos.launcher.MediaListener"
+109-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:18-68
+110            android:label="StradaOS · música"
+110-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:65:69-102
+111            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+111-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:66:13-87
+112            <intent-filter>
+112-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:67:13-69:29
+113                <action android:name="android.service.notification.NotificationListenerService" />
+113-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:68:17-98
+113-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:68:25-96
+114            </intent-filter>
+115        </service>
+116
+117        <activity
+117-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:9-73:135
+118            android:name="com.stradaos.launcher.MusicActivity"
+118-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:19-69
+119            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+119-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:73:13-133
+120            android:excludeFromRecents="true"
+120-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:45-78
+121            android:exported="false"
+121-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:79-103
+122            android:label="StradaOS · música"
+122-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:71:70-103
+123            android:launchMode="singleTask" />
+123-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:72:13-44
+124
+125        <service
+125-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:9-94
+126            android:name="com.stradaos.launcher.MusicService"
+126-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:18-67
+127            android:exported="false" />
+127-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:74:68-92
+128
+129        <activity
+129-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:9-78:135
+130            android:name="com.stradaos.launcher.NavActivity"
+130-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:19-67
+131            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+131-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:78:13-133
+132            android:excludeFromRecents="true"
+132-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:45-78
+133            android:exported="false"
+133-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:79-103
+134            android:label="StradaOS · navegación"
+134-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:75:68-105
+135            android:launchMode="singleTask"
+135-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:76:13-44
+136            android:windowSoftInputMode="adjustResize" />
+136-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:77:13-55
+137
+138        <provider
+139            android:name="com.stradaos.launcher.ApkProvider"
+139-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:79:19-67
+140            android:authorities="com.stradaos.launcher.debug.apk"
+140-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:79:68-110
+141            android:exported="false"
+141-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:13-37
+142            android:grantUriPermissions="true" />
+142-->F:\Machines\Lab\StradaOS\app\src\main\AndroidManifest.xml:80:38-72
+143    </application>
+144
+145</manifest>

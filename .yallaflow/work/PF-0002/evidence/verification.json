@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "cmd /c \"gradlew.bat --no-daemon assembleDebug -q\"",
+      "executionMode": "argv",
+      "executable": "cmd",
+      "args": [
+        "/c",
+        "gradlew.bat --no-daemon assembleDebug -q"
+      ],
+      "displayCommand": "cmd /c \"gradlew.bat --no-daemon assembleDebug -q\"",
+      "success": false,
+      "status": "failed",
+      "exitCode": 1,
+      "startedAt": "2026-11-19T07:54:46.756Z",
+      "finishedAt": "2026-11-19T07:54:46.827Z",
+      "verifiedAt": "2026-11-19T07:54:46.827Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "executionMode": "argv",
+      "executable": "java",
+      "args": [
+        "-cp",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar",
+        "FlexTest"
+      ],
+      "displayCommand": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T07:54:48.119Z",
+      "finishedAt": "2026-11-19T07:54:48.400Z",
+      "verifiedAt": "2026-11-19T07:54:48.400Z",
+      "log": "V-002-verification.log"
+    },
+    {
+      "id": "V-003",
+      "command": "F:/Machines/Lab/StradaOS/gradlew.bat -p F:/Machines/Lab/StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "argv",
+      "executable": "F:/Machines/Lab/StradaOS/gradlew.bat",
+      "args": [
+        "-p",
+        "F:/Machines/Lab/StradaOS",
+        "--no-daemon",
+        "assembleDebug",
+        "-q"
+      ],
+      "displayCommand": "F:/Machines/Lab/StradaOS/gradlew.bat -p F:/Machines/Lab/StradaOS --no-daemon assembleDebug -q",
+      "success": false,
+      "status": "failed",
+      "exitCode": null,
+      "startedAt": "2026-11-19T07:54:55.077Z",
+      "finishedAt": "2026-11-19T07:54:55.082Z",
+      "verifiedAt": "2026-11-19T07:54:55.082Z",
+      "log": "V-003-verification.log"
+    },
+    {
+      "id": "V-004",
+      "command": "cd /d F:\\Machines\\Lab\\StradaOS && gradlew.bat --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "cd /d F:\\Machines\\Lab\\StradaOS && gradlew.bat --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "cd /d F:\\Machines\\Lab\\StradaOS && gradlew.bat --no-daemon assembleDebug -q",
+      "success": false,
+      "status": "failed",
+      "exitCode": 1,
+      "startedAt": "2026-11-19T07:55:00.794Z",
+      "finishedAt": "2026-11-19T07:55:00.851Z",
+      "verifiedAt": "2026-11-19T07:55:00.851Z",
+      "log": "V-004-verification.log"
+    },
+    {
+      "id": "V-005",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T07:55:13.597Z",
+      "finishedAt": "2026-11-19T07:55:38.536Z",
+      "verifiedAt": "2026-11-19T07:55:38.536Z",
+      "log": "V-005-verification.log"
+    },
+    {
+      "id": "V-006",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:01:57.100Z",
+      "finishedAt": "2026-11-19T08:02:35.925Z",
+      "verifiedAt": "2026-11-19T08:02:35.925Z",
+      "log": "V-006-verification.log"
+    },
+    {
+      "id": "V-007",
+      "command": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json",
+      "executionMode": "argv",
+      "executable": "java",
+      "args": [
+        "-cp",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar",
+        "RouteTest",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json"
+      ],
+      "displayCommand": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:02:37.446Z",
+      "finishedAt": "2026-11-19T08:02:37.770Z",
+      "verifiedAt": "2026-11-19T08:02:37.770Z",
+      "log": "V-007-verification.log"
+    },
+    {
+      "id": "V-008",
+      "command": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "executionMode": "argv",
+      "executable": "java",
+      "args": [
+        "-cp",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar",
+        "FlexTest"
+      ],
+      "displayCommand": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:02:39.173Z",
+      "finishedAt": "2026-11-19T08:02:39.428Z",
+      "verifiedAt": "2026-11-19T08:02:39.428Z",
+      "log": "V-008-verification.log"
+    },
+    {
+      "id": "V-009",
+      "command": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "executionMode": "shell",
+      "executable": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "args": [],
+      "displayCommand": "F:\\Machines\\Lab\\StradaOS\\gradlew.bat -p F:\\Machines\\Lab\\StradaOS --no-daemon assembleDebug -q",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:03:27.271Z",
+      "finishedAt": "2026-11-19T08:03:52.401Z",
+      "verifiedAt": "2026-11-19T08:03:52.401Z",
+      "log": "V-009-verification.log"
+    },
+    {
+      "id": "V-010",
+      "command": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json",
+      "executionMode": "argv",
+      "executable": "java",
+      "args": [
+        "-cp",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar",
+        "RouteTest",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json"
+      ],
+      "displayCommand": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:03:53.828Z",
+      "finishedAt": "2026-11-19T08:03:54.114Z",
+      "verifiedAt": "2026-11-19T08:03:54.114Z",
+      "log": "V-010-verification.log"
+    },
+    {
+      "id": "V-011",
+      "command": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "executionMode": "argv",
+      "executable": "java",
+      "args": [
+        "-cp",
+        "C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar",
+        "FlexTest"
+      ],
+      "displayCommand": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar FlexTest",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-19T08:03:55.578Z",
+      "finishedAt": "2026-11-19T08:03:55.855Z",
+      "verifiedAt": "2026-11-19T08:03:55.855Z",
+      "log": "V-011-verification.log"
+    }
+  ]
+}

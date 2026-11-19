@@ -1,0 +1,1443 @@
+{
+  "schemaVersion": 1,
+  "facts": [
+    {
+      "id": "CTX-0001",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "StradaOS is a free, ad-free, open-source (GPL-3.0) Android home-screen launcher for car head units, installed as a normal app without flashing; it targets old head units that report 'Android 6' but run Android 4.x, and also modern screens.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:54a20a9460f418dda6ef501d86beb26139535a1b0ddb26035e59553dd13cd26d",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "LICENSE",
+          "contentHash": "sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-001"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0002",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Single Gradle Android application module ':app' (package com.stradaos.launcher, versionName 2.16.0, versionCode 46); the debug build type uses applicationIdSuffix '.debug' and label 'StradaOS Prueba' so it installs side by side with the release.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "settings.gradle",
+          "contentHash": "sha256:8c687bdfb46e7d84ccc3c19c37acb1a8e725458aad3248ca652ac449cf8305af",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:7c49bdce8482151a3275c8145968c7e062ecfe32ee69f2fc95bee4b03d43a3e4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-002"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0003",
+      "area": "tech-stack",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Plain Java 8 Android app with no external library dependencies (no AndroidX, no Play Services); minSdk 16, targetSdk 28 (deliberately), compileSdk 35, Android Gradle Plugin 8.7.3, Gradle 8.11.1 wrapper, JDK 17 toolchain.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:7c49bdce8482151a3275c8145968c7e062ecfe32ee69f2fc95bee4b03d43a3e4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "build.gradle",
+          "contentHash": "sha256:c3c0cf04da0fc239f391c774554d97d890018ab6e37e87cc62f6070d0c8c9909",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "gradle/wrapper/gradle-wrapper.properties",
+          "contentHash": "sha256:d7010368a34c1c06df2bae1a85d8b24c39b2499c74ac892fc7e66d005dbd7b8a",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "gradle.properties",
+          "contentHash": "sha256:cc38bc495ca4e4d7fa2fe7c9c1112f36af7a63fbf4fc3e7a088e215942403385",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-003"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0004",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Code rules: everything must run on Android 4.1 (API 16) with newer APIs behind SDK_INT checks; Java 8 without lambdas and without java.util.Objects or StandardCharsets; no Google Play Services (to stay F-Droid eligible).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-004"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0005",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The UI is built entirely in code (no XML layouts) on a virtual 1024x600 canvas that is scaled to the screen (Main.place()); Main.java (~5,500 lines) holds the home screen, settings, wizard and dialogs.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-005"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-005"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0006",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Main supporting classes: LiveMapView (online tile map), OfflineMap (mapsforge .map reader adapted, LGPL-3.0), MapDownload (country map download), NowPlaying/MediaWatcher/BtBridge/NotifArt/MediaListener (now-playing from Android 4.x, MediaSession, factory Bluetooth app and Open Headunit notifications), Weather, Updates, Net (TLS 1.2 + bundled roots on Android 4.x), CarPhoto, Guard (crash log), Diag, I18n/TB (translation and dialogs), plus a vendored QR generator (io.nayuki.qrcodegen, MIT).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-006"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/OfflineMap.java",
+          "contentHash": "sha256:4a4750cab4f537e6c3ede891f17c1dcdb7d68fb804a854cd3ab2c75a32dc3137",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Net.java",
+          "contentHash": "sha256:9cd622eb01539a06edc1b256244fb4e568f7becccd00db1503124ecbcde0125d",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/io/nayuki/qrcodegen/QrCode.java",
+          "contentHash": "sha256:28764be4b921a1bf428e7a9a354d49a41ebde15c70f8473fdec71656811a38c4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-006"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0007",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Hidden Android 4.0-4.3 API IRemoteControlDisplay is used for now-playing: a compile-only stub (src/hiddenapi) is never packaged; RcDisplay (src/legacy) is compiled against it into stradaos-legacy-rc.jar that is packaged and loaded by reflection.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:7c49bdce8482151a3275c8145968c7e062ecfe32ee69f2fc95bee4b03d43a3e4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/legacy/java/com/stradaos/launcher/RcDisplay.java",
+          "contentHash": "sha256:59ac957d3e7373f252d7f032f5632ff8cd9f7590e23536f2658792d7c8c68644",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/hiddenapi/java/android/media/IRemoteControlDisplay.java",
+          "contentHash": "sha256:467733f99a507aeb07791c85350aec9a599ea757c568790a522adddd56e4cccb",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-007"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0008",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Android entry points: Main (HOME/LAUNCHER, singleTask), FakeHome (disabled HOME activity used to trigger the launcher chooser on Android 4-9), BootReceiver (optional open on boot via 'boot_open'), NotifArt accessibility service (Android Auto artwork), MediaListener notification listener, MusicActivity + MusicService, NavActivity, and ApkProvider (non-exported content provider for installing APKs).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/AndroidManifest.xml",
+          "contentHash": "sha256:49d22f9b584a988dbe6a16b6e7aa2e03481e087fb189e24c29c92d2eb53f7365",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/BootReceiver.java",
+          "contentHash": "sha256:55346e5e693a9e401530310b53f7957d855493a2ea884eeee695b1f9385b1743",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-008"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0009",
+      "area": "database",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "No database: settings live in SharedPreferences file 'launcher' (and 'local_player' for the built-in music player); map tiles are cached on device and offline maps are .map files in Download/StradaOS (Android 9 and below) or the app folder (Android 10+).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/LocalPlayer.java",
+          "contentHash": "sha256:c6b430b44b1794c718e5211f2a4f553d73c3ff1b99acb878fa7c37e7b1c939c8",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/MapDownload.java",
+          "contentHash": "sha256:e1bbf61241763c8efca810d384af27e50b68d01285d0abcb97e528797850aeb4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "docs/ESTADO_PROYECTO.md",
+          "contentHash": "sha256:94709098c358b7f63fb7e4e3b6f06728badc4e866bff8de58b3576819a164ec6",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-009"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0010",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "There are no user accounts, login, ads or analytics; nothing is sent to project-owned servers.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-010"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "PRIVACY.md",
+          "contentHash": "sha256:8b165155382347608543d85f6f6104dcbbcdbee405ddc1cc25970b7c377c8436",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:54a20a9460f418dda6ef501d86beb26139535a1b0ddb26035e59553dd13cd26d",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-010"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0011",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "No in-app roles; the app relies on Android permissions (location, storage, Bluetooth/Wi-Fi state and admin, GET_TASKS/REORDER_TASKS, install/delete packages, boot completed) and optional accessibility and notification-listener access.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-011"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/AndroidManifest.xml",
+          "contentHash": "sha256:49d22f9b584a988dbe6a16b6e7aa2e03481e087fb189e24c29c92d2eb53f7365",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "PRIVACY.md",
+          "contentHash": "sha256:8b165155382347608543d85f6f6104dcbbcdbee405ddc1cc25970b7c377c8436",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-011"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0012",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Network services used: OSM community tile servers, OpenTopoMap and Esri for the live map; Open-Meteo (and BigDataCloud for the city name) for weather; download.mapsforge.org for offline maps; GitHub API, raw.githubusercontent and jsDelivr for update checks.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-012"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "PRIVACY.md",
+          "contentHash": "sha256:8b165155382347608543d85f6f6104dcbbcdbee405ddc1cc25970b7c377c8436",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+          "contentHash": "sha256:de4180d958f6ccbdda7c753dab6e7038cbb8820dbf5a35510b36c6a4cf512449",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Weather.java",
+          "contentHash": "sha256:a8cd31f20a7331e04a3b82969f80600b4399ff578a94ba6c97b3dd48bef44dfb",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/MapDownload.java",
+          "contentHash": "sha256:e1bbf61241763c8efca810d384af27e50b68d01285d0abcb97e528797850aeb4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Updates.java",
+          "contentHash": "sha256:2922e812e6f8ad868fce49096481c48993bed4fa13d63479a97e71407de1fb60",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-012"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0013",
+      "area": "business-rule",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Turn-by-turn navigation (Nav, NavActivity) was added in this fork: destination search via Nominatim and Photon, car routes via OSRM servers (routing.openstreetmap.de, router.project-osrm.org, with http fallbacks), guided by GPS with rerouting off-route; the map itself stays StradaOS's offline or live map.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-013"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:dcb672a0bfa3ed50d58991a5e542900c55d327c02b5339fef3b2ec7950199cbe",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+          "contentHash": "sha256:a03a2595cdc667fcc51603489b5efcda99a27f235f926fd23131c64abaca9695",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": "CTX-0030",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-013"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-19T08:04:52.414Z",
+          "supersededBy": "CTX-0030",
+          "workId": "PF-0002",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T08:04:52.414Z"
+    },
+    {
+      "id": "CTX-0014",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "A built-in music player (LocalPlayer, MusicActivity, MusicService) was added in this fork: it scans USB, SD card and internal storage for audio files (mp3, m4a, aac, flac, ogg, opus, wav, 3gp, mka; up to 8000 files, depth 7) and feeds the home-screen player card.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-014"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/LocalPlayer.java",
+          "contentHash": "sha256:c6b430b44b1794c718e5211f2a4f553d73c3ff1b99acb878fa7c37e7b1c939c8",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/MusicActivity.java",
+          "contentHash": "sha256:fe9e0068eed82639caac8927e2944a34f67a76e177ecc8ae1f5b16ad742af872",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/MusicService.java",
+          "contentHash": "sha256:305e509d50e2964006a0878c9509939844c683f48f60c75482250defc69a316f",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-014"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0015",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "This fork bundles the Open Headunit (headunit-revived) APK (~21 MB) as an app asset; StradaOS can copy it out and launch the system installer to set up Android Auto.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-015"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/assets/apps/headunit-revived.apk",
+          "contentHash": "sha256:5e6ac16c528d06a26b6ce764cf56a6e26dc72b70d45a4df1e64239c74e0db908",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-015"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0016",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Updates are trusted only if the version string is digits and dots (Updates.safeVersion), the APK URL starts with the upstream Releases prefix (Updates.APK_PREFIX), and the downloaded APK has the same package and signature (Main.verifyApk).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-016"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Updates.java",
+          "contentHash": "sha256:2922e812e6f8ad868fce49096481c48993bed4fa13d63479a97e71407de1fb60",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-016"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0017",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Oil-change reminder keeps all values in km in prefs (odo_base_km, oil_last_km, oil_interval_km, oil_snooze_km) with GPS distance accumulated in odo_gps_m; km/h vs mph is a display preference (speed_unit).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-017"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/ESTADO_PROYECTO.md",
+          "contentHash": "sha256:94709098c358b7f63fb7e4e3b6f06728badc4e866bff8de58b3576819a164ec6",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-017"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0018",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Source text is written in Spanish and translated at display time: assets/i18n/<lang>.txt holds 'spanish<TAB>translation' lines with {} placeholders; missing lines fall back to Spanish. Languages: es (source), en, pt, it, de, ms, ar; values-xx/strings.xml only covers system-facing labels.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-018"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/I18n.java",
+          "contentHash": "sha256:619d452182b3927d07587a049c8718d828975efa1979f03aec734b6e0fb6abbb",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/assets/i18n/en.txt",
+          "contentHash": "sha256:1ebe4ceb7ce4cb8d460d0ae2aa6fff41ff72d018763d1432ca7111b3f454e96e",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/assets/i18n/ar.txt",
+          "contentHash": "sha256:72ed4320b155cedeff6af89fc8f8351a9b324d471b322d0d69239326795f1bc8",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-018"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0019",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Code comments, commit messages, docs, CI workflow names and test-hook names are in Spanish (upstream author); newer fork commits are in English.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-019"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/ESTADO_PROYECTO.md",
+          "contentHash": "sha256:94709098c358b7f63fb7e4e3b6f06728badc4e866bff8de58b3576819a164ec6",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/pruebas.yml",
+          "contentHash": "sha256:c2c51ea69694ae56e7506e34fccbab5936ebe6d6685e747e4cc30dca51a323f5",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-019"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0020",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "There are no unit tests (no src/test or src/androidTest); testing is emulator smoke tests (pruebas.yml running .github/scripts/smoke.sh on API 16, 19, 21, 23/24, 28, 30, 34 at 1024x600, failing on crashes or hangs), plus manual testing on phones and real head units. Debug builds accept '--es prueba <value>' intent extras (Main.testHook) to open screens without tapping.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-020"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/PRUEBAS.md",
+          "contentHash": "sha256:b52a89bf4ad58381bcfe532e17628f2b0ffddab00385be886788339eac192fd6",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/pruebas.yml",
+          "contentHash": "sha256:c2c51ea69694ae56e7506e34fccbab5936ebe6d6685e747e4cc30dca51a323f5",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/scripts/smoke.sh",
+          "contentHash": "sha256:b3b9e059bfdcb3ade49bd33024102d16235436bc0a62c882a4b5fe9fa5763325",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:970b261c929496df55b09408c4b63953404b4b8075a5bc122887d0fb0cc6e4a3",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-020"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0021",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "GitHub Actions: android.yml builds the debug APK on each push/PR and publishes it to the moving 'prueba' prerelease; release.yml builds a signed release when versionName changes (or on a vX.Y.Z tag), creates the GitHub Release from changelogs/X.Y.Z.md, rewrites update.json on main and purges jsDelivr; pages.yml publishes site/ to GitHub Pages; other workflows (mapa, capturas, instalador, salida, ajustes-emulador, bloque5) are targeted emulator/screenshot jobs.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-021"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": ".github/workflows/android.yml",
+          "contentHash": "sha256:fc22505667b114aaae36387c4f5c18557355575274fe560a264e5f3600a1d76c",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/release.yml",
+          "contentHash": "sha256:ddd1315b57a64b7ed5a2f78306f23708fc54f57e2c9eb5973c7536e50a6d89dc",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/pages.yml",
+          "contentHash": "sha256:f34625a3afbe41657327f39f316e92f6cdfc921146cb36eae340ef4b8b7c3835",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:02c8257ed2fae5ae5b0d376a06501aa9b693a5b4f336bcdb135deb8ef77cef57",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-021"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0022",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Release signing reads STRADAOS_KEYSTORE, STRADAOS_KEYSTORE_PASSWORD, STRADAOS_KEY_ALIAS and STRADAOS_KEY_PASSWORD from the environment (CI secrets KEYSTORE_BASE64 etc.); without them the release APK is unsigned (as F-Droid needs). V1 signing is kept on because Android 4.x only understands it.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-022"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:7c49bdce8482151a3275c8145968c7e062ecfe32ee69f2fc95bee4b03d43a3e4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/release.yml",
+          "contentHash": "sha256:ddd1315b57a64b7ed5a2f78306f23708fc54f57e2c9eb5973c7536e50a6d89dc",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-022"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0023",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The in-app updater and release links are hard-coded to the upstream repository owner 'lordnordic-debug' (Updates.OWNER), while this checkout's git remote is a fork; fork builds therefore check and offer upstream releases.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-023"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Updates.java",
+          "contentHash": "sha256:2922e812e6f8ad868fce49096481c48993bed4fa13d63479a97e71407de1fb60",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "update.json",
+          "contentHash": "sha256:5f2301b91398315eb7439a7db2b3070241bb749b46aca0189463277e98c6eb45",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-023"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0024",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "A static project website lives in site/ (index.html, i18n.js with ES/EN/PT/MS, images) and is published by pages.yml; store metadata for F-Droid style listings is under fastlane/metadata/android (en-US, es-ES).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-024"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "site/index.html",
+          "contentHash": "sha256:60db830f654db414ab3818e6fb3d6b572224a200fb0e93196f8d61ba316e5613",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "site/i18n.js",
+          "contentHash": "sha256:9ce6f9f146222a5b0490cb7888f5e2da6abb510e75342e2b0c22ee9485a4d1b2",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": ".github/workflows/pages.yml",
+          "contentHash": "sha256:f34625a3afbe41657327f39f316e92f6cdfc921146cb36eae340ef4b8b7c3835",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "fastlane/metadata/android/en-US/full_description.txt",
+          "contentHash": "sha256:b4d706f9689e6e31e61692edbb739143becc593dd16becd06bc69698081a2f91",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-024"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0025",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The whole Gradle build output directory app/build/ (about 1,400 files) is committed to git even though .gitignore lists build/, so every build produces large noisy diffs; a 17 MB test APK (StradaOS-2.16.0-prueba.apk) is also committed at the repository root.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-025"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": ".gitignore",
+          "contentHash": "sha256:58312875192f44b17b79640d79a56ee3fd917f96339b8dee754bd4ff23198cd2",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "StradaOS-2.16.0-prueba.apk",
+          "contentHash": "sha256:1ad98a8ed832bbd8e6bc2638e7f85f611f90e9c9dcba0a66fdb2c4f45eafb844",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/build/intermediates/apk_ide_redirect_file/debug/createDebugApkListingFileRedirect/redirect.txt",
+          "contentHash": "sha256:fda83f7e4319e5b081053021e2ef26157c6d778bf15f95afc045d30a8744e1e8",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-025"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0026",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The manifest allows cleartext traffic and several services have http fallbacks (weather, map download, OSRM routing, jsDelivr updates) for Android 4.x TLS limits; update downloads remain protected by the signature check.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-026"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/AndroidManifest.xml",
+          "contentHash": "sha256:49d22f9b584a988dbe6a16b6e7aa2e03481e087fb189e24c29c92d2eb53f7365",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:dcb672a0bfa3ed50d58991a5e542900c55d327c02b5339fef3b2ec7950199cbe",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Weather.java",
+          "contentHash": "sha256:a8cd31f20a7331e04a3b82969f80600b4399ff578a94ba6c97b3dd48bef44dfb",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/MapDownload.java",
+          "contentHash": "sha256:e1bbf61241763c8efca810d384af27e50b68d01285d0abcb97e528797850aeb4",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-026"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0027",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "PRIVACY.md and the README do not yet mention the fork's new network services (Nominatim, Photon and OSRM for navigation) or the bundled Open Headunit APK, and the README still says the app weighs under 1 MB.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-027"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "PRIVACY.md",
+          "contentHash": "sha256:8b165155382347608543d85f6f6104dcbbcdbee405ddc1cc25970b7c377c8436",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:54a20a9460f418dda6ef501d86beb26139535a1b0ddb26035e59553dd13cd26d",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:dcb672a0bfa3ed50d58991a5e542900c55d327c02b5339fef3b2ec7950199cbe",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-027"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0028",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Head-unit vendor specifics: on Clinkway/Autochips units StradaOS binds the factory Bluetooth music service (com.clw.btmusic) to detect play state and briefly brings its screen to the front so audio routes to Bluetooth; Android Auto connection is detected via USB accessory mode (VID 0x18D1) or recent Open Headunit notifications.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-028"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/ESTADO_PROYECTO.md",
+          "contentHash": "sha256:94709098c358b7f63fb7e4e3b6f06728badc4e866bff8de58b3576819a164ec6",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/BtBridge.java",
+          "contentHash": "sha256:f9015976099236f43f1c1264e4abc398d26518f7fcd308ed0ebe1523ac34bf86",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-028"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0029",
+      "area": "project",
+      "state": "current",
+      "confidence": "unresolved",
+      "summary": "Whether this fork intends to publish its own releases (own signing key, own update source, own Releases URL) or to contribute changes back upstream cannot be established from the repository.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "baselineFactId": "BF-029"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Updates.java",
+          "contentHash": "sha256:2922e812e6f8ad868fce49096481c48993bed4fa13d63479a97e71407de1fb60",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "update.json",
+          "contentHash": "sha256:5f2301b91398315eb7439a7db2b3070241bb749b46aca0189463277e98c6eb45",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-11-19T07:43:22.946Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T07:43:22.946Z",
+          "workId": "PF-0001",
+          "baselineFactId": "BF-029"
+        }
+      ],
+      "createdAt": "2026-11-19T07:43:22.946Z",
+      "updatedAt": "2026-11-19T07:43:22.946Z"
+    },
+    {
+      "id": "CTX-0030",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Turn-by-turn navigation (Nav, NavActivity): with a HERE API key in the 'here_key' pref (Settings > Map and weather > Navigation), destination search uses HERE Discover/Geocode and car routes use HERE Routing v8 (traffic-aware, flexible polyline, turnByTurnActions mapped to OSRM-style steps); without a key or when HERE fails it falls back to Nominatim+Photon search and OSRM servers. Guidance runs on GPS with rerouting; the displayed map stays StradaOS's offline or live map.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Nav.java",
+          "contentHash": "sha256:b9d974cf46a6dc0022f001b8718b7d1a4ef24d63ca8ab186fb28f7481e692a62",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:a13ce754c3e174b07143d57c0bf41b4cfab198082ca7e648561b59010c8ff01e",
+          "gitCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "java -cp C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/flex;app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes;C:/Users/moham/AppData/Local/Android/Sdk/platforms/android-35/android.jar RouteTest C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/route.json (passed)",
+          "workId": "PF-0002",
+          "verificationRunId": "V-010"
+        }
+      ],
+      "verifiedAt": "2026-11-19T08:04:52.414Z",
+      "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
+      "supersedes": [
+        "CTX-0013"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-19T08:04:52.414Z",
+          "workId": "PF-0002",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0013"
+        }
+      ],
+      "createdAt": "2026-11-19T08:04:52.414Z",
+      "updatedAt": "2026-11-19T08:04:52.414Z"
+    }
+  ],
+  "updatedAt": "2026-11-19T08:04:52.414Z"
+}

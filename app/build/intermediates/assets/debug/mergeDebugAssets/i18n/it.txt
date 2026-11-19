@@ -689,3 +689,29 @@ Llegaste	Arrivato
 Reloj y clima en la tarjeta	Orologio e meteo nella scheda
 En lugar del nombre y la foto del vehículo	Al posto del nome e della foto del veicolo
 Actualizando el clima…	Aggiornamento del meteo…
+Ubicación por coordenadas	Posizione da coordinate
+Lugar, dirección, negocio o coordenadas	Luogo, indirizzo, attività o coordinate
+Si está en Google Maps: abre el lugar en el celular, copia sus coordenadas (ej. 30.0444, 31.2357) y escríbelas aquí.	Se è su Google Maps: apri il luogo sul telefono, copia le coordinate (es. 30.0444, 31.2357) e scrivile qui.
+# 2.17 · HERE (navegación)
+Clave de HERE (API key)	Chiave HERE (API key)
+Opcional: búsqueda y rutas con tráfico de HERE en la navegación de StradaOS. Sin clave o si falla, se usa OpenStreetMap	Facoltativa: ricerca e percorsi con traffico di HERE nella navigazione di StradaOS. Senza chiave o se non funziona, si usa OpenStreetMap
+Sin clave	Nessuna chiave
+Clave de API de HERE (vacío = OpenStreetMap)	Chiave API HERE (vuoto = OpenStreetMap)
+Navegación con OpenStreetMap	Navigazione con OpenStreetMap
+Probando la clave de HERE…	Verifica della chiave HERE…
+La clave de HERE funciona	La chiave HERE funziona
+La clave de HERE no funcionó	La chiave HERE non ha funzionato
+Mientras tanto, la navegación usa OpenStreetMap.	Nel frattempo la navigazione usa OpenStreetMap.
+La clave no es válida o no tiene permiso para este servicio	La chiave non è valida o non è abilitata per questo servizio
+Se acabó la cuota de la clave	La quota della chiave è esaurita
+Búsqueda y rutas: HERE · © HERE	Ricerca e percorsi: HERE · © HERE
+Búsqueda: HERE	Ricerca: HERE
+Búsqueda: Nominatim	Ricerca: Nominatim
+Rutas: HERE	Percorsi: HERE
+Rutas: OSRM	Percorsi: OSRM
+© HERE y colaboradores de OpenStreetMap	© HERE e contributori di OpenStreetMap
+# Radio en el reproductor
+Elige la app de la radio	Scegli l'app della radio
+Modo radio: los botones controlan la radio	Modalità radio: i pulsanti controllano la radio
+Anterior y siguiente cambian de emisora	Precedente e successivo cambiano stazione
+Toca ▶ para escuchar la radio	Tocca ▶ per ascoltare la radio
