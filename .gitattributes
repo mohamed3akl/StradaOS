@@ -1,0 +1,2 @@
+# YallaFlow preserved sources must stay byte-exact (their checksums are recorded)
+.yallaflow/sources/** -text

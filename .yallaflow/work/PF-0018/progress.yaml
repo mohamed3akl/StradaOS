@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:05:41.426Z",
+      "completedAt": "2026-11-22T16:05:41.426Z",
+      "summary": "yallaflow doctor: SRC-0001..0004 checksum mismatch. git ls-files --eol shows i/lf w/crlf with no attributes; core.autocrlf=true rewrote working copies to CRLF. Index content (LF) equals recorded sha256 (verified against original diag info.txt). Fix: .gitattributes '.yallaflow/sources/** -text', then re-checkout those paths."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:05:53.082Z",
+      "completedAt": "2026-11-22T16:05:53.082Z",
+      "summary": "Requested delta: Git must not convert line endings of preserved YallaFlow sources, so doctor checksums pass on Windows checkouts. Acceptance: yallaflow doctor reports no source checksum failures."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:06:04.453Z",
+      "completedAt": "2026-11-22T16:06:04.453Z",
+      "summary": "Add root .gitattributes with '.yallaflow/sources/** -text'; remove the CRLF working copies of those 8 files and git checkout them so they match the LF index; run yallaflow doctor."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:06:30.060Z",
+      "completedAt": "2026-11-22T16:06:30.060Z",
+      "summary": "Added .gitattributes (.yallaflow/sources/** -text); restored the 8 source files from the Git index (LF, unchanged committed content) so they match recorded checksums."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:06:50.029Z",
+      "completedAt": "2026-11-22T16:06:50.029Z",
+      "summary": "V-001: all source files are LF in the working tree and yallaflow doctor has no FAIL."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T16:06:50.029Z"
+}

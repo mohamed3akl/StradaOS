@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "bash -c \"git ls-files --eol .yallaflow/sources | grep -v \"w/lf\" && exit 1; ! yallaflow doctor 2>&1 | grep -E \"^FAIL\" && echo NO_FAIL\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "git ls-files --eol .yallaflow/sources | grep -v \"w/lf\" && exit 1; ! yallaflow doctor 2>&1 | grep -E \"^FAIL\" && echo NO_FAIL"
+      ],
+      "displayCommand": "bash -c \"git ls-files --eol .yallaflow/sources | grep -v \"w/lf\" && exit 1; ! yallaflow doctor 2>&1 | grep -E \"^FAIL\" && echo NO_FAIL\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T16:06:33.718Z",
+      "finishedAt": "2026-11-22T16:06:36.808Z",
+      "verifiedAt": "2026-11-22T16:06:36.808Z",
+      "log": "V-001-verification.log"
+    }
+  ]
+}

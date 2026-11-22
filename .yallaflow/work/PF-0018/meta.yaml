@@ -1,0 +1,45 @@
+{
+  "id": "PF-0018",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Keep YallaFlow source originals byte-exact under core.autocrlf",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-22T16:04:59.314Z",
+  "updatedAt": "2026-11-22T16:07:02.999Z",
+  "title": "Keep YallaFlow source originals byte-exact under core.autocrlf",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-11-22T16:04:59.354Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-22T16:07:02.999Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

@@ -1997,7 +1997,77 @@
       ],
       "createdAt": "2026-11-22T14:13:53.518Z",
       "updatedAt": "2026-11-22T14:13:53.518Z"
+    },
+    {
+      "id": "CTX-0043",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "On Autochips XY/PVE screens the Bluetooth music screen (com.autochips.bluetooth BtMusicActivity) is not exported; StradaOS opens the factory Bluetooth app's launcher (MainBluetoothActivity) as the Bluetooth music app.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0017",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+          "contentHash": "sha256:affee60f663ac61873c513c19d0d7c016a84163291e5f5826bbb906f89ddecb1",
+          "gitCommit": "d3ae7fd61efa5704a98cf41c9e089c32986bdfe8",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-22T16:04:21.397Z",
+      "verifiedAtCommit": "d3ae7fd61efa5704a98cf41c9e089c32986bdfe8",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-22T16:04:21.397Z",
+          "workId": "PF-0017",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-22T16:04:21.397Z",
+      "updatedAt": "2026-11-22T16:04:21.397Z"
+    },
+    {
+      "id": "CTX-0044",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Preserved YallaFlow sources are marked -text in .gitattributes so core.autocrlf cannot rewrite them and break their recorded checksums.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0018",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": ".gitattributes",
+          "contentHash": "sha256:4a8839e8f7851933b281f8f72157183a2eebc8dcd3ffc1aa1f280fe89fa44d77",
+          "gitCommit": "d3ae7fd61efa5704a98cf41c9e089c32986bdfe8",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-11-22T16:07:00.659Z",
+      "verifiedAtCommit": "d3ae7fd61efa5704a98cf41c9e089c32986bdfe8",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-22T16:07:00.659Z",
+          "workId": "PF-0018",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-22T16:07:00.659Z",
+      "updatedAt": "2026-11-22T16:07:00.659Z"
     }
   ],
-  "updatedAt": "2026-11-22T14:13:53.518Z"
+  "updatedAt": "2026-11-22T16:07:00.659Z"
 }

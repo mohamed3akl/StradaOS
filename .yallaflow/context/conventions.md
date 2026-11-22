@@ -134,4 +134,17 @@
   - CONTRIBUTING.md (repository @ eaac007)
   - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_versions.sh (passed) (runtime, PF-0014 V-001)
 
+<!-- yallaflow-fact:CTX-0044 -->
+### CTX-0044 — Preserved YallaFlow sources are marked -text in .gitattributes so core.autocrlf cannot rewrite them and break their recorded checksums.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0018
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-22T16:07:00.659Z
+- **Verified:** 2026-11-22T16:07:00.659Z (commit d3ae7fd)
+- **Evidence:**
+  - .gitattributes (repository @ d3ae7fd)
+
 <!-- yallaflow-context:end -->

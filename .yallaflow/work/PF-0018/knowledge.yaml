@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Preserved YallaFlow sources are marked -text in .gitattributes so core.autocrlf cannot rewrite them and break their recorded checksums.",
+      "evidence": [
+        ".gitattributes"
+      ],
+      "confidence": "confirmed",
+      "status": "promoted",
+      "createdAt": "2026-11-22T16:06:58.935Z",
+      "factId": "CTX-0044",
+      "promotedAt": "2026-11-22T16:07:00.659Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-22T16:07:00.659Z",
+  "reviewedAt": "2026-11-22T16:07:00.659Z"
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:02:34.505Z",
+      "completedAt": "2026-11-22T16:02:34.505Z",
+      "summary": "Diag (SRC-0001..0004, unit ATC ac8317, API 17) shows 'App de música Bluetooth: no encontrada'. Unit uses com.autochips.bluetooth (BTSuite2); BtBridge only supports Clinkway com.clw.btmusic. Main.btMusicApp() matches launcher activities by name; factory BtMusicActivity has no intent filter (not exported), only .MainBluetoothActivity is a launcher."
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:02:51.338Z",
+      "completedAt": "2026-11-22T16:02:51.338Z",
+      "summary": "Root cause: Main.btMusicApp() name regex finds no launcher on Autochips (label 'Bluetooth', activity MainBluetoothActivity); factory BtMusicActivity has no intent-filter so it is private. Fix: fall back to com.autochips.bluetooth launcher activity when installed.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Main.java",
+        "runtime:diagnostic info/player shows 'App de música Bluetooth: no encontrada'; aapt dump of factory com.autochips.bluetooth.apk shows BtMusicActivity without intent-filter, only .MainBluetoothActivity is MAIN/LAUNCHER"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:03:47.716Z",
+      "completedAt": "2026-11-22T16:03:47.716Z",
+      "summary": "Main.btMusicApp(): after the saved pref and the name regex, fall back to the launch activity of com.autochips.bluetooth (MainBluetoothActivity) when installed. Covers Bluetooth source, open-on-connect, settings row and diagnostics."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T16:04:11.021Z",
+      "completedAt": "2026-11-22T16:04:11.021Z",
+      "summary": "V-001: debug build passes with the Autochips fallback. Device test pending (limitation recorded)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T16:04:11.021Z"
+}

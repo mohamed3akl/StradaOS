@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "not-inspected",
+      "area": "integration",
+      "summary": "Not run on the real Autochips head unit or emulator",
+      "reason": "Factory com.autochips.bluetooth is a system app and cannot be installed on the emulator; confirm on the car that the Bluetooth source opens the factory Bluetooth app",
+      "recordedAt": "2026-11-22T16:04:01.780Z"
+    }
+  ],
+  "updatedAt": "2026-11-22T16:04:01.780Z"
+}

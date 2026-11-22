@@ -1,0 +1,43 @@
+{
+  "id": "PF-0017",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Bluetooth music app not found on Autochips screens",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-22T16:02:19.209Z",
+  "updatedAt": "2026-11-22T16:04:23.890Z",
+  "title": "Bluetooth music app not found on Autochips screens",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-11-22T16:02:19.239Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-22T16:04:23.890Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

@@ -333,8 +333,17 @@ public class Main extends Activity {
         if (c != null) return ComponentName.unflattenFromString(c);
         ResolveInfo r = find("audio bluetooth|música bluetooth|musica bluetooth|bt music|bluetooth music|música bt|musica bt|a2dp",
                 "btmusic|bt.music|bt_music|btaudio|a2dp|bluetoothmusic|music.bt");
-        return r == null ? null : new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
+        if (r != null) return new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
+        // Autochips (XY / PVE, AC8317): su pantalla de música Bluetooth (BtMusicActivity) no se puede abrir desde
+        // otra app; se abre la app «Bluetooth» de fábrica, que tiene la pestaña de música.
+        try {
+            Intent li = getPackageManager().getLaunchIntentForPackage(AUTOCHIPS_BT);
+            if (li != null && li.getComponent() != null) return li.getComponent();
+        } catch (Throwable ignored) { }
+        return null;
     }
+
+    static final String AUTOCHIPS_BT = "com.autochips.bluetooth";
 
     // ───────────────────────── radio en el reproductor ─────────────────────────
     //

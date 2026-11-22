@@ -64,4 +64,17 @@
   - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ 57d850f)
   - bash -c "export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q "parseIntent method:method_seekUp" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q "radio directa: method_open" && $A shell dumpsys activity top | grep -q "ACTIVITY com.stradaos.launcher.debug/" && echo "emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front"" (passed) (runtime, PF-0004 V-005)
 
+<!-- yallaflow-fact:CTX-0043 -->
+### CTX-0043 — On Autochips XY/PVE screens the Bluetooth music screen (com.autochips.bluetooth BtMusicActivity) is not exported; StradaOS opens the factory Bluetooth app's launcher (MainBluetoothActivity) as the Bluetooth music app.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0017
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-22T16:04:21.397Z
+- **Verified:** 2026-11-22T16:04:21.397Z (commit d3ae7fd)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/Main.java (repository @ d3ae7fd)
+
 <!-- yallaflow-context:end -->

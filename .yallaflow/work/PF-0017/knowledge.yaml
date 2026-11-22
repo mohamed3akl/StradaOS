@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "On Autochips XY/PVE screens the Bluetooth music screen (com.autochips.bluetooth BtMusicActivity) is not exported; StradaOS opens the factory Bluetooth app's launcher (MainBluetoothActivity) as the Bluetooth music app.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/Main.java"
+      ],
+      "confidence": "confirmed",
+      "status": "promoted",
+      "createdAt": "2026-11-22T16:04:19.674Z",
+      "factId": "CTX-0043",
+      "promotedAt": "2026-11-22T16:04:21.397Z",
+      "target": "context/integrations.md"
+    }
+  ],
+  "updatedAt": "2026-11-22T16:04:21.397Z",
+  "reviewedAt": "2026-11-22T16:04:21.397Z"
+}
