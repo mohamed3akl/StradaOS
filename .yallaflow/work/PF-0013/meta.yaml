@@ -1,0 +1,46 @@
+{
+  "id": "PF-0013",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Send the exported diagnostics to a phone (iPhone) over Wi-Fi: zip StradaDiag and serve it from the head unit with a QR code link",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-22T06:18:23.155Z",
+  "updatedAt": "2026-11-22T06:25:18.880Z",
+  "title": "Send the exported diagnostics to a phone (iPhone) over Wi-Fi: zip StradaDiag and serve it from the head unit with a QR code link",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-11-22T06:18:23.204Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-22T06:25:18.880Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

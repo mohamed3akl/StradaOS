@@ -1,0 +1,8 @@
+right link: HTTP 200, 27527519 bytes
+  in zip: StradaDiag/info.txt
+  in zip: StradaDiag/bluetooth.txt
+  in zip: StradaDiag/player.txt
+  in zip: StradaDiag/crashes.txt
+zip integrity: OK
+wrong code: HTTP 404
+PASS

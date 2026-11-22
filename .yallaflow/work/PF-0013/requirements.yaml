@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The diagnostic files can be sent from the head unit to the user's iPhone in a simple way, over Wi-Fi or Bluetooth.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T06:18:53.188Z",
+      "updatedAt": "2026-11-22T06:18:53.188Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "After exporting (or from Settings > System), 'Send to phone' packs StradaDiag into one ZIP and shows a QR code and link; opening it on a phone on the same Wi-Fi or hotspot downloads the ZIP with no app needed.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T06:18:53.188Z",
+      "updatedAt": "2026-11-22T06:18:53.188Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-001",
+      "statement": "The link only works with its random code, and sharing stops when the window is closed or after 15 minutes; without Wi-Fi the app says to connect the screen to Wi-Fi or the phone's hotspot.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T06:18:53.188Z",
+      "updatedAt": "2026-11-22T06:18:53.188Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-22T06:18:53.188Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-22T06:18:53.188Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-22T06:18:53.188Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-22T06:18:53.188Z"
+}

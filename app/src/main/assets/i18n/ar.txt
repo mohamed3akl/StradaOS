@@ -728,3 +728,17 @@ Se usa la clave de HERE incluida en la app	يُستخدم مفتاح HERE الم
 # Tráfico
 +{} min de tráfico	+{} د بسبب الزحام
 Tráfico fluido	الطريق سالك
+# Enviar el diagnóstico al celular
+Enviar al celular	إرسال إلى الهاتف
+Sin Wi-Fi	لا يوجد Wi-Fi
+Conecta la pantalla al Wi-Fi o al punto de acceso de tu celular y vuelve a intentarlo.	وصّل الشاشة بشبكة Wi-Fi أو بنقطة اتصال هاتفك ثم حاول مرة أخرى.
+Primero exporta el diagnóstico	صدّر التشخيص أولًا
+Preparando el archivo…	جارٍ تجهيز الملف…
+No se pudo compartir	تعذّرت المشاركة
+1. El celular y la pantalla en el mismo Wi-Fi (o la pantalla conectada al punto de acceso del celular).\n2. Escanea el código con la cámara.\n3. Toca «Descargar»: el archivo queda en la app Archivos (iPhone) o en Descargas.	1. الهاتف والشاشة على شبكة Wi-Fi نفسها (أو الشاشة متصلة بنقطة اتصال الهاتف).\n2. امسح الرمز بالكاميرا.\n3. اضغط «تنزيل»: يُحفظ الملف في تطبيق الملفات (iPhone) أو في التنزيلات.
+Tamaño	الحجم
+se deja de compartir al cerrar esta ventana (o en 15 minutos)	تتوقف المشاركة عند إغلاق هذه النافذة (أو بعد 15 دقيقة)
+Enviar el diagnóstico al celular	إرسال التشخيص إلى الهاتف
+Enviar diagnóstico al celular	إرسال التشخيص إلى الهاتف
+Por Wi-Fi con un código QR (también iPhone): el celular y la pantalla en la misma red	عبر Wi-Fi برمز QR (يعمل مع iPhone أيضًا): الهاتف والشاشة على الشبكة نفسها
+Listo	تم

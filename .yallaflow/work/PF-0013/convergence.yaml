@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-22T06:25:09.836Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "e5267df64fbcf35efe9c3c592b438288826da8e7",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (emulator, PC as the phone) and V-002 (build). Not tried on a real iPhone.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Send diagnostics to phone exported, zipped StradaDiag and showed a QR code with the link; downloading the link returned a valid ZIP with all diagnostic files, like a phone browser would.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/DiagShare.java",
+              "contentHash": "sha256:24e0f4666ecf8aeb3d1b1638bc01aa6519daaaa6edde0bf18f2ae198518e8863",
+              "gitCommit": "e5267df64fbcf35efe9c3c592b438288826da8e7",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "sendDiagToPhone",
+              "contentHash": "sha256:6769c27807e46523d6006fcbf695b55bb38088ce367951c182eeb36987d57c74",
+              "gitCommit": "e5267df64fbcf35efe9c3c592b438288826da8e7",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_share_test.sh rkbwq5ht92 StradaDiag-20261122-0823.zip C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/got.zip (passed)",
+              "workId": "PF-0013",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "A wrong code got 404, closing the window stopped the server (connection refused), the 15-minute stop is coded in both the server loop and the dialog, and no Wi-Fi shows the connect message.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/DiagShare.java",
+              "symbol": "serve",
+              "contentHash": "sha256:24e0f4666ecf8aeb3d1b1638bc01aa6519daaaa6edde0bf18f2ae198518e8863",
+              "gitCommit": "e5267df64fbcf35efe9c3c592b438288826da8e7",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "showShareDialog",
+              "contentHash": "sha256:6769c27807e46523d6006fcbf695b55bb38088ce367951c182eeb36987d57c74",
+              "gitCommit": "e5267df64fbcf35efe9c3c592b438288826da8e7",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_share_test.sh rkbwq5ht92 StradaDiag-20261122-0823.zip C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/got.zip (passed)",
+              "workId": "PF-0013",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "after Done the link returned no connection"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-11-22T06:25:09.836Z"
+}

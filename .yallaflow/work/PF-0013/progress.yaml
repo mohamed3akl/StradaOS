@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:18:50.572Z",
+      "completedAt": "2026-11-22T06:18:50.572Z",
+      "summary": "Diag.export writes StradaDiag/ on external storage; Main.runDiag shows 'Diagnóstico listo'; Main.qrBitmap + linkDialog already render QR codes (io.nayuki.qrcodegen); INTERNET and ACCESS_WIFI_STATE permissions exist. iOS does not accept Bluetooth file transfers from Android (only AirDrop), so Wi-Fi is the only option without an app on the iPhone."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:18:54.713Z",
+      "completedAt": "2026-11-22T06:18:54.713Z",
+      "summary": "Bluetooth is not possible to an iPhone; use Wi-Fi: small local web server on the head unit with a one-time QR link; phone and head unit on the same Wi-Fi or the iPhone hotspot."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:24:03.566Z",
+      "completedAt": "2026-11-22T06:24:03.566Z",
+      "summary": "New DiagShare: zips StradaDiag, finds the Wi-Fi IPv4 (wlan/ap/eth first), serves only /<random 10-char code>/<file>.zip on port 8765 (fallback random) with a tiny HTTP/1.0 server, one connection at a time, auto-stop after 15 min. Main: 'Send to phone' button in the 'Diagnostics ready' dialog and a 'Send diagnostics to phone' row in Settings > System (export then share); share dialog with QR, link, size and steps; closing it (or 15 min, or leaving the home screen) stops sharing; no Wi-Fi -> 'connect to Wi-Fi or the phone hotspot'. Strings en/ar."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:25:08.271Z",
+      "completedAt": "2026-11-22T06:25:08.271Z",
+      "summary": "V-001 (emulator API 19 with SD card, via adb forward): Settings > System > Send diagnostics to phone exported and showed the QR dialog (link 10.0.2.15:8765/<code>/StradaDiag-20261122-0823.zip, 26 MB); the right link returned HTTP 200 with a valid 27.5 MB ZIP containing info.txt, bluetooth.txt, player.txt, crashes.txt; a wrong code returned 404; after Done the server refused connections; no crashes. V-002 build. Not tested with a real iPhone/hotspot."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:25:13.679Z",
+      "completedAt": "2026-11-22T06:25:13.679Z",
+      "summary": "Both criteria satisfied; real iPhone not tried (limitation recorded)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T06:25:13.679Z"
+}

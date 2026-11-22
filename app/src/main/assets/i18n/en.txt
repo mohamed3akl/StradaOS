@@ -728,3 +728,17 @@ Se usa la clave de HERE incluida en la app	Using the HERE key built into the app
 # Tráfico
 +{} min de tráfico	+{} min traffic
 Tráfico fluido	Traffic is light
+# Enviar el diagnóstico al celular
+Enviar al celular	Send to phone
+Sin Wi-Fi	No Wi-Fi
+Conecta la pantalla al Wi-Fi o al punto de acceso de tu celular y vuelve a intentarlo.	Connect the screen to Wi-Fi or to your phone's hotspot and try again.
+Primero exporta el diagnóstico	Export the diagnostics first
+Preparando el archivo…	Preparing the file…
+No se pudo compartir	Couldn't share
+1. El celular y la pantalla en el mismo Wi-Fi (o la pantalla conectada al punto de acceso del celular).\n2. Escanea el código con la cámara.\n3. Toca «Descargar»: el archivo queda en la app Archivos (iPhone) o en Descargas.	1. Phone and screen on the same Wi-Fi (or the screen connected to the phone's hotspot).\n2. Scan the code with the camera.\n3. Tap "Download": the file goes to the Files app (iPhone) or Downloads.
+Tamaño	Size
+se deja de compartir al cerrar esta ventana (o en 15 minutos)	sharing stops when you close this window (or after 15 minutes)
+Enviar el diagnóstico al celular	Send the diagnostics to your phone
+Enviar diagnóstico al celular	Send diagnostics to phone
+Por Wi-Fi con un código QR (también iPhone): el celular y la pantalla en la misma red	Over Wi-Fi with a QR code (iPhone too): phone and screen on the same network
+Listo	Done

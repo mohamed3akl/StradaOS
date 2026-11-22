@@ -565,6 +565,7 @@ public class Main extends Activity {
         odoRunning = false;
         if (odoPending > 0) prefs.edit().putFloat("odo_gps_m", prefs.getFloat("odo_gps_m", 0) + odoPending).apply();
         Guard.stopWatchdog();
+        DiagShare.stop();
         super.onDestroy();
     }
 
@@ -3159,7 +3160,10 @@ public class Main extends Activity {
             .setNegativeButton("Cerrar", null).show();
     }
 
-    private void runDiag() {
+    private void runDiag() { runDiag(false); }
+
+    /** Exporta el diagnóstico; con send, al terminar lo comparte de una vez con el celular por Wi-Fi. */
+    private void runDiag(final boolean send) {
         toast("Exportando… puede tardar un minuto");
         String p0;
         try { p0 = playerDiagText(); } catch (Throwable e) { p0 = "No se pudo leer el estado del reproductor: " + e; }
@@ -3176,14 +3180,96 @@ public class Main extends Activity {
                                 .setPositiveButton("OK", null).show();
                             return;
                         }
+                        if (send) { sendDiagToPhone(); return; }
                         new TB(Main.this, dlg())
                             .setTitle("Diagnóstico listo")
                             .setMessage("Se guardó en:\n" + r + "\n\nCopia la carpeta StradaDiag a una memoria USB y adjúntala en un «issue» del repositorio de StradaOS en GitHub.")
+                            .setNeutralButton("Enviar al celular", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface d, int w) { sendDiagToPhone(); }
+                            })
                             .setPositiveButton("OK", null).show();
                     }
                 });
             }
         }).start();
+    }
+
+    // ── enviar el diagnóstico al celular por Wi-Fi (sirve también para iPhone: no recibe archivos por Bluetooth) ──
+
+    private android.app.Dialog shareDlg;
+
+    /** Empaca StradaDiag en un ZIP y lo comparte en la red local con un código QR (ver DiagShare). */
+    private void sendDiagToPhone() {
+        final String ip = DiagShare.localIp();
+        if (ip == null) {
+            new TB(this, dlg())
+                .setTitle("Sin Wi-Fi")
+                .setMessage("Conecta la pantalla al Wi-Fi o al punto de acceso de tu celular y vuelve a intentarlo.")
+                .setPositiveButton("OK", null).show();
+            return;
+        }
+        final File dir = new File(android.os.Environment.getExternalStorageDirectory(), "StradaDiag");
+        if (!dir.isDirectory()) { toast("Primero exporta el diagnóstico"); return; }
+        toast("Preparando el archivo…");
+        new Thread(new Runnable() { public void run() {
+            String url = null, err = null;
+            long size = 0;
+            try {
+                File cache = getExternalCacheDir() != null ? getExternalCacheDir() : getCacheDir();
+                File[] old = cache.listFiles();
+                if (old != null) for (File f : old) if (f.getName().startsWith("StradaDiag-") && f.getName().endsWith(".zip")) f.delete();
+                String stamp = new java.text.SimpleDateFormat("yyyyMMdd-HHmm", Locale.US).format(new java.util.Date());
+                File zip = DiagShare.zip(dir, new File(cache, "StradaDiag-" + stamp + ".zip"));
+                size = zip.length();
+                url = DiagShare.start(zip, ip);
+            } catch (Throwable e) {
+                err = String.valueOf(e.getMessage());
+            }
+            final String u = url, e2 = err;
+            final long sz = size;
+            h.post(new Runnable() { public void run() {
+                if (isFinishing()) { DiagShare.stop(); return; }
+                if (u == null) { toast(I18n.t("No se pudo compartir") + ": " + e2); return; }
+                showShareDialog(u, sz);
+            }});
+        }}).start();
+    }
+
+    private void showShareDialog(String url, long size) {
+        LinearLayout box = new LinearLayout(this);
+        box.setGravity(Gravity.CENTER_VERTICAL);
+        int pad = (int) (20 * s);
+        box.setPadding(pad, pad, pad, (int) (6 * s));
+        ImageView qr = new ImageView(this);
+        qr.setImageBitmap(qrBitmap(url, (int) (220 * s)));
+        box.addView(qr, new LinearLayout.LayoutParams((int) (220 * s), (int) (220 * s)));
+        LinearLayout col = new LinearLayout(this);
+        col.setOrientation(LinearLayout.VERTICAL);
+        col.setPadding(I18n.rtl() ? 0 : (int) (20 * s), 0, I18n.rtl() ? (int) (20 * s) : 0, 0);
+        TextView m = tv("1. El celular y la pantalla en el mismo Wi-Fi (o la pantalla conectada al punto de acceso del celular).\n2. Escanea el código con la cámara.\n3. Toca «Descargar»: el archivo queda en la app Archivos (iPhone) o en Descargas.", 14, SOFT, false);
+        m.setSingleLine(false);
+        col.addView(m);
+        TextView link = tv(url.replace("http://", ""), 12, RED, true);
+        link.setSingleLine(false);
+        link.setPadding(0, (int) (12 * s), 0, (int) (4 * s));
+        col.addView(link);
+        TextView info = tv(I18n.t("Tamaño") + ": " + (size >= 1024 * 1024 ? (size / (1024 * 1024)) + " MB" : Math.max(1, size / 1024) + " KB")
+                + " · " + I18n.t("se deja de compartir al cerrar esta ventana (o en 15 minutos)"), 12, MUTED, false);
+        info.setSingleLine(false);
+        col.addView(info);
+        box.addView(col, new LinearLayout.LayoutParams(0, -2, 1f));
+        shareDlg = new TB(this, dlg())
+            .setTitle("Enviar el diagnóstico al celular")
+            .setView(box)
+            .setPositiveButton("Listo", null)
+            .show();
+        shareDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            public void onDismiss(DialogInterface d) { DiagShare.stop(); shareDlg = null; }
+        });
+        final android.app.Dialog mine = shareDlg;
+        h.postDelayed(new Runnable() { public void run() {
+            if (shareDlg == mine && mine.isShowing()) mine.dismiss();   // se acabó el tiempo
+        }}, DiagShare.LIFETIME_MS);
     }
 
     private String clockLabel() {
@@ -4552,6 +4638,8 @@ public class Main extends Activity {
         row(k, "Qué funciona en esta pantalla", "Cada función, desde qué Android sirve y su estado aquí", null, new Runnable() { public void run() { showCompat(); } });
         LinearLayout d = section(body, "Soporte");
         row(d, "Exportar diagnóstico", "Guarda información de las apps de audio en la memoria interna", null, new Runnable() { public void run() { runDiag(); } });
+        row(d, "Enviar diagnóstico al celular", "Por Wi-Fi con un código QR (también iPhone): el celular y la pantalla en la misma red", null,
+            new Runnable() { public void run() { runDiag(true); } });
     }
 
     /** Tabla de compatibilidad: qué función sirve desde qué Android o marca de pantalla, y cómo está aquí. */

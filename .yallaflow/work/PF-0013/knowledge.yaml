@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Diagnostics can be sent to a phone over Wi-Fi (iPhone cannot receive Bluetooth files from Android): Settings > System > Send diagnostics to phone (or the Send to phone button after exporting) zips StradaDiag and serves it from the head unit (DiagShare, port 8765) at a link with a random code shown as a QR code; sharing stops when the window closes or after 15 minutes. Phone and head unit must share a network (home Wi-Fi or the phone's hotspot).",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/DiagShare.java",
+        "verification:V-001"
+      ],
+      "status": "promoted",
+      "createdAt": "2026-11-22T06:25:15.235Z",
+      "factId": "CTX-0040",
+      "promotedAt": "2026-11-22T06:25:16.671Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-11-22T06:25:16.671Z",
+  "reviewedAt": "2026-11-22T06:25:16.671Z"
+}

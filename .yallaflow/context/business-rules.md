@@ -103,4 +103,18 @@
   - app/src/main/java/com/stradaos/launcher/LiveMapView.java (repository @ 2caf4eb)
   - F:\Machines\Lab\StradaOS\gradlew.bat -p F:\Machines\Lab\StradaOS --no-daemon assembleDebug -q (passed) (runtime, PF-0012 V-001)
 
+<!-- yallaflow-fact:CTX-0040 -->
+### CTX-0040 — Diagnostics can be sent to a phone over Wi-Fi (iPhone cannot receive Bluetooth files from Android): Settings > System > Send diagnostics to phone (or the Send to phone button after exporting) zips StradaDiag and serves it from the head unit (DiagShare, port 8765) at a link with a random code shown as a QR code; sharing stops when the window closes or after 15 minutes. Phone and head unit must share a network (home Wi-Fi or the phone's hotspot).
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0013
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-22T06:25:16.671Z
+- **Verified:** 2026-11-22T06:25:16.671Z (commit e5267df)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/DiagShare.java (repository @ e5267df)
+  - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_share_test.sh rkbwq5ht92 StradaDiag-20261122-0823.zip C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/got.zip (passed) (runtime, PF-0013 V-001)
+
 <!-- yallaflow-context:end -->

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "testing",
+      "summary": "Not tested with a real iPhone or over a phone hotspot: the download was made from the PC through adb port forwarding to the API 19 emulator.",
+      "reason": "No iPhone or head unit available in the session",
+      "recordedAt": "2026-11-22T06:25:06.753Z"
+    }
+  ],
+  "updatedAt": "2026-11-22T06:25:06.753Z"
+}
