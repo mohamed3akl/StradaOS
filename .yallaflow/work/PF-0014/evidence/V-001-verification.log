@@ -1,0 +1,6 @@
+test build:    versionName='2.17.0-prueba.152-eaac007-local'
+release build: versionCode='47' versionName='2.17.0'
+ok: changelogs/2.17.0.md
+ok: fastlane/metadata/android/en-US/changelogs/47.txt
+ok: fastlane/metadata/android/ar/changelogs/47.txt
+PASS

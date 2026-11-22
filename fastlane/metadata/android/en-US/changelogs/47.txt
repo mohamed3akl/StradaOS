@@ -1,0 +1,6 @@
+• Turn-by-turn navigation: preview the place on the map, then Go
+• Optional HERE search and routes with live traffic (orange/red route, traffic delay), also on Android 4.x
+• Built-in music player for USB, SD card and internal storage
+• Send diagnostics to your phone over Wi-Fi with a QR code
+• English and Arabic, with right-to-left Arabic
+• Theme by schedule or system, Wi-Fi/Bluetooth icons

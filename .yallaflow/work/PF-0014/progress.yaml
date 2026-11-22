@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:47:29.055Z",
+      "completedAt": "2026-11-22T06:47:29.055Z",
+      "summary": "Version is hard-coded in app/build.gradle (versionCode 46, versionName 2.16.0); debug adds only '-prueba', so every test build reads 2.16.0-prueba. release.yml publishes a GitHub release when versionName changes on main (needs signing secrets); android.yml/pruebas.yml use shallow checkouts. Updates.compare splits on non-digits; test builds don't auto-check updates. Repo has 152 commits on main."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:47:37.762Z",
+      "completedAt": "2026-11-22T06:47:37.762Z",
+      "summary": "Developer: every build shows 2.16.0 so changes can't be told apart; handle versioning; test builds get a build number."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:47:39.234Z",
+      "completedAt": "2026-11-22T06:47:39.234Z",
+      "summary": "Debug versionName = <version>-prueba.<git commit count>-<short hash>, plus -local when built with uncommitted tracked changes; release keeps clean version. CI checkouts fetch full history for the count. Bump to 2.17.0 (47) with changelogs; document rules in CONTRIBUTING."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:50:32.538Z",
+      "completedAt": "2026-11-22T06:50:32.538Z",
+      "summary": "app/build.gradle: git-based test build suffix '-prueba.<commit count>-<short hash>' (+'-local' with uncommitted tracked changes), release unchanged; versionCode 47, versionName 2.17.0. android.yml and pruebas.yml build job use fetch-depth 0. Added changelogs/2.17.0.md and fastlane en-US/ar changelogs/47.txt. CONTRIBUTING.md 'Version numbers' rules."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T06:50:45.759Z",
+      "completedAt": "2026-11-22T06:50:45.759Z",
+      "summary": "V-001: test APK versionName 2.17.0-prueba.152-eaac007-local (commit count + hash + local marker, file StradaOS-2.17.0-prueba.152-eaac007-local.apk); release APK versionCode 47 / versionName 2.17.0; changelogs present. CI fetch-depth change not run on GitHub (not pushed)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T06:50:45.759Z"
+}

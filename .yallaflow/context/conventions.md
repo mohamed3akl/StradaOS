@@ -118,4 +118,20 @@
   - app/src/main/java/com/stradaos/launcher/Diag.java (repository @ e2cdc6c)
   - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/diag_emu_test.sh (passed) (runtime, PF-0008 V-002)
 
+<!-- yallaflow-fact:CTX-0041 -->
+### CTX-0041 — Single Gradle Android module ':app' (package com.stradaos.launcher). Version is set in app/build.gradle (versionName MAJOR.MINOR.PATCH, versionCode +1 per release; currently 2.17.0 / 47). Debug builds ('StradaOS Prueba', applicationIdSuffix .debug) are named <version>-prueba.<git commit count>-<short hash>, plus -local when built with uncommitted tracked changes; release builds keep the clean version. Bump rules live in CONTRIBUTING.md 'Version numbers'; CI test builds check out full history for the count.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0014
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-22T06:50:48.375Z
+- **Supersedes:** CTX-0002
+- **Verified:** 2026-11-22T06:50:48.375Z (commit eaac007)
+- **Evidence:**
+  - app/build.gradle (repository @ eaac007)
+  - CONTRIBUTING.md (repository @ eaac007)
+  - bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_versions.sh (passed) (runtime, PF-0014 V-001)
+
 <!-- yallaflow-context:end -->

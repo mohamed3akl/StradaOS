@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Single Gradle Android module ':app' (package com.stradaos.launcher). Version is set in app/build.gradle (versionName MAJOR.MINOR.PATCH, versionCode +1 per release; currently 2.17.0 / 47). Debug builds ('StradaOS Prueba', applicationIdSuffix .debug) are named <version>-prueba.<git commit count>-<short hash>, plus -local when built with uncommitted tracked changes; release builds keep the clean version. Bump rules live in CONTRIBUTING.md 'Version numbers'; CI test builds check out full history for the count.",
+      "evidence": [
+        "app/build.gradle",
+        "CONTRIBUTING.md",
+        "verification:V-001"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0002"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-22T06:50:47.046Z",
+      "factId": "CTX-0041",
+      "promotedAt": "2026-11-22T06:50:48.375Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-22T06:50:48.375Z",
+  "reviewedAt": "2026-11-22T06:50:48.375Z"
+}

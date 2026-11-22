@@ -14,6 +14,24 @@ def localFile = rootProject.file('local.properties')
 if (localFile.exists()) localFile.withInputStream { localProps.load(it) }
 def hereKey = (localProps.getProperty('here.apiKey') ?: System.getenv('STRADAOS_HERE_KEY') ?: '').trim()
 
+// Número de compilación para las versiones de prueba (así cada APK de prueba se distingue en Ajustes → Acerca de y en
+// el diagnóstico): cantidad de commits + commit corto, y «-local» si se compiló con cambios sin guardar en git.
+// Ejemplo: 2.17.0-prueba.152-eaac007. La versión normal (release) queda limpia: 2.17.0. Reglas: CONTRIBUTING.md.
+def git = { List<String> args ->
+    try {
+        def p = (['git'] + args).execute(null, rootProject.projectDir)
+        def out = p.inputStream.text.trim()
+        p.waitFor()
+        return p.exitValue() == 0 ? out : ''
+    } catch (Throwable ignored) {
+        return ''
+    }
+}
+def buildNumber = git(['rev-list', '--count', 'HEAD']) ?: '0'
+def commit = git(['rev-parse', '--short', 'HEAD'])
+def localChanges = git(['status', '--porcelain', '--untracked-files=no']) ? '-local' : ''
+def testSuffix = "-prueba.${buildNumber}" + (commit ? "-${commit}" : '') + localChanges
+
 android {
     namespace 'com.stradaos.launcher'
     compileSdk 35
@@ -24,8 +42,9 @@ android {
         minSdk 16
         // 28 a propósito: mantiene el comportamiento probado en pantallas viejas y nuevas.
         targetSdk 28
-        versionCode 46
-        versionName '2.16.0'
+        // Al publicar una versión: subir versionName (reglas en CONTRIBUTING.md) y versionCode en 1.
+        versionCode 47
+        versionName '2.17.0'
         manifestPlaceholders = [appLabel: 'StradaOS']
         buildConfigField 'String', 'HERE_KEY', "\"${hereKey.replace('\\', '').replace('"', '')}\""
     }
@@ -56,7 +75,7 @@ android {
         // con la misma llave que la normal para que cada prueba nueva se instale encima de la anterior.
         debug {
             applicationIdSuffix '.debug'
-            versionNameSuffix '-prueba'
+            versionNameSuffix testSuffix              // p. ej. -prueba.152-eaac007 (único en cada compilación)
             manifestPlaceholders = [appLabel: 'StradaOS Prueba']
             if (ksPath) signingConfig signingConfigs.release
         }

@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # historial completo: el número de compilación de la prueba es la cantidad de commits
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

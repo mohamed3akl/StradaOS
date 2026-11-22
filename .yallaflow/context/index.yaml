@@ -46,7 +46,7 @@
     {
       "id": "CTX-0002",
       "area": "architecture",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Single Gradle Android application module ':app' (package com.stradaos.launcher, versionName 2.16.0, versionCode 46); the debug build type uses applicationIdSuffix '.debug' and label 'StradaOS Prueba' so it installs side by side with the release.",
       "provenance": "repository",
@@ -73,17 +73,24 @@
       "verifiedAt": "2026-11-19T07:43:22.946Z",
       "verifiedAtCommit": "b9cb9fde1b304b033e8b4fc2b83d8d63431ff012",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0041",
       "history": [
         {
           "action": "introduced",
           "at": "2026-11-19T07:43:22.946Z",
           "workId": "PF-0001",
           "baselineFactId": "BF-002"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-22T06:50:48.375Z",
+          "supersededBy": "CTX-0041",
+          "workId": "PF-0014",
+          "candidateId": "K-001"
         }
       ],
       "createdAt": "2026-11-19T07:43:22.946Z",
-      "updatedAt": "2026-11-19T07:43:22.946Z"
+      "updatedAt": "2026-11-22T06:50:48.375Z"
     },
     {
       "id": "CTX-0003",
@@ -1898,7 +1905,58 @@
       ],
       "createdAt": "2026-11-22T06:25:16.671Z",
       "updatedAt": "2026-11-22T06:25:16.671Z"
+    },
+    {
+      "id": "CTX-0041",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Single Gradle Android module ':app' (package com.stradaos.launcher). Version is set in app/build.gradle (versionName MAJOR.MINOR.PATCH, versionCode +1 per release; currently 2.17.0 / 47). Debug builds ('StradaOS Prueba', applicationIdSuffix .debug) are named <version>-prueba.<git commit count>-<short hash>, plus -local when built with uncommitted tracked changes; release builds keep the clean version. Bump rules live in CONTRIBUTING.md 'Version numbers'; CI test builds check out full history for the count.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0014",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/build.gradle",
+          "contentHash": "sha256:c4331d6b5048bf1854afde3cdbd5312b20ccf35a03a2fbb313fee34b11c26e1e",
+          "gitCommit": "eaac0070be650c2c8ed8d0fe587b308d30d1c8d4",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "CONTRIBUTING.md",
+          "contentHash": "sha256:08368390d276b1a89d36035a6ff2f412a81f88530c161b572ccf769f0a85f95d",
+          "gitCommit": "eaac0070be650c2c8ed8d0fe587b308d30d1c8d4",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash C:/Users/moham/AppData/Local/Temp/claude/913a6abe67af8367/39aa705a-260d-4f26-8ec1-41d0c4aad934/scratchpad/check_versions.sh (passed)",
+          "workId": "PF-0014",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-11-22T06:50:48.375Z",
+      "verifiedAtCommit": "eaac0070be650c2c8ed8d0fe587b308d30d1c8d4",
+      "supersedes": [
+        "CTX-0002"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-22T06:50:48.375Z",
+          "workId": "PF-0014",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0002"
+        }
+      ],
+      "createdAt": "2026-11-22T06:50:48.375Z",
+      "updatedAt": "2026-11-22T06:50:48.375Z"
     }
   ],
-  "updatedAt": "2026-11-22T06:25:16.671Z"
+  "updatedAt": "2026-11-22T06:50:48.375Z"
 }

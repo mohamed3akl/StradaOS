@@ -59,6 +59,25 @@ app/src/hiddenapi/   Android 4.x hidden API stub (compile only, not in the APK)
 app/src/legacy/      RcDisplay: the only class extending the hidden API (loaded by reflection)
 ```
 
+## Version numbers
+
+The version lives in `app/build.gradle` (`versionName` and `versionCode`).
+
+**Which part to raise** (`MAJOR.MINOR.PATCH`, e.g. 2.17.0):
+- **PATCH** (2.17.0 → 2.17.1): only fixes, nothing new for the user.
+- **MINOR** (2.17.1 → 2.18.0): at least one new feature or a visible change.
+- **MAJOR** (2.x → 3.0.0): a redesign or something that changes how people use StradaOS.
+- **versionCode**: +1 on every published version, never reused or lowered.
+
+**When**: raise the version once per published release (not per commit), together with `changelogs/X.Y.Z.md` and `fastlane/metadata/android/{en-US,ar}/changelogs/<versionCode>.txt`. Pushing a new `versionName` to `main` makes `release.yml` publish it.
+
+**Test builds tell themselves apart automatically**: the debug build ("StradaOS Prueba") is named `<version>-prueba.<build>-<commit>`, for example `2.17.0-prueba.152-eaac007`:
+- `<build>` is the number of commits, so a newer build always has a higher number.
+- `<commit>` is the git commit it was built from.
+- `-local` is added when it was built with changes not yet committed.
+
+You can see it in *Settings → About* and at the top of `player.txt` in the diagnostics. Release builds keep the clean version (`2.17.0`).
+
 ## Publishing a version (maintainers)
 1. Bump `versionCode` and `versionName` in `app/build.gradle`.
 2. Write `changelogs/X.Y.Z.md` and `fastlane/metadata/android/*/changelogs/<versionCode>.txt`.
