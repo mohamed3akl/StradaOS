@@ -4,14 +4,14 @@
   "scope": "bounded",
   "routingStatus": "routed",
   "rawRequest": "Radio controls in the home-screen music player: play/stop and previous/next station without opening the radio app",
-  "status": "VERIFICATION",
+  "status": "DONE",
   "readOnly": false,
   "knowledgePolicy": {
     "version": 1,
     "reviewRequired": true
   },
   "createdAt": "2026-11-19T09:05:33.021Z",
-  "updatedAt": "2026-11-19T09:36:38.473Z",
+  "updatedAt": "2026-11-22T14:14:04.657Z",
   "title": "Radio controls in the home-screen music player: play/stop and previous/next station without opening the radio app",
   "routingConfidence": "high",
   "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
@@ -34,5 +34,57 @@
       "delivery-convergence"
     ]
   },
-  "lastInvalidationAt": "2026-11-19T09:31:38.664Z"
+  "lastInvalidationAt": "2026-11-22T13:55:15.524Z",
+  "sources": [
+    {
+      "id": "SRC-0001",
+      "type": "file",
+      "name": "info.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-22T13:54:48.886Z",
+      "workStatusAtLink": "VERIFICATION",
+      "relationship": "work-input"
+    },
+    {
+      "id": "SRC-0002",
+      "type": "file",
+      "name": "player.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-22T13:54:50.479Z",
+      "workStatusAtLink": "VERIFICATION",
+      "relationship": "work-input"
+    },
+    {
+      "id": "SRC-0003",
+      "type": "file",
+      "name": "crashes.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-22T13:54:52.244Z",
+      "workStatusAtLink": "VERIFICATION",
+      "relationship": "work-input"
+    },
+    {
+      "id": "SRC-0004",
+      "type": "file",
+      "name": "bluetooth.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-22T13:54:54.199Z",
+      "workStatusAtLink": "VERIFICATION",
+      "relationship": "work-input"
+    }
+  ],
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-22T14:14:04.657Z",
+      "verificationRunIds": [
+        "V-004",
+        "V-005",
+        "V-006"
+      ]
+    }
+  ]
 }

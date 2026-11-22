@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "impacts": [
+    {
+      "id": "IM-001",
+      "status": "assessed",
+      "raisedAt": "2026-11-22T13:54:48.886Z",
+      "stageAtRaise": "VERIFICATION",
+      "triggers": [
+        {
+          "type": "source",
+          "source": "SRC-0001",
+          "at": "2026-11-22T13:54:48.886Z"
+        },
+        {
+          "type": "source",
+          "source": "SRC-0002",
+          "at": "2026-11-22T13:54:50.479Z"
+        },
+        {
+          "type": "source",
+          "source": "SRC-0003",
+          "at": "2026-11-22T13:54:52.244Z"
+        },
+        {
+          "type": "source",
+          "source": "SRC-0004",
+          "at": "2026-11-22T13:54:54.199Z"
+        }
+      ],
+      "assessment": {
+        "assessedAt": "2026-11-22T13:55:15.524Z",
+        "stages": {
+          "context-discovery": {
+            "verdict": "affected",
+            "reason": "The unit's radio is com.acloud.stub.localradio (XY/PVE acloud platform, AC8317), not the assumed Clinkway com.clw.fmam; its RadioService accepts headless commands via com.android.xygala.ACTION_CONTROL_RADIO."
+          },
+          "requirement-clarification": {
+            "verdict": "affected",
+            "reason": "After testing, the user rejected the remote-control behaviour and asked for StradaOS to run the radio itself in the background; requirements must be restated."
+          },
+          "implementation": {
+            "verdict": "affected",
+            "reason": "MusicIntentReceiver returns immediately for MEDIA_BUTTON, so the media keys StradaOS sends do nothing; only opening the radio app had an effect."
+          },
+          "verification": {
+            "verdict": "affected",
+            "reason": "Earlier verification was emulator-only and did not cover this radio app."
+          },
+          "delivery-convergence": {
+            "verdict": "affected",
+            "reason": "Criteria will change with the new approach."
+          }
+        },
+        "applied": {
+          "revised": [
+            "context-discovery",
+            "requirement-clarification",
+            "implementation"
+          ],
+          "stage": {
+            "from": "VERIFICATION",
+            "to": "IMPLEMENTATION"
+          },
+          "convergenceInvalidated": true
+        }
+      }
+    }
+  ],
+  "updatedAt": "2026-11-22T13:55:15.524Z"
+}

@@ -72,6 +72,9 @@
             android:launchMode="singleTask" android:excludeFromRecents="true" android:exported="false"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
         <service android:name="com.stradaos.launcher.MusicService" android:exported="false"/>
+        <activity android:name="com.stradaos.launcher.RadioActivity" android:label="Radio"
+            android:launchMode="singleTask" android:excludeFromRecents="true" android:exported="false"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
         <activity android:name="com.stradaos.launcher.NavActivity" android:label="@string/nav_label"
             android:launchMode="singleTask" android:excludeFromRecents="true" android:exported="false"
             android:windowSoftInputMode="adjustResize"

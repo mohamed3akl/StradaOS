@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "id": "SRC-0003",
+  "sourceType": "file",
+  "sourceName": "crashes.txt",
+  "detectedFormat": "txt",
+  "contentType": "text/plain",
+  "contentAvailability": "native-text",
+  "capturedAt": "2026-11-22T13:54:52.209Z",
+  "original": {
+    "path": "sources/SRC-0003/crashes.txt",
+    "sha256": "f1e6c76d487b7474302ffcfab55543acdcbbd8d0b8a0355ee81bd0c5316781b6",
+    "sizeBytes": 88
+  },
+  "metadata": {
+    "extension": ".txt",
+    "detectedFormat": "txt"
+  },
+  "linkedWork": [
+    "PF-0004"
+  ],
+  "rawText": "StradaOS 2.17.0-prueba.152-eaac007-local · 2026-11-22 14:28:40\n\nSin fallos registrados."
+}

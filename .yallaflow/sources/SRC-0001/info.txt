@@ -1,0 +1,182 @@
+Build: ATC / AC822X / ac8317 / generic_ac8317
+Android: 4.4.2 (API 17) PF:8217_HW:1.0_SW:0.3.4
+Fingerprint: Android/generic_ac8317/ac8317:4.4.2/JDQ39E/eng.wliu.20180115.100721:userdebug/test-keys
+
+[sys] android | Android System | /system/framework/framework-res.apk
+[sys] com.acloud | GalaResource | /system/app/com.acloud.res.apk
+[sys] com.acloud.stub.localmusic | localmusic | /system/app/com.acloud.stub.music.apk
+      service  com.acloud.stub.service.XYPlayerService (exported)
+[sys] com.acloud.stub.localradio | localradio | /system/app/com.acloud.stub.localradio.apk
+      service  com.radio.service.RadioService (exported)
+      receiver com.acloud.stub.localradio.reciver.RadioBroadcastReceiver (exported)
+      receiver com.radio.receiver.MusicIntentReceiver (exported)
+[sys] com.acloud.stub.video | video | /system/app/com.acloud.stub.video.apk
+[sys] com.acloud.xy.search | com.acloud.xy.search | /system/app/GalaProvider.apk
+[usr] com.andrerinas.headunitrevived | Open Headunit | /data/app/com.andrerinas.headunitrevived-1.apk
+[sys] com.android.backupconfirm | com.android.backupconfirm | /system/app/BackupRestoreConfirmation.apk
+[sys] com.android.browser | Browser | /system/app/Browser.apk
+[sys] com.android.certinstaller | Certificate Installer | /system/app/CertInstaller.apk
+[sys] com.android.defcontainer | Package Access Helper | /system/app/DefaultContainerService.apk
+[sys] com.android.deskclock | Clock | /system/app/DeskClock.apk
+[sys] com.android.dreams.basic | Basic Daydreams | /system/app/BasicDreams.apk
+[sys] com.android.galaxy4 | Black Hole | /system/app/Galaxy4.apk
+[sys] com.android.gallery3d | Gallery | /system/app/Gallery2.apk
+[sys] com.android.inputdevices | Input Devices | /system/app/InputDevices.apk
+[sys] com.android.inputmethod.latin | Android keyboard (AOSP) | /system/app/LatinIME.apk
+[sys] com.android.keychain | Key Chain | /system/app/KeyChain.apk
+[sys] com.android.launcher | Launcher | /system/app/Launcher.apk
+      receiver com.android.launcher2.PreloadReceiver (exported)
+      receiver com.android.launcher2.InstallShortcutReceiver (exported)
+      receiver com.android.launcher2.UninstallShortcutReceiver (exported)
+      receiver com.android.launcher2.UserInitializeReceiver
+      provider com.android.launcher2.LauncherProvider auth=com.android.launcher2.settings
+[sys] com.android.location.fused | Fused Location | /system/app/FusedLocation.apk
+[sys] com.android.magicsmoke | Magic Smoke Wallpapers | /system/app/MagicSmokeWallpapers.apk
+[sys] com.android.noisefield | Bubbles | /system/app/NoiseField.apk
+[sys] com.android.packageinstaller | Package installer | /system/app/PackageInstaller.apk
+[sys] com.android.phasebeam | Phase Beam | /system/app/PhaseBeam.apk
+[sys] com.android.phone | Mobile Data | /system/app/Phone.apk
+      service  com.android.phone.NetworkQueryService
+      service  com.android.phone.ClearMissedCallsService
+      service  com.android.phone.BluetoothPhoneService (exported)
+      service  com.android.phone.EmergencyCallbackModeService
+      service  com.android.phone.TelephonyDebugService
+      receiver com.android.phone.OtaStartupReceiver
+      receiver com.android.phone.SipBroadcastReceiver (exported)
+      receiver com.android.phone.CallerInfoCacheUpdateReceiver (exported)
+      receiver com.android.phone.PhoneGlobals$NotificationBroadcastReceiver (exported)
+      provider com.android.phone.IccProvider auth=icc
+[sys] com.android.providers.applications | Search Applications Provider | /system/app/ApplicationsProvider.apk
+[sys] com.android.providers.calendar | Calendar Storage | /system/app/CalendarProvider.apk
+[sys] com.android.providers.contacts | Contacts Storage | /system/app/ContactsProvider.apk
+[sys] com.android.providers.downloads | Download Manager | /system/app/DownloadProvider.apk
+[sys] com.android.providers.downloads.ui | Downloads | /system/app/DownloadProviderUi.apk
+[sys] com.android.providers.drm | DRM Protected Content Storage | /system/app/DrmProvider.apk
+[sys] com.android.providers.media | Media Storage | /system/app/MediaProvider.apk
+      service  com.android.providers.media.MediaScannerService (exported)
+      service  com.android.providers.media.MtpService
+      receiver com.android.providers.media.MediaUpgradeReceiver (exported)
+      receiver com.android.providers.media.MediaScannerReceiver (exported)
+      receiver com.android.providers.media.MtpReceiver (exported)
+      provider com.android.providers.media.MediaProvider auth=media
+[sys] com.android.providers.settings | Settings Storage | /system/app/SettingsProvider.apk
+      provider com.android.providers.settings.SettingsProvider auth=settings
+[sys] com.android.providers.telephony | Mobile Network Configuration | /system/app/TelephonyProvider.apk
+[sys] com.android.providers.userdictionary | User Dictionary | /system/app/UserDictionaryProvider.apk
+[sys] com.android.provision | com.android.provision | /system/app/Provision.apk
+[sys] com.android.settings | Settings | /system/app/Settings.apk
+      service  com.android.settings.bluetooth.DockService
+      service  com.mediatek.lbs.GPSMonitorService (exported)
+      service  com.android.settings.mtksetting
+      receiver com.android.settings.WifiQuickBootReceiver (exported)
+      receiver com.android.settings.inputmethod.InputMethodDialogReceiver (exported)
+      receiver com.android.settings.bluetooth.BluetoothDiscoveryReceiver (exported)
+      receiver com.android.settings.bluetooth.DockEventReceiver (exported)
+      receiver com.android.settings.bluetooth.BluetoothPairingRequest (exported)
+      receiver com.android.settings.bluetooth.BluetoothPermissionRequest (exported)
+      receiver com.android.settings.DeviceInfo$StatsReportReceiver (exported)
+      receiver com.android.settings.TestingSettingsBroadcastReceiver (exported)
+      receiver com.android.settings.widget.SettingsAppWidgetProvider (exported)
+      receiver com.android.settings.bluetooth.BluetoothDiscoverableTimeoutReceiver (exported)
+      receiver com.android.settings.users.ProfileUpdateReceiver (exported)
+      receiver com.mediatek.lbs.LbsReceiver (exported)
+      receiver com.android.settings.BootCompletedReceiver (exported)
+[sys] com.android.sharedstoragebackup | com.android.sharedstoragebackup | /system/app/SharedStorageBackup.apk
+[sys] com.android.smspush | com.android.smspush | /system/app/WAPPushManager.apk
+[sys] com.android.soundrecorder | Sound Recorder | /system/app/SoundRecorder.apk
+[sys] com.android.systemui | System UI | /system/app/SystemUI.apk
+[sys] com.android.vending | Google Play Store | /system/app/Phonesky.apk
+[sys] com.android.vpndialogs | VpnDialogs | /system/app/VpnDialogs.apk
+[sys] com.android.wallpaper | Android Live Wallpapers | /system/app/LiveWallpapers.apk
+[sys] com.android.wallpaper.holospiral | com.android.wallpaper.holospiral | /system/app/HoloSpiralWallpaper.apk
+[sys] com.android.wallpaper.livepicker | Live Wallpaper Picker | /system/app/LiveWallpapersPicker.apk
+[sys] com.android.xy.floatbar | Floating_window | /system/app/LauncherFloatBar.apk
+[sys] com.android.xy.volumesetting | VolumeSetting | /system/app/VolumeSetting.apk
+[sys] com.android.xysysteminfo | System info | /system/app/XYSystemInfo.apk
+[sys] com.autochips.avin | AVIN | /system/app/AVIN.apk
+      service  com.autochips.avin.VgaIntentService
+      receiver com.autochips.avin.VgaBroadcastReceiver
+[sys] com.autochips.backcarapp | Back Car | /system/app/BackCar.apk
+      service  com.autochips.backcarapp.BackCarService (exported)
+      receiver com.autochips.backcarapp.BootCompletedReceiver (exported)
+[sys] com.autochips.bluetooth | Bluetooth | /system/app/BTSuite2.apk
+      service  com.autochips.bluetooth.hf.BluetoothHfService (exported)
+      service  com.autochips.bluetooth.pbapclient.BluetoothPbapClientService (exported)
+      service  com.autochips.bluetooth.spp.SppService
+      service  com.autochips.bluetooth.hid.BluetoothHidService (exported)
+      service  com.autochips.bluetooth.PbSyncManager.PBSyncManagerService (exported)
+      service  com.autochips.bluetooth.a2dpsink.BluetoothA2dpSinkService (exported)
+      service  com.autochips.bluetooth.avrcpct.BluetoothAvrcpCtService (exported)
+      service  com.autochips.bluetooth.dundt.BluetoothDunDtService (exported)
+      service  com.autochips.bluetooth.dundt.SmsSyncManagerService (exported)
+      receiver com.autochips.bluetooth.BluetoothReceiver (exported)
+[sys] com.autochips.gpsquickboot | QuickBootManager | /system/app/GpsQuickBoot.apk
+      service  com.autochips.gpsquickboot.GPSQuickBootService (exported)
+      receiver com.autochips.gpsquickboot.GPSQuickBootReceiver (exported)
+[sys] com.autochips.quickbootmanager | QuickBootManager | /system/app/QuickBootManager.apk
+      service  com.autochips.quickbootmanager.QuickBootService (exported)
+      receiver com.autochips.quickbootmanager.QuickBootReceiver (exported)
+[sys] com.autochips.rightavin | RightAvin | /system/app/RightAvin.apk
+[sys] com.bumblebee.remindeasy | EasyRemind | /system/app/EasyRemind0.1.apk
+      service  com.bumblebee.remindeasy.service.AuxiliaryService
+      receiver com.bumblebee.remindeasy.FloatBarReceiver.FloatBarReceiver (exported)
+[sys] com.google.android.apps.uploader | Picasa Uploader | /system/app/MediaUploader.apk
+[sys] com.google.android.backup | Google Backup Transport | /system/app/GoogleBackupTransport.apk
+[sys] com.google.android.configupdater | ConfigUpdater | /system/app/ConfigUpdater.apk
+[sys] com.google.android.feedback | Market Feedback Agent | /system/app/GoogleFeedback.apk
+[sys] com.google.android.gm | Gmail | /system/app/Gmail.apk
+[sys] com.google.android.gms | Google Play services | /system/app/GmsCore.apk
+[sys] com.google.android.gsf | Google Services Framework | /system/app/GoogleServicesFramework.apk
+[sys] com.google.android.gsf.login | Google Account Manager | /system/app/GoogleLoginService.apk
+[sys] com.google.android.inputmethod.latin.dictionarypack | Dictionary Provider | /system/app/LatinImeDictionaryPack.apk
+[sys] com.google.android.location | Network Location | /system/app/NetworkLocation.apk
+[sys] com.google.android.onetimeinitializer | Google One Time Init | /system/app/OneTimeInitializer.apk
+[sys] com.google.android.partnersetup | Google Partner Setup | /system/app/GooglePartnerSetup.apk
+[sys] com.google.android.syncadapters.bookmarks | Google Bookmarks Sync | /system/app/ChromeBookmarksSyncAdapter.apk
+[sys] com.google.android.syncadapters.calendar | Google Calendar Sync | /system/app/GoogleCalendarSyncAdapter.apk
+[sys] com.google.android.syncadapters.contacts | Google Contacts Sync | /system/app/GoogleContactsSyncAdapter.apk
+[sys] com.google.android.tts | Google Text-to-speech Engine | /system/app/GoogleTTS.apk
+[sys] com.gpspve.pvefloatbar | FloatBar | /system/app/com.gpspve.pvefloatbar.apk
+[sys] com.pve.aps | APS | /system/app/PveAPS.apk
+[sys] com.pve.gpsinfo | GPS Monitor | /system/app/PveGpsInfo.apk
+[sys] com.pve.musicwidget | Media Widget | /system/app/XYMusicWidget.apk
+      service  com.pve.musicwidget.View.MusicWidgetService
+      receiver com.pve.musicwidget.View.MusicWidgetView (exported)
+[sys] com.pve.naviguide | Net Navi | /system/app/PveNaviGuide.apk
+[sys] com.pve.navisetting | Navi Setting | /system/app/PveNaviSetting.apk
+[sys] com.pve.pveparkingbrake | ParkingBrake | /system/app/PveParkingBrake.apk
+[sys] com.pve.steering | Key Learning | /system/app/PvSteering.apk
+[sys] com.pve.sysrestore | Recovery | /system/app/PveSysRestore.apk
+[sys] com.pve.time | Time Set | /system/app/PveTime.apk
+[sys] com.pve.wallpaper | Wallpaper Set | /system/app/PveWallpaper.apk
+[sys] com.pve.wifi | WiFi Set | /system/app/PveWifi.apk
+[usr] com.stradaos.launcher.debug | StradaOS Prueba | /data/app/com.stradaos.launcher.debug-1.apk
+[sys] com.svox.pico | Pico TTS | /system/app/PicoTts.apk
+[usr] com.tima.carnet.vt | phonelink | /data/app/com.tima.carnet.vt-2.apk
+      service  com.tima.carnet.vt.app.main.ScreenService
+      service  com.vmlite.rplay.MainService (exported)
+      service  com.blankj.utilcode.util.MessengerUtils$ServerService
+      receiver com.tima.carnet.vt.app.main.receiver.ScreenBroadcastReceiver (exported)
+      receiver com.tima.lib.transfer.receivers.MessageReceiver (exported)
+      receiver com.tima.lib.transfer.receivers.ResponseReceiver (exported)
+      provider android.support.v4.content.FileProvider auth=com.tima.carnet.vt
+      provider com.blankj.utilcode.util.UtilsFileProvider auth=com.tima.carnet.vt.utilcode.provider
+[sys] com.xy.avoutsettings | Video output | /system/app/AvoutSettings.apk
+[sys] com.xy.brakecheck | brakecheck | /system/app/BrakeCheck.apk
+[sys] com.xy.brightsetting | 亮度设置 | /system/app/PveBright.apk
+[sys] com.xy.lockscreen | LockScreen1.0.0 | /system/app/LockScreen.apk
+[sys] com.xy.pveresolution | PveResolution | /system/app/PveResolution.apk
+[sys] com.xy.screensettings | Screen Settings | /system/app/ScreenSettings.apk
+[sys] com.xy.usbsettings | USB Settings | /system/app/USBSettings.apk
+      service  com.android.server.usb.UsbService
+[sys] com.xy.volumeset | Volume Settings | /system/app/PveVolumeSet.apk
+[sys] com.xyauto.clockweather | com.xyauto.clockweather | /system/app/PveClockWeather.apk
+      receiver com.xyauto.weatherWidget.WeatherAppWidget (exported)
+[usr] com.xygala.canbus | Car Settings | /data/app/CanBus.apk
+      service  com.xygala.canbus.CanbusService
+      receiver com.xygala.canbus.CanBusBroadcast
+[usr] com.xygala.pvcanset | CAN Settings | /data/app/PvCanset.apk
+      receiver com.xygala.pvcanset.PvCansetBroadcast
+[sys] fishnoodle.koipond_free | Koi Free | /system/app/koifree.apk
+[sys] jp.co.omronsoft.openwnn | OpenWnn | /system/app/OpenWnn.apk
+[usr] org.openintents.filemanager | OI File Manager | /data/app/org.openintents.filemanager-1.apk

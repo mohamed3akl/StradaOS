@@ -50,4 +50,18 @@
   - app/src/main/java/com/stradaos/launcher/Nav.java (repository @ 2caf4eb)
   - API 19 emulator - HERE search and route succeeded through Conscrypt (runtime)
 
+<!-- yallaflow-fact:CTX-0042 -->
+### CTX-0042 — On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)); FM is in 0.1 MHz units (875) and AM in kHz (522); status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. The radio app ignores MEDIA_BUTTON. Implemented in RadioTuner.java; other units fall back to the media-key approach.
+
+- **State:** current
+- **Confidence:** inferred
+- **Provenance:** repository
+- **Source work:** PF-0004
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-22T14:13:53.518Z
+- **Verified:** 2026-11-22T14:13:53.518Z (commit 57d850f)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ 57d850f)
+  - bash -c "export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q "parseIntent method:method_seekUp" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q "radio directa: method_open" && $A shell dumpsys activity top | grep -q "ACTIVITY com.stradaos.launcher.debug/" && echo "emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front"" (passed) (runtime, PF-0004 V-005)
+
 <!-- yallaflow-context:end -->

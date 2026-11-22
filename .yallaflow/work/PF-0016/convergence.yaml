@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-22T14:23:38.463Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+        "verificationRunIds": [
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-001 (build) and V-002 (emulator with the real acloud radio APK; tuner status simulated by adb broadcast). Screens checked in English and Arabic.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Player tap in radio mode opened RadioActivity (V-002); with no other radio app chosen the Radio bar button also opened it; with a manually chosen app (emulator had Clock saved) that app opens instead, respecting the choice. The factory radio app screen did not open.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "openRadioScreen",
+              "contentHash": "sha256:a62c317d6eb709fa8fe1dd351b335259cb38daccec6f9227f618e05d0ffd7a43",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "usesFactoryRadio",
+              "contentHash": "sha256:a62c317d6eb709fa8fe1dd351b335259cb38daccec6f9227f618e05d0ffd7a43",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; sleep 6; $A logcat -c; $A shell input tap 895 262; sleep 3; $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.RadioActivity\" && $A shell input tap 489 120 && sleep 2 && $A logcat -d | grep -q \"parseIntent method:method_setFreq\" && ! $A logcat -d | grep -q \"FATAL EXCEPTION\" && echo \"emulator: player tap opened RadioActivity, tapping a saved station sent method_setFreq, no crash\"; $A shell input keyevent 4\" (passed)",
+              "workId": "PF-0016",
+              "verificationRunId": "V-002"
+            },
+            {
+              "type": "runtime",
+              "description": "dumpsys top = RadioActivity after Radio bar button"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Screen shows the big frequency with band/unit, state (Off/Playing/Searching), prev/play-pause/next, Switch to AM/FM, and a 3-column grid of saved stations of the current band with the current one highlighted red (screenshots, English and Arabic RTL).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "build",
+              "contentHash": "sha256:e57a69c64dc4937888ec3920d31faf4d2f04b9c32f3ed77ac338dcfc1c32c468",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "render",
+              "contentHash": "sha256:e57a69c64dc4937888ec3920d31faf4d2f04b9c32f3ed77ac338dcfc1c32c468",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator screenshots r2/r3/r5/r6"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "Save station added 98.5 and 104.3 (sorted grid); tapping 98.5 sent method_setFreq 985; long-press on 101.1 removed it; tuning turns the radio on via ensureOn.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "saveCurrent",
+              "contentHash": "sha256:ba5db6cc15e67b4ea99f10ccc863c5e63d8b06d75a59f1bdab51d66cc85f6738",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "tuneTo",
+              "contentHash": "sha256:ba5db6cc15e67b4ea99f10ccc863c5e63d8b06d75a59f1bdab51d66cc85f6738",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "StationAdapter",
+              "contentHash": "sha256:e57a69c64dc4937888ec3920d31faf4d2f04b9c32f3ed77ac338dcfc1c32c468",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; sleep 6; $A logcat -c; $A shell input tap 895 262; sleep 3; $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.RadioActivity\" && $A shell input tap 489 120 && sleep 2 && $A logcat -d | grep -q \"parseIntent method:method_setFreq\" && ! $A logcat -d | grep -q \"FATAL EXCEPTION\" && echo \"emulator: player tap opened RadioActivity, tapping a saved station sent method_setFreq, no crash\"; $A shell input keyevent 4\" (passed)",
+              "workId": "PF-0016",
+              "verificationRunId": "V-002"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "On/off and seeking state moved to RadioTuner statics and frequency lives in prefs; returning home showed FM 98.5 MHz with the pause icon, matching the station screen; Main re-renders in onResume.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "turnOn",
+              "contentHash": "sha256:ba5db6cc15e67b4ea99f10ccc863c5e63d8b06d75a59f1bdab51d66cc85f6738",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "renderRadio",
+              "contentHash": "sha256:a62c317d6eb709fa8fe1dd351b335259cb38daccec6f9227f618e05d0ffd7a43",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator screenshot r4 after Back"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-11-22T14:23:38.463Z"
+}

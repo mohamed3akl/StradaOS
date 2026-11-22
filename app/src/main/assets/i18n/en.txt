@@ -742,3 +742,19 @@ Enviar el diagnóstico al celular	Send the diagnostics to your phone
 Enviar diagnóstico al celular	Send diagnostics to phone
 Por Wi-Fi con un código QR (también iPhone): el celular y la pantalla en la misma red	Over Wi-Fi with a QR code (iPhone too): phone and screen on the same network
 Listo	Done
+Modo radio: StradaOS maneja la radio	Radio mode: StradaOS runs the radio
+La radio no respondió	The radio didn't respond
+Buscando emisora…	Searching for a station…
+Cambiar a AM	Switch to AM
+Cambiar a FM	Switch to FM
+Abrir la app de la radio	Open the radio app
+Busca una emisora con anterior o siguiente	Search for a station with previous or next
+Guardada: {}	Saved: {}
+Quitada: {}	Removed: {}
+Toca para ver tus emisoras	Tap to see your stations
+★  Guardar emisora	★  Save station
+Emisoras guardadas	Saved stations
+Toca una para escucharla · déjala presionada para quitarla	Tap one to listen · press and hold to remove it
+Aún no hay emisoras guardadas.\nBusca una con anterior o siguiente y toca «Guardar emisora».	No saved stations yet.\nSearch for one with previous or next and tap “Save station”.
+Apagada · toca ▶ para escuchar	Off · tap ▶ to listen
+Sonando	Playing

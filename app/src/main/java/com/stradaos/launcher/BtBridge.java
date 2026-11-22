@@ -48,11 +48,51 @@ public class BtBridge {
     static final java.util.LinkedList<String> LOG = new java.util.LinkedList<String>();
     static volatile long activations;
 
+    /** Archivo del registro: así sobrevive a un cierre o reinicio de StradaOS (antes se perdía y el diagnóstico salía vacío). */
+    private static java.io.File logFile;
+    private static int appended;
+
+    /** Carga los últimos eventos guardados. Se llama una vez al arrancar. */
+    static void initLog(Context c) {
+        synchronized (LOG) {
+            if (logFile != null) return;
+            logFile = new java.io.File(c.getFilesDir(), "events.txt");
+            java.util.LinkedList<String> old = new java.util.LinkedList<String>();
+            try {
+                java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(logFile), "UTF-8"));
+                try {
+                    String l;
+                    while ((l = r.readLine()) != null) { old.addLast(l); if (old.size() > 200) old.removeFirst(); }
+                } finally { r.close(); }
+            } catch (Throwable ignored) { }
+            LOG.addAll(0, old);
+            while (LOG.size() > 200) LOG.removeFirst();
+            LOG.addLast("── StradaOS arrancó (" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(new java.util.Date()) + ") ──");
+            rewrite();
+        }
+    }
+
     static void log(String m) {
         synchronized (LOG) {
-            LOG.addLast(new java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.US).format(new java.util.Date()) + " " + m);
+            String line = new java.text.SimpleDateFormat("MM-dd HH:mm:ss", java.util.Locale.US).format(new java.util.Date()) + " " + m;
+            LOG.addLast(line);
             while (LOG.size() > 200) LOG.removeFirst();   // suficiente para revisar un viaje corto
+            if (logFile == null) return;
+            // se agrega al final; cada 100 líneas se reescribe con las últimas 200 para que no crezca
+            if (++appended >= 100) { rewrite(); return; }
+            try {
+                java.io.Writer w = new java.io.OutputStreamWriter(new java.io.FileOutputStream(logFile, true), "UTF-8");
+                try { w.write(line + "\n"); } finally { w.close(); }
+            } catch (Throwable ignored) { }
         }
+    }
+
+    private static void rewrite() {
+        appended = 0;
+        try {
+            java.io.Writer w = new java.io.OutputStreamWriter(new java.io.FileOutputStream(logFile, false), "UTF-8");
+            try { for (String l : LOG) w.write(l + "\n"); } finally { w.close(); }
+        } catch (Throwable ignored) { }
     }
 
     static String logText() {

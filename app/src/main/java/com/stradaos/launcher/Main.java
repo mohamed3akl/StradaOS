@@ -159,6 +159,7 @@ public class Main extends Activity {
         super.onCreate(b);
         Guard.install(this);
         Guard.startWatchdog();
+        BtBridge.initLog(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setBackgroundDrawable(new ColorDrawable(BG));
@@ -252,6 +253,7 @@ public class Main extends Activity {
             bf.addAction("android.bluetooth.a2dp-sink.profile.action.CONNECTION_STATE_CHANGED");
             registerReceiver(btConnReceiver, bf);
         } catch (Throwable ignored) { }
+        if (RadioTuner.available(this)) try { registerReceiver(tunerReceiver, new IntentFilter(RadioTuner.STATUS)); } catch (Throwable ignored) { }
     }
 
     // ───────────────────────── audio Bluetooth ─────────────────────────
@@ -369,7 +371,9 @@ public class Main extends Activity {
         prefs.edit().putBoolean("radio_mode", on).apply();
         if (radioBtn != null) ((GradientDrawable) radioBtn.getBackground()).setColor(on ? RED : BTN);
         // al salir del modo radio no se suelta el foco: si se calló con ■, que no vuelva a sonar sola
-        if (on) {
+        if (on && directRadio()) {
+            toast("Modo radio: StradaOS maneja la radio");
+        } else if (on) {
             trackSource();
             radioOn = radioRouted && !radioHoldsFocus;   // si la radio ya tenía el sonido, se asume que suena
             if (radioApp() == null) { toast("Elige la app de la radio"); pickFor("radio", "Radio"); }
@@ -378,7 +382,11 @@ public class Main extends Activity {
         renderTrack();
     }
 
+    /** La radio la maneja StradaOS directamente (servicio del sintonizador de las pantallas acloud), sin abrir su app. */
+    private boolean directRadio() { return RadioTuner.available(this); }
+
     private void radioCommand(int which) {
+        if (directRadio()) { tunerCommand(which); return; }
         ComponentName cn = radioApp();
         if (cn == null) { toast("Elige la app de la radio"); pickFor("radio", "Radio"); return; }
         trackSource();
@@ -475,8 +483,55 @@ public class Main extends Activity {
         }}, prefs.getInt("bt_return_ms", clwBt ? 2000 : 2500));
     }
 
+    // ── radio directa (pantallas acloud): ▶/■ encienden y apagan el sintonizador, ⏮⏭ buscan emisora ──
+    // El estado (encendida, buscando) vive en RadioTuner: lo comparten el reproductor y la pantalla de la radio.
+
+    private void tunerCommand(int which) {
+        if (which == 0) {
+            if (RadioTuner.on) RadioTuner.turnOff(this);
+            else if (!RadioTuner.turnOn(this, prefs)) toast("La radio no respondió");
+        } else RadioTuner.step(this, prefs, which > 0);
+        renderTrack();
+    }
+
+    /** Aviso del sintonizador (com.acloud.android.intent.RADIO): RadioTuner lo anota y busca la frecuencia. */
+    private final BroadcastReceiver tunerReceiver = new BroadcastReceiver() {
+        public void onReceive(Context c, Intent i) {
+            String v = null;
+            try { v = i.getStringExtra("method_value"); } catch (Throwable ignored) { }
+            RadioTuner.onStatus(prefs, v);
+            if (radioMode) renderTrack();
+        }
+    };
+
+    /** El botón Radio usa la radio de fábrica (no se eligió otra app a mano). */
+    private boolean usesFactoryRadio() {
+        String c = prefs.getString("radio", null);
+        return c == null || c.startsWith(RadioTuner.PKG + "/");
+    }
+
+    /** Pantalla de la radio: emisoras guardadas, FM/AM, buscar y encender. */
+    private void openRadioScreen() {
+        try {
+            startActivity(new Intent(this, RadioActivity.class));
+        } catch (Throwable e) {
+            toast("No se pudo abrir la app");
+        }
+    }
+
     /** Reproductor en modo radio: «RADIO», la emisora si la radio la avisa, y una pista de qué hacen los botones. */
     private void renderRadio() {
+        if (directRadio()) {
+            int band = RadioTuner.band(prefs), khz = RadioTuner.khz(prefs);
+            trackTv.setText(khz > 0 ? RadioTuner.label(band, khz) : I18n.t("Radio") + " " + (band == RadioTuner.FM ? "FM" : "AM"));
+            artistTv.setText(I18n.t(!RadioTuner.on ? "Toca ▶ para escuchar la radio" : RadioTuner.seeking ? "Buscando emisora…" : "Toca para ver tus emisoras"));
+            sourceTv.setText(I18n.t("Radio").toUpperCase(I18n.loc));
+            timePosTv.setText("");
+            playerArt.setArt(null);
+            playerArt.setProgress(-1);
+            if (playIc != null) playIc.setImageBitmap(asset(RadioTuner.on ? "ic/pause.png" : "ic/play_arrow.png"));
+            return;
+        }
         String src = curSource == null ? "" : curSource.toLowerCase(ES);
         boolean station = curTitle != null && (src.contains("radio") || src.contains("fm"));
         trackTv.setText(station ? curTitle : I18n.t("Radio"));
@@ -558,6 +613,7 @@ public class Main extends Activity {
         try { unregisterReceiver(usbOffReceiver); } catch (Throwable ignored) { }
         try { bt.disconnect(); } catch (Throwable ignored) { }
         try { unregisterReceiver(btConnReceiver); } catch (Throwable ignored) { }
+        try { unregisterReceiver(tunerReceiver); } catch (Throwable ignored) { }
         h.removeCallbacks(btTicker);
         h.removeCallbacks(aaWait);
         try { if (mediaWatcher != null) mediaWatcher.stop(); } catch (Throwable ignored) { }
@@ -589,6 +645,7 @@ public class Main extends Activity {
         h.postDelayed(new Runnable() { public void run() { autoChecks(); } }, 4000);
         updateClock();
         refreshStates();
+        if (radioMode) renderTrack();       // al volver de la pantalla de la radio: emisora y ▶/■ al día
         startGps();
         h.postDelayed(ticker, 1000);
         h.removeCallbacks(progressTick);
@@ -2339,7 +2396,7 @@ public class Main extends Activity {
     }
 
     private void runFn(String id) {
-        if ("radio".equals(id)) openSlot(0);
+        if ("radio".equals(id)) { if (directRadio() && usesFactoryRadio()) openRadioScreen(); else openSlot(0); }
         else if ("bt".equals(id)) openSlot(1);
         else if ("cam".equals(id)) openSlot(2);
         else if ("files".equals(id)) openSlot(3);
@@ -2493,7 +2550,7 @@ public class Main extends Activity {
      * y, si no, el reproductor integrado de StradaOS (música de la USB, la SD y la memoria).
      */
     private void openMusicApp() {
-        if (radioMode) { openSlot(0); return; }       // modo radio: tocar la tarjeta abre la radio
+        if (radioMode) { if (directRadio()) openRadioScreen(); else openSlot(0); return; }   // modo radio: pantalla de la radio o su app
         if (launchSaved("music_app")) return;
         if ("Android Auto".equals(curSource) && launchPkg(PKG_HUR)) return;
         if (launchPkg("com.anghami")) return;            // Anghami instalado (pantallas con Android más nuevo)
@@ -2852,7 +2909,7 @@ public class Main extends Activity {
     private void updatePlayIcon() {
         if (playIc == null) return;
         AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
-        boolean on = radioMode ? radioOn : playingState != null ? playingState : am.isMusicActive();
+        boolean on = radioMode ? (directRadio() ? RadioTuner.on : radioOn) : playingState != null ? playingState : am.isMusicActive();
         playIc.setImageBitmap(asset(on ? "ic/pause.png" : "ic/play_arrow.png"));
     }
 
@@ -3067,6 +3124,9 @@ public class Main extends Activity {
                 + "\nActivaciones: " + BtBridge.activations
                 + "\nModo radio: " + (radioMode ? "sí" : "no") + " · app de la radio: " + (radioApp() != null ? radioApp().flattenToShortString() : "no encontrada")
                     + " · radio con el sonido (estimado): " + (radioRouted ? "sí" : "no") + " · sonando: " + (radioOn ? "sí" : "no")
+                + "\nRadio directa (sintonizador acloud): " + (directRadio() ? "sí · " + RadioTuner.label(RadioTuner.band(prefs), RadioTuner.khz(prefs))
+                    + " · favoritas FM " + RadioTuner.favorites(prefs, RadioTuner.FM) + " AM " + RadioTuner.favorites(prefs, RadioTuner.AM)
+                    + " · último aviso: " + (RadioTuner.lastStatus == null ? "ninguno" : RadioTuner.lastStatus) : "no")
                 + "\n\nEventos (Bluetooth, radio, Android Auto):\n" + BtBridge.logText();
         return msg;
     }

@@ -1,0 +1,19 @@
+StradaOS 2.17.0-prueba.152-eaac007-local · 2026-11-22 14:28:40
+
+Fuente: null / null
+Pista: null — null
+Carátula: no
+
+Lector de notificaciones (accesibilidad): apagado
+Última notificación de Open Headunit: ninguna
+Open Headunit corriendo: no · celular por USB en modo Android Auto: no
+Android Auto conectado (para StradaOS): no
+App Bluetooth conectada: no
+Audio Bluetooth automático: no aplica (otra marca)
+App de música Bluetooth: no encontrada · abrir al conectar: no
+Sonido en Bluetooth (estimado): no · app al frente: com.stradaos.launcher.debug
+Activaciones: 0
+Modo radio: sí · app de la radio: com.acloud.stub.localradio/.QtActivity · radio con el sonido (estimado): no · sonando: no
+
+Eventos (Bluetooth, radio, Android Auto):
+(sin eventos)

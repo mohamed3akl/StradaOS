@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\"; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\"; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok"
+      ],
+      "displayCommand": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\"; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T14:23:02.103Z",
+      "finishedAt": "2026-11-22T14:23:05.663Z",
+      "verifiedAt": "2026-11-22T14:23:05.663Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; sleep 6; $A logcat -c; $A shell input tap 895 262; sleep 3; $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.RadioActivity\" && $A shell input tap 489 120 && sleep 2 && $A logcat -d | grep -q \"parseIntent method:method_setFreq\" && ! $A logcat -d | grep -q \"FATAL EXCEPTION\" && echo \"emulator: player tap opened RadioActivity, tapping a saved station sent method_setFreq, no crash\"; $A shell input keyevent 4\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; sleep 6; $A logcat -c; $A shell input tap 895 262; sleep 3; $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.RadioActivity\" && $A shell input tap 489 120 && sleep 2 && $A logcat -d | grep -q \"parseIntent method:method_setFreq\" && ! $A logcat -d | grep -q \"FATAL EXCEPTION\" && echo \"emulator: player tap opened RadioActivity, tapping a saved station sent method_setFreq, no crash\"; $A shell input keyevent 4"
+      ],
+      "displayCommand": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; sleep 6; $A logcat -c; $A shell input tap 895 262; sleep 3; $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.RadioActivity\" && $A shell input tap 489 120 && sleep 2 && $A logcat -d | grep -q \"parseIntent method:method_setFreq\" && ! $A logcat -d | grep -q \"FATAL EXCEPTION\" && echo \"emulator: player tap opened RadioActivity, tapping a saved station sent method_setFreq, no crash\"; $A shell input keyevent 4\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T14:23:07.643Z",
+      "finishedAt": "2026-11-22T14:23:20.938Z",
+      "verifiedAt": "2026-11-22T14:23:20.938Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

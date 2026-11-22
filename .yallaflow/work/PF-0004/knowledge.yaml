@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)); FM is in 0.1 MHz units (875) and AM in kHz (522); status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. The radio app ignores MEDIA_BUTTON. Implemented in RadioTuner.java; other units fall back to the media-key approach.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+        "verification:V-005"
+      ],
+      "confidence": "inferred",
+      "status": "promoted",
+      "createdAt": "2026-11-22T14:13:31.424Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-11-22T14:13:53.518Z",
+      "target": "context/integrations.md"
+    }
+  ],
+  "updatedAt": "2026-11-22T14:13:53.518Z",
+  "reviewedAt": "2026-11-22T14:13:53.518Z"
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "not-inspected",
+      "area": "integration",
+      "summary": "Radio native library libRadioInterface.so (in /system/lib on the unit) and the Qt UI are not in the APK; the callback text format of com.acloud.android.intent.RADIO (method_value) and the exact frequency unit expected by method_setFreq are not known from static analysis",
+      "reason": "Only the APK was exported; native libraries need runtime observation on the head unit",
+      "recordedAt": "2026-11-22T13:55:02.833Z"
+    }
+  ],
+  "updatedAt": "2026-11-22T13:55:02.833Z"
+}

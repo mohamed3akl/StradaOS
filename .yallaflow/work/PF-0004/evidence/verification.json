@@ -47,6 +47,60 @@
       "finishedAt": "2026-11-19T09:39:03.223Z",
       "verifiedAt": "2026-11-19T09:39:03.223Z",
       "log": "V-003-verification.log"
+    },
+    {
+      "id": "V-004",
+      "command": "cmd /c \"gradlew.bat assembleDebug -q\"",
+      "executionMode": "argv",
+      "executable": "cmd",
+      "args": [
+        "/c",
+        "gradlew.bat assembleDebug -q"
+      ],
+      "displayCommand": "cmd /c \"gradlew.bat assembleDebug -q\"",
+      "success": false,
+      "status": "failed",
+      "exitCode": 1,
+      "startedAt": "2026-11-22T14:12:22.843Z",
+      "finishedAt": "2026-11-22T14:12:22.951Z",
+      "verifiedAt": "2026-11-22T14:12:22.951Z",
+      "log": "V-004-verification.log"
+    },
+    {
+      "id": "V-005",
+      "command": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\"\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\""
+      ],
+      "displayCommand": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\"\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T14:12:24.797Z",
+      "finishedAt": "2026-11-22T14:12:28.281Z",
+      "verifiedAt": "2026-11-22T14:12:28.281Z",
+      "log": "V-005-verification.log"
+    },
+    {
+      "id": "V-006",
+      "command": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\" ; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\" ; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok"
+      ],
+      "displayCommand": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -iE \"error|FAILED\" ; test -f app/build/outputs/apk/debug/StradaOS-2.17.0-prueba.155-57d850f-local.apk && echo build ok\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T14:12:34.351Z",
+      "finishedAt": "2026-11-22T14:12:38.002Z",
+      "verifiedAt": "2026-11-22T14:12:38.002Z",
+      "log": "V-006-verification.log"
     }
   ]
 }

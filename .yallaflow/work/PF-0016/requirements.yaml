@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "A radio station screen lists the saved stations so the user can pick one with a big tap target.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T14:16:17.367Z",
+      "updatedAt": "2026-11-22T14:16:17.367Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "On units with the direct tuner, tapping the home player in radio mode and the Radio bar button open a full radio screen (the factory radio app stays closed).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T14:16:17.367Z",
+      "updatedAt": "2026-11-22T14:16:17.367Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-001",
+      "statement": "The screen shows the current frequency, on/off, seek previous/next, an FM/AM switch, and a large grid of the saved stations of the current band; the station playing is highlighted.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T14:16:17.367Z",
+      "updatedAt": "2026-11-22T14:16:17.367Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-001",
+      "statement": "Tapping a saved station tunes to it (turning the radio on if needed); a Save button adds the current station; long-pressing a saved station removes it.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T14:16:17.367Z",
+      "updatedAt": "2026-11-22T14:16:17.367Z"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "REQ-001",
+      "statement": "The home player and the station screen show the same on/off state and frequency.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-22T14:16:17.367Z",
+      "updatedAt": "2026-11-22T14:16:17.367Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-22T14:16:17.367Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-22T14:16:17.367Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-22T14:16:17.367Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-11-22T14:16:17.367Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-004",
+      "at": "2026-11-22T14:16:17.367Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-22T14:16:17.367Z"
+}

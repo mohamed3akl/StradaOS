@@ -170,7 +170,190 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CV-002",
+      "recordedAt": "2026-11-22T14:13:09.321Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 2,
+        "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+        "verificationRunIds": [
+          "V-005"
+        ]
+      },
+      "summary": "Assessed after V-005 (emulator with the unit's real com.acloud.stub.localradio APK installed; its native tuner library is absent on the emulator) and V-006 (build). Tuner status was simulated with adb broadcasts; the unit's real status format is still unknown (limitation recorded).",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Radio button and remembered radio mode are unchanged; the player shows RADIO in radio mode (emulator screenshots).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "setRadioMode",
+              "contentHash": "sha256:982ba8133ac695092e60a038b8fa74ca359f07c7ef8176966094d4eae6dfbfd3",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator showed RADIO label with radio mode on after restart"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "On the emulator with the real radio APK, play started RadioService in the background and it logged parseIntent method:method_open and Tuner setAudioToRadio; stop logged method_close; the top activity stayed StradaOS, the radio app screen never opened.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "open",
+              "contentHash": "sha256:f48215f4748f7b969ae7ff6197432849e3d414c963f59537630ff7db61225771",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "tunerCommand",
+              "contentHash": "sha256:982ba8133ac695092e60a038b8fa74ca359f07c7ef8176966094d4eae6dfbfd3",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\"\" (passed)",
+              "workId": "PF-0004",
+              "verificationRunId": "V-005"
+            },
+            {
+              "type": "runtime",
+              "description": "logcat BgService parseIntent method:method_open / method_close, dumpsys top = StradaOS"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "radioCommand only takes the direct path when RadioTuner.available(); otherwise the previous media-key / open-briefly / audio-focus code runs unchanged.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "radioCommand",
+              "contentHash": "sha256:982ba8133ac695092e60a038b8fa74ca359f07c7ef8176966094d4eae6dfbfd3",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Next/previous (and swipe, which calls the same mediaClick handler) send method_seekUp / method_seekDown; RadioService logged parseIntent method:method_seekUp.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "seek",
+              "contentHash": "sha256:f48215f4748f7b969ae7ff6197432849e3d414c963f59537630ff7db61225771",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\"\" (passed)",
+              "workId": "PF-0004",
+              "verificationRunId": "V-005"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "Tapping the player opens the radio menu; saving stored FM 101.1, the favourite appeared as a star item, tapping it sent method_setFreq 1011, long-press removes it; stored per band in launcher prefs (tuner_fav_0/1).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "radioMenu",
+              "contentHash": "sha256:982ba8133ac695092e60a038b8fa74ca359f07c7ef8176966094d4eae6dfbfd3",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "favorites",
+              "contentHash": "sha256:f48215f4748f7b969ae7ff6197432849e3d414c963f59537630ff7db61225771",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator menu screenshots and logcat nFreq:1011"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-006",
+          "status": "satisfied",
+          "reason": "The player shows the frequency StradaOS last tuned or parsed from the tuner status (FM 101.1 MHz / FM 98.5 MHz shown from simulated status); Switch to AM sent method_band 3 and method_setFreq 522.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "renderRadio",
+              "contentHash": "sha256:982ba8133ac695092e60a038b8fa74ca359f07c7ef8176966094d4eae6dfbfd3",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "parse",
+              "contentHash": "sha256:f48215f4748f7b969ae7ff6197432849e3d414c963f59537630ff7db61225771",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "adb broadcast com.acloud.android.intent.RADIO method_value freq:10110 shown as FM 101.1 MHz"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-007",
+          "status": "satisfied",
+          "reason": "Events are appended to files/events.txt and reloaded at start; after a force-stop the file still held the radio commands and tuner messages followed by a new start marker; tuner messages are logged raw.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/BtBridge.java",
+              "symbol": "initLog",
+              "contentHash": "sha256:91d9509d4426789d1f840428f23ebeddf097b0f1ed864d51f311c455d9d679db",
+              "gitCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q \"parseIntent method:method_seekUp\" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q \"radio directa: method_open\" && $A shell dumpsys activity top | grep -q \"ACTIVITY com.stradaos.launcher.debug/\" && echo \"emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front\"\" (passed)",
+              "workId": "PF-0004",
+              "verificationRunId": "V-005"
+            },
+            {
+              "type": "runtime",
+              "description": "run-as cat files/events.txt after force-stop"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
     }
   ],
-  "updatedAt": "2026-11-19T09:39:23.027Z"
+  "updatedAt": "2026-11-22T14:13:09.321Z"
 }

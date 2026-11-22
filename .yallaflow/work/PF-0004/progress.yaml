@@ -6,30 +6,33 @@
   "skills": {
     "context-discovery": {
       "status": "completed",
-      "startedAt": "2026-11-19T09:21:27.908Z",
-      "completedAt": "2026-11-19T09:21:27.908Z",
-      "summary": "Home player card built in Main.buildAudioCard; buttons go through Main.mediaClick (local player, MediaSession, Clinkway BT service, then media keys). Clinkway radio package com.clw.fmam is listed in OTHER_SOURCES; its control API is unknown (ESTADO_PROYECTO Bloque 4). Radio app resolution: openSlot(0) with saved pref 'radio' or name match. openBtAudioApp shows the open-briefly-and-return pattern (getRunningTasks + moveTaskToFront)."
+      "startedAt": "2026-11-22T14:04:02.793Z",
+      "completedAt": "2026-11-22T14:04:02.793Z",
+      "summary": "Diagnostic export (SRC-0001..0004): unit is XY/PVE acloud AC8317 (Android 4.2). Radio com.acloud.stub.localradio has exported RadioService (no permission) taking startService intents action com.android.xygala.ACTION_CONTROL_RADIO with extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)|method_init...; tuner status broadcast com.acloud.android.intent.RADIO extra method_value (format in native lib). MusicIntentReceiver ignores MEDIA_BUTTON. Manifest declares RadioBroadcastReceiver whose class is missing. Saved freq units in its prefs: FM 875 = 87.5 MHz, AM 522 kHz."
     },
     "requirement-clarification": {
       "status": "completed",
-      "startedAt": "2026-11-19T09:21:31.496Z",
-      "completedAt": "2026-11-19T09:21:31.496Z",
-      "summary": "Developer: test unit is Clinkway/Autochips; prev/next = saved presets; opening the radio app ~2 s and returning is allowed as fallback."
+      "startedAt": "2026-11-22T14:04:04.278Z",
+      "completedAt": "2026-11-22T14:04:04.278Z",
+      "summary": "User: 'Yes, build it' — StradaOS runs the radio itself (direct tuner) with on/off, seek, frequency display, favourites, FM/AM; persistent event log. Requirements revised (REQ-001..005, AC-001..007)."
     },
     "implementation": {
       "status": "completed",
-      "startedAt": "2026-11-19T09:23:38.329Z",
-      "completedAt": "2026-11-19T09:36:37.689Z",
-      "summary": "Correction after the emulator test: openRadioBriefly returns with moveTaskToFront (previous task, or StradaOS's own task) before falling back to startActivity; hint/toast texts no longer use the ⏮⏭ glyphs, which Android 4.x fonts do not draw."
+      "startedAt": "2026-11-22T14:04:05.954Z",
+      "completedAt": "2026-11-22T14:12:13.687Z",
+      "summary": "New RadioTuner.java drives the acloud RadioService directly (startService ACTION_CONTROL_RADIO: method_open/close/seekUp/seekDown/setFreq/band) and parses com.acloud.android.intent.RADIO status for the frequency. Main: directRadio() path in radioCommand (play/stop/seek, swipe uses the same path), tunerReceiver, radioMenu() on card tap (FM/AM, save favourite, tune favourite, long-press remove, open radio app), renderRadio shows frequency; diagnostics show direct-radio state and last tuner message. Other units keep the old behaviour. BtBridge event log saved to files/events.txt and reloaded at start (last 200 lines). en/ar translations, 2.17.0 changelog and README updated."
     },
     "verification": {
       "status": "completed",
-      "startedAt": "2026-11-19T09:39:22.471Z",
-      "completedAt": "2026-11-19T09:39:22.471Z",
-      "summary": "V-003 debug build. V-002 emulator (API 19, 1024x600, Clock as stand-in radio app): play opens the radio app and StradaOS returns by itself in ~2.5 s; next/prev/swipe stay on StradaOS without crash; stop keeps StradaOS in front and takes audio focus; radio mode and chosen app persist across restart; screenshots show RADIO label, red radio button, pause icon and hint. Not tested: the real Clinkway radio app (com.clw.fmam) on a head unit."
+      "startedAt": "2026-11-22T14:13:06.012Z",
+      "completedAt": "2026-11-22T14:13:06.012Z",
+      "summary": "V-006 build passed; V-005 emulator (API 19, real acloud radio APK installed, native tuner lib absent) passed: commands reach RadioService without opening its app, event log persists across force-stop. V-004 failed only from a wrong cmd invocation. Not verified on the real head unit: actual audio, seek result and the tuner status format."
     },
     "delivery-convergence": {
-      "status": "pending"
+      "status": "completed",
+      "startedAt": "2026-11-22T14:14:03.058Z",
+      "completedAt": "2026-11-22T14:14:03.058Z",
+      "summary": "All 7 acceptance criteria satisfied (latest convergence assessment)."
     }
   },
   "rulings": [],
@@ -40,7 +43,35 @@
       "to": "in_progress",
       "reason": "Emulator test (API 19): after opening the radio app, startActivity(Main) did not bring StradaOS back when it is not the default home; use moveTaskToFront(getTaskId()) first",
       "changedAt": "2026-11-19T09:31:38.644Z"
+    },
+    {
+      "skill": "context-discovery",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Impact IM-001: The unit's radio is com.acloud.stub.localradio (XY/PVE acloud platform, AC8317), not the assumed Clinkway com.clw.fmam; its RadioService accepts headless commands via com.android.xygala.ACTION_CONTROL_RADIO.",
+      "changedAt": "2026-11-22T13:55:15.524Z"
+    },
+    {
+      "skill": "requirement-clarification",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Impact IM-001: After testing, the user rejected the remote-control behaviour and asked for StradaOS to run the radio itself in the background; requirements must be restated.",
+      "changedAt": "2026-11-22T13:55:15.524Z"
+    },
+    {
+      "skill": "implementation",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Impact IM-001: MusicIntentReceiver returns immediately for MEDIA_BUTTON, so the media keys StradaOS sends do nothing; only opening the radio app had an effect.",
+      "changedAt": "2026-11-22T13:55:15.524Z"
+    },
+    {
+      "skill": "verification",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Downstream of implementation revision: Impact IM-001: MusicIntentReceiver returns immediately for MEDIA_BUTTON, so the media keys StradaOS sends do nothing; only opening the radio app had an effect.",
+      "changedAt": "2026-11-22T13:55:15.524Z"
     }
   ],
-  "updatedAt": "2026-11-19T09:39:22.471Z"
+  "updatedAt": "2026-11-22T14:14:03.058Z"
 }

@@ -1,0 +1,42 @@
+App Bluetooth Clinkway: no · activaciones: 0
+
+Servicios corriendo ahora (haz el diagnóstico con el celular sonando por Bluetooth):
+  com.android.settings/com.mediatek.lbs.GPSMonitorService [iniciado] clientes=0
+  com.autochips.bluetooth/.spp.SppService clientes=1
+  com.android.phone/.TelephonyDebugService [iniciado] clientes=0
+  com.google.android.gms/.gcm.GcmService [iniciado] clientes=0
+  com.google.android.gms/com.google.android.location.internal.GoogleLocationManagerService [iniciado] clientes=1
+  com.android.location.fused/.FusedLocationService clientes=1
+  com.google.android.gms/.common.stats.GmsCoreStatsService [iniciado] clientes=0
+  com.android.smspush/.WapPushManager clientes=1
+  com.autochips.avin/.VgaIntentService [iniciado] clientes=0
+  com.google.android.gms/.auth.setup.devicesignals.LockScreenService [iniciado] clientes=0
+  com.autochips.quickbootmanager/.QuickBootService [iniciado] clientes=0
+  com.bumblebee.remindeasy/.service.AuxiliaryService [iniciado] clientes=0
+  com.android.settings/.mtksetting [iniciado] clientes=0
+  com.android.systemui/.SystemUIService [iniciado] clientes=0
+  com.autochips.bluetooth/.PbSyncManager.PBSyncManagerService [iniciado] clientes=1
+  com.google.android.gms/.clearcut.service.ClearcutLoggerService clientes=1
+  com.android.vending/com.google.android.finsky.services.LocationUpdaterService [iniciado] clientes=0
+  com.acloud.stub.localmusic/com.acloud.stub.service.XYPlayerService [iniciado] clientes=0
+  com.autochips.bluetooth/.pbapclient.BluetoothPbapClientService [iniciado] clientes=2
+  com.pve.aps/.provider.ApsContentProviderService [iniciado] clientes=0
+  com.google.android.gms/.deviceconnection.service.DeviceConnectionServiceBroker [iniciado] clientes=1
+  com.autochips.bluetooth/.hf.BluetoothHfService [iniciado] clientes=2
+  com.xygala.canbus/.CanbusService [iniciado] clientes=0
+  com.google.android.backup/.BackupTransportService clientes=1
+  com.google.android.gms/.gcm.http.GoogleHttpService clientes=1
+  com.autochips.bluetooth/.hid.BluetoothHidService [iniciado] clientes=2
+  com.google.android.gms/com.google.android.location.internal.server.GoogleLocationService [iniciado] clientes=0
+  com.autochips.bluetooth/.avrcpct.BluetoothAvrcpCtService [iniciado] clientes=2
+  com.google.android.gms/.checkin.CheckinService [iniciado] clientes=0
+  com.android.inputmethod.latin/.LatinIME clientes=1
+  com.android.systemui/.ImageWallpaper clientes=1
+  com.autochips.bluetooth/.a2dpsink.BluetoothA2dpSinkService [iniciado] clientes=1
+  com.autochips.backcarapp/.BackCarService [iniciado] clientes=0
+  com.google.android.gsf/.gtalkservice.service.GTalkService [iniciado] clientes=0
+  com.google.android.gms/.gcm.ProxyGTalkService [iniciado] clientes=0
+  com.android.providers.downloads/.DownloadService [iniciado] clientes=0
+
+Eventos Bluetooth de StradaOS:
+(sin eventos)

@@ -49,3 +49,35 @@ The coding agent must classify this request using the YallaFlow routing contract
 ## Knowledge Updates
 
 ## Result
+
+## Source Added
+
+**Source ID:** SRC-0001
+**Type:** file
+**Name:** info.txt
+
+Raw source preserved in: `.yallaflow/sources/SRC-0001/info.txt`. Read it directly; it is not duplicated here.
+
+## Source Added
+
+**Source ID:** SRC-0002
+**Type:** file
+**Name:** player.txt
+
+Raw source preserved in: `.yallaflow/sources/SRC-0002/player.txt`. Read it directly; it is not duplicated here.
+
+## Source Added
+
+**Source ID:** SRC-0003
+**Type:** file
+**Name:** crashes.txt
+
+Raw source preserved in: `.yallaflow/sources/SRC-0003/crashes.txt`. Read it directly; it is not duplicated here.
+
+## Source Added
+
+**Source ID:** SRC-0004
+**Type:** file
+**Name:** bluetooth.txt
+
+Raw source preserved in: `.yallaflow/sources/SRC-0004/bluetooth.txt`. Read it directly; it is not duplicated here.

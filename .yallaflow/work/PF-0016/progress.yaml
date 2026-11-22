@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T14:15:39.700Z",
+      "completedAt": "2026-11-22T14:15:39.700Z",
+      "summary": "Radio direct control lives in RadioTuner.java (PF-0004); favourites stored per band in launcher prefs tuner_fav_0/1; currently only reachable via radioMenu() dialog on player tap. MusicActivity shows the pattern for a code-built full screen (scale s, circle/round/tv helpers, assets/ic icons radio/star/skip_*/play_arrow/pause/arrow_back)."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T14:16:18.930Z",
+      "completedAt": "2026-11-22T14:16:18.930Z",
+      "summary": "User chose 'Station screen' for the saved-station list (REQ-001, AC-001..004)."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T14:22:58.519Z",
+      "completedAt": "2026-11-22T14:22:58.519Z",
+      "summary": "New RadioActivity (code-built, 1024x600 scaled): frequency, on/off, seek prev/next, FM/AM switch, Save station, Open radio app on the left; 3-column grid of saved stations of the current band on the right (current highlighted, tap tunes, long-press removes, empty-state hint). RadioTuner now holds shared state (on, seeking, lastStatus) and actions (turnOn/turnOff/step/tuneTo/switchBand/saveCurrent/remove/onStatus). Main: player tap and the Radio bar button (when no other radio app was chosen) open RadioActivity; the dialog menu was removed; player renders from RadioTuner.on and refreshes on resume. Manifest entry, en/ar strings (unused menu strings removed), README and 2.17.0 changelog."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T14:23:35.039Z",
+      "completedAt": "2026-11-22T14:23:35.039Z",
+      "summary": "V-001 build and V-002 emulator passed (RadioActivity opens from player, tapping a saved station sends method_setFreq, no crash). Also checked manually: save/remove/sort, AM switch, Radio bar button, Arabic RTL. Not checked on the real head unit."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-22T14:23:44.982Z",
+      "completedAt": "2026-11-22T14:23:44.982Z",
+      "summary": "All 4 acceptance criteria satisfied."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T14:23:44.982Z"
+}
