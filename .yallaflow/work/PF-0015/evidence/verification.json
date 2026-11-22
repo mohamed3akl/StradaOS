@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "git diff --stat README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here.apiKey|apiKey=\" README.md",
+      "executionMode": "shell",
+      "executable": "git diff --stat README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here.apiKey|apiKey=\" README.md",
+      "args": [],
+      "displayCommand": "git diff --stat README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here.apiKey|apiKey=\" README.md",
+      "success": false,
+      "status": "failed",
+      "exitCode": 1,
+      "startedAt": "2026-11-22T09:31:03.791Z",
+      "finishedAt": "2026-11-22T09:31:04.008Z",
+      "verifiedAt": "2026-11-22T09:31:04.008Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash -c \"git diff --stat README.md && git diff --check README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here\\.apiKey|apiKey=\"<redacted>\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "git diff --stat README.md && git diff --check README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here\\.apiKey|apiKey=\" README.md"
+      ],
+      "displayCommand": "bash -c \"git diff --stat README.md && git diff --check README.md && grep -c \"^\\*\\*\" README.md && ! grep -nE \"here\\.apiKey|apiKey=\"<redacted>\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-22T09:31:11.120Z",
+      "finishedAt": "2026-11-22T09:31:11.702Z",
+      "verifiedAt": "2026-11-22T09:31:11.702Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

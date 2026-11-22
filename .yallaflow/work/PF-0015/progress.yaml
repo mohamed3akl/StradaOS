@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-22T09:29:22.103Z",
+      "completedAt": "2026-11-22T09:29:22.103Z",
+      "summary": "Collected features from the source classes (Main, Nav/NavActivity, LiveMapView, OfflineMap/MapDownload, LocalPlayer, BtBridge, Diag/DiagShare, Updates, CarPhoto, Weather) and changelogs 2.8.0-2.17.0; README feature list is missing navigation preview, traffic, radio mode, diagnostics, crash log, compatibility list, app-drawer actions, map styles."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T09:29:23.938Z",
+      "completedAt": "2026-11-22T09:29:23.938Z",
+      "summary": "Request: list all features so far and update README (English and Arabic sections). Docs only; no code."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-11-22T09:29:25.786Z",
+      "completedAt": "2026-11-22T09:29:25.786Z",
+      "summary": "Rewrite README Features grouped by area; expand the Arabic section to the same list; credit HERE and Conscrypt."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-22T09:31:00.459Z",
+      "completedAt": "2026-11-22T09:31:00.459Z",
+      "summary": "README.md: Features section rewritten into 10 groups (map, navigation, Android Auto/CarPlay, music and radio, vehicle, design, apps and buttons, language, system and help) covering features up to 2.17.0; Arabic section expanded to match; credits add HERE traffic and Conscrypt. Each claim checked against the code (rename, re-routing, map brightness, bluetooth.txt, map sources, theme schedule)."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-22T09:31:20.318Z",
+      "completedAt": "2026-11-22T09:31:20.318Z",
+      "summary": "V-002 passed: README diff has no whitespace errors, 13 bold group/section headings, no key material. V-001 failed only because the verify shell is cmd (used '!'); rerun via bash."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-22T09:31:20.318Z"
+}
