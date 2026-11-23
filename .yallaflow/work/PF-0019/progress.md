@@ -15,3 +15,6 @@ Created: 2026-11-23T11:13:34.393Z
 - 2026-11-23T11:14:17.389Z Stage: FIX_PLAN → IMPLEMENTATION
 - 2026-11-23T11:19:35.165Z Stage: IMPLEMENTATION → VERIFICATION
 - 2026-11-23T11:20:06.104Z Stage: VERIFICATION → DONE
+- 2026-11-23T14:57:01.411Z Reopened: DONE → IMPLEMENTATION (On the car the search sweeps the whole FM band, finds nothing and moves to AM. Factory app sends FM frequencies in kHz (radio_channel*100) for setFreq/seekUp/seekDown; StradaOS sends 0.1 MHz units (1011), which the tuner reads as 1011 kHz (AM range).)
+- 2026-11-23T14:59:10.125Z Stage: IMPLEMENTATION → VERIFICATION
+- 2026-11-23T14:59:58.885Z Stage: VERIFICATION → DONE

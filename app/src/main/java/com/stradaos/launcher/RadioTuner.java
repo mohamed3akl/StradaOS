@@ -21,7 +21,9 @@ import java.util.regex.Pattern;
  * method_band (method_setband). Avisa el estado con la difusión com.acloud.android.intent.RADIO, extra «method_value»
  * (texto que arma su biblioteca nativa; su formato se aprende del registro de eventos del diagnóstico).
  *
- * Unidades (las mismas que guarda la app de fábrica): FM en décimas de MHz (875 = 87,5 MHz), AM en kHz (522).
+ * Unidades: el servicio recibe y avisa la frecuencia en kHz en las dos bandas (FM 101,1 MHz = 101100, AM 522). La app de
+ * fábrica guarda FM en décimas de MHz (1011) pero multiplica por 100 antes de llamar al servicio; mandar 1011 en FM
+ * el sintonizador lo toma como 1011 kHz (zona de AM) y la búsqueda recorre la banda sin encontrar nada.
  * StradaOS guarda la frecuencia en kHz para las dos bandas (FM 101,1 MHz = 101100).
  */
 class RadioTuner {
@@ -75,8 +77,8 @@ class RadioTuner {
         p.edit().putInt("tuner_band", band).putInt("tuner_khz_" + band, khz).apply();
     }
 
-    /** Valor para el sintonizador: FM en décimas de MHz, AM en kHz. */
-    static int unit(int band, int khz) { return band == FM ? Math.round(khz / 100f) : khz; }
+    /** Valor para el sintonizador: kHz en las dos bandas (como lo manda la app de fábrica). */
+    static int unit(int band, int khz) { return khz; }
 
     static String label(int band, int khz) {
         if (khz <= 0) return band == FM ? "FM" : "AM";

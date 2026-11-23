@@ -11,7 +11,7 @@
     "reviewRequired": true
   },
   "createdAt": "2026-11-23T11:13:34.393Z",
-  "updatedAt": "2026-11-23T11:20:06.104Z",
+  "updatedAt": "2026-11-23T14:59:58.885Z",
   "title": "Direct radio keeps searching forever on the car and finds no station",
   "routingConfidence": "high",
   "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
@@ -61,6 +61,22 @@
         "V-001",
         "V-002"
       ]
+    },
+    {
+      "completedAt": "2026-11-23T14:59:58.885Z",
+      "verificationRunIds": [
+        "V-003"
+      ]
+    }
+  ],
+  "lastInvalidationAt": "2026-11-23T14:57:01.411Z",
+  "lifecycleHistory": [
+    {
+      "action": "reopen",
+      "fromStage": "DONE",
+      "toStage": "IMPLEMENTATION",
+      "reason": "On the car the search sweeps the whole FM band, finds nothing and moves to AM. Factory app sends FM frequencies in kHz (radio_channel*100) for setFreq/seekUp/seekDown; StradaOS sends 0.1 MHz units (1011), which the tuner reads as 1011 kHz (AM range).",
+      "changedAt": "2026-11-23T14:57:01.411Z"
     }
   ]
 }

@@ -1960,7 +1960,7 @@
     {
       "id": "CTX-0042",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "inferred",
       "summary": "On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)); FM is in 0.1 MHz units (875) and AM in kHz (522); status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. The radio app ignores MEDIA_BUTTON. Implemented in RadioTuner.java; other units fall back to the media-key approach.",
       "provenance": "repository",
@@ -1986,17 +1986,24 @@
       "verifiedAt": "2026-11-22T14:13:53.518Z",
       "verifiedAtCommit": "57d850f1852296f68da4b5b4e6495cb6f1002127",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0046",
       "history": [
         {
           "action": "introduced",
           "at": "2026-11-22T14:13:53.518Z",
           "workId": "PF-0004",
           "candidateId": "K-001"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-23T14:59:53.511Z",
+          "supersededBy": "CTX-0046",
+          "workId": "PF-0019",
+          "candidateId": "K-002"
         }
       ],
       "createdAt": "2026-11-22T14:13:53.518Z",
-      "updatedAt": "2026-11-22T14:13:53.518Z"
+      "updatedAt": "2026-11-23T14:59:53.511Z"
     },
     {
       "id": "CTX-0043",
@@ -2071,7 +2078,7 @@
     {
       "id": "CTX-0045",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "inferred",
       "summary": "acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{\"Radio\":{\"Action\":...,\"Freq\":n}}], FM Freq in 0.1 MHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. Seek must start from a valid frequency (the factory app passes its current channel).",
       "provenance": "repository",
@@ -2097,18 +2104,113 @@
       "verifiedAt": "2026-11-23T11:20:03.391Z",
       "verifiedAtCommit": "cbd0a1bae474091752addb4434b8bbe24a8a4045",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0047",
       "history": [
         {
           "action": "introduced",
           "at": "2026-11-23T11:20:03.391Z",
           "workId": "PF-0019",
           "candidateId": "K-001"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-11-23T14:59:56.200Z",
+          "supersededBy": "CTX-0047",
+          "workId": "PF-0019",
+          "candidateId": "K-003"
         }
       ],
       "createdAt": "2026-11-23T11:20:03.391Z",
-      "updatedAt": "2026-11-23T11:20:03.391Z"
+      "updatedAt": "2026-11-23T14:59:56.200Z"
+    },
+    {
+      "id": "CTX-0046",
+      "area": "integration",
+      "state": "current",
+      "confidence": "inferred",
+      "summary": "On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)). Frequencies are in kHz for both bands (FM 101.1 MHz = 101100, AM 522); the factory app stores FM in 0.1 MHz but multiplies by 100 before calling the service. seekUp is 'next station'. Status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. Implemented in RadioTuner.java.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0019",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+          "contentHash": "sha256:dfae29dc0fea14fb8d7a27a38af0eaa2e258b3dc25d276dddbae6d19634b778f",
+          "gitCommit": "c8f9b24b78781d322ff1915881ca77f56f474ec5",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -6 | tee /dev/stderr | grep -q \"seekUp param_freq=101100\"\" (passed)",
+          "workId": "PF-0019",
+          "verificationRunId": "V-003"
+        }
+      ],
+      "verifiedAt": "2026-11-23T14:59:53.511Z",
+      "verifiedAtCommit": "c8f9b24b78781d322ff1915881ca77f56f474ec5",
+      "supersedes": [
+        "CTX-0042"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-23T14:59:53.511Z",
+          "workId": "PF-0019",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0042"
+        }
+      ],
+      "createdAt": "2026-11-23T14:59:53.511Z",
+      "updatedAt": "2026-11-23T14:59:53.511Z"
+    },
+    {
+      "id": "CTX-0047",
+      "area": "integration",
+      "state": "current",
+      "confidence": "inferred",
+      "summary": "acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{\"Radio\":{\"Action\":...,\"Freq\":n}}], Freq in kHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. A single seek ends with Action TuneOK; ScanOK reports stations during an auto-scan (seekSave). Seek must start from the current frequency.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0019",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+          "contentHash": "sha256:dfae29dc0fea14fb8d7a27a38af0eaa2e258b3dc25d276dddbae6d19634b778f",
+          "gitCommit": "c8f9b24b78781d322ff1915881ca77f56f474ec5",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -6 | tee /dev/stderr | grep -q \"seekUp param_freq=101100\"\" (passed)",
+          "workId": "PF-0019",
+          "verificationRunId": "V-003"
+        }
+      ],
+      "verifiedAt": "2026-11-23T14:59:56.200Z",
+      "verifiedAtCommit": "c8f9b24b78781d322ff1915881ca77f56f474ec5",
+      "supersedes": [
+        "CTX-0045"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-23T14:59:56.200Z",
+          "workId": "PF-0019",
+          "candidateId": "K-003",
+          "supersedes": "CTX-0045"
+        }
+      ],
+      "createdAt": "2026-11-23T14:59:56.200Z",
+      "updatedAt": "2026-11-23T14:59:56.200Z"
     }
   ],
-  "updatedAt": "2026-11-23T11:20:03.391Z"
+  "updatedAt": "2026-11-23T14:59:56.200Z"
 }

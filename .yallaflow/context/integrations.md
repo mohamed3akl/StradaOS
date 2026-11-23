@@ -50,20 +50,6 @@
   - app/src/main/java/com/stradaos/launcher/Nav.java (repository @ 2caf4eb)
   - API 19 emulator - HERE search and route succeeded through Conscrypt (runtime)
 
-<!-- yallaflow-fact:CTX-0042 -->
-### CTX-0042 — On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)); FM is in 0.1 MHz units (875) and AM in kHz (522); status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. The radio app ignores MEDIA_BUTTON. Implemented in RadioTuner.java; other units fall back to the media-key approach.
-
-- **State:** current
-- **Confidence:** inferred
-- **Provenance:** repository
-- **Source work:** PF-0004
-- **Knowledge ID:** K-001
-- **Promoted at:** 2026-11-22T14:13:53.518Z
-- **Verified:** 2026-11-22T14:13:53.518Z (commit 57d850f)
-- **Evidence:**
-  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ 57d850f)
-  - bash -c "export MSYS_NO_PATHCONV=1; A=/c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe; $A logcat -c; $A shell input tap 962 361; sleep 2; $A logcat -d | grep -q "parseIntent method:method_seekUp" && $A shell run-as com.stradaos.launcher.debug cat files/events.txt | grep -q "radio directa: method_open" && $A shell dumpsys activity top | grep -q "ACTIVITY com.stradaos.launcher.debug/" && echo "emulator: seekUp reached RadioService, event log persisted, StradaOS stayed in front"" (passed) (runtime, PF-0004 V-005)
-
 <!-- yallaflow-fact:CTX-0043 -->
 ### CTX-0043 — On Autochips XY/PVE screens the Bluetooth music screen (com.autochips.bluetooth BtMusicActivity) is not exported; StradaOS opens the factory Bluetooth app's launcher (MainBluetoothActivity) as the Bluetooth music app.
 
@@ -77,18 +63,34 @@
 - **Evidence:**
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ d3ae7fd)
 
-<!-- yallaflow-fact:CTX-0045 -->
-### CTX-0045 — acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{"Radio":{"Action":...,"Freq":n}}], FM Freq in 0.1 MHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. Seek must start from a valid frequency (the factory app passes its current channel).
+<!-- yallaflow-fact:CTX-0046 -->
+### CTX-0046 — On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)). Frequencies are in kHz for both bands (FM 101.1 MHz = 101100, AM 522); the factory app stores FM in 0.1 MHz but multiplies by 100 before calling the service. seekUp is 'next station'. Status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. Implemented in RadioTuner.java.
 
 - **State:** current
 - **Confidence:** inferred
 - **Provenance:** repository
 - **Source work:** PF-0019
-- **Knowledge ID:** K-001
-- **Promoted at:** 2026-11-23T11:20:03.391Z
-- **Verified:** 2026-11-23T11:20:03.391Z (commit cbd0a1b)
+- **Knowledge ID:** K-002
+- **Promoted at:** 2026-11-23T14:59:53.511Z
+- **Supersedes:** CTX-0042
+- **Verified:** 2026-11-23T14:59:53.511Z (commit c8f9b24)
 - **Evidence:**
-  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ cbd0a1b)
-  - bash -c "MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12" (passed) (runtime, PF-0019 V-002)
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ c8f9b24)
+  - bash -c "./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -6 | tee /dev/stderr | grep -q "seekUp param_freq=101100"" (passed) (runtime, PF-0019 V-003)
+
+<!-- yallaflow-fact:CTX-0047 -->
+### CTX-0047 — acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{"Radio":{"Action":...,"Freq":n}}], Freq in kHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. A single seek ends with Action TuneOK; ScanOK reports stations during an auto-scan (seekSave). Seek must start from the current frequency.
+
+- **State:** current
+- **Confidence:** inferred
+- **Provenance:** repository
+- **Source work:** PF-0019
+- **Knowledge ID:** K-003
+- **Promoted at:** 2026-11-23T14:59:56.200Z
+- **Supersedes:** CTX-0045
+- **Verified:** 2026-11-23T14:59:56.200Z (commit c8f9b24)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ c8f9b24)
+  - bash -c "./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -6 | tee /dev/stderr | grep -q "seekUp param_freq=101100"" (passed) (runtime, PF-0019 V-003)
 
 <!-- yallaflow-context:end -->

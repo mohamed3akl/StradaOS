@@ -17,8 +17,48 @@
       "factId": "CTX-0045",
       "promotedAt": "2026-11-23T11:20:03.391Z",
       "target": "context/integrations.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "On XY/PVE acloud head units (AC8317) the factory radio com.acloud.stub.localradio exposes an exported, permissionless RadioService: StradaOS controls the tuner with startService(action com.android.xygala.ACTION_CONTROL_RADIO, extra method=method_open|method_close|method_seekUp|method_seekDown|method_setFreq(param_freq)|method_band(method_setband)). Frequencies are in kHz for both bands (FM 101.1 MHz = 101100, AM 522); the factory app stores FM in 0.1 MHz but multiplies by 100 before calling the service. seekUp is 'next station'. Status arrives as broadcast com.acloud.android.intent.RADIO extra method_value. Implemented in RadioTuner.java.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+        "verification:V-003"
+      ],
+      "confidence": "inferred",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0042"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-23T14:59:43.311Z",
+      "factId": "CTX-0046",
+      "promotedAt": "2026-11-23T14:59:53.511Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{\"Radio\":{\"Action\":...,\"Freq\":n}}], Freq in kHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. A single seek ends with Action TuneOK; ScanOK reports stations during an auto-scan (seekSave). Seek must start from the current frequency.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+        "verification:V-003"
+      ],
+      "confidence": "inferred",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0045"
+      },
+      "status": "promoted",
+      "createdAt": "2026-11-23T14:59:45.228Z",
+      "factId": "CTX-0047",
+      "promotedAt": "2026-11-23T14:59:56.200Z",
+      "target": "context/integrations.md"
     }
   ],
-  "updatedAt": "2026-11-23T11:20:03.391Z",
-  "reviewedAt": "2026-11-23T11:20:03.391Z"
+  "updatedAt": "2026-11-23T14:59:56.200Z",
+  "reviewedAt": "2026-11-23T14:59:56.200Z"
 }

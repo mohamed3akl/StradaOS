@@ -23,18 +23,40 @@
     },
     "implementation": {
       "status": "completed",
-      "startedAt": "2026-11-23T11:19:32.729Z",
-      "completedAt": "2026-11-23T11:19:32.729Z",
-      "summary": "RadioTuner: seek never sends 0 (uses band start); turnOn always sends band + frequency; first turn-on per StradaOS start restarts the radio service (killBackgroundProcesses) when no status was seen, so its own status listener is back; status parsing reads JSON Freq and ends the search on Action *OK; 10 s seek timeout sends seekStop and jumps to the next/previous saved station with a toast. en/ar strings and changelog updated."
+      "startedAt": "2026-11-23T14:57:01.411Z",
+      "completedAt": "2026-11-23T14:59:07.659Z",
+      "summary": "RadioTuner.unit() now sends kHz for both bands (FM 101.1 = 101100), matching the factory app (radio_channel*100) for setFreq and seekUp/seekDown. Status parsing already accepts FM kHz."
     },
     "verification": {
       "status": "completed",
-      "startedAt": "2026-11-23T11:19:59.666Z",
-      "completedAt": "2026-11-23T11:19:59.666Z",
-      "summary": "V-001 build passes. V-002 emulator (API 19, factory radio APK): seek starts from 1043 not 0, band+freq sent on turn-on, service restarted once, 10 s timeout stops search and jumps to saved 98.5, JSON Seek status shows 100.3 while searching, TuneOK ends search at 101.1 without timeout."
+      "startedAt": "2026-11-23T14:59:23.452Z",
+      "completedAt": "2026-11-23T14:59:23.452Z",
+      "summary": "V-003: build passes; emulator events show method_setFreq and method_seekUp with param_freq=101100 (kHz) and a TuneOK reply at 101100 ending the search. Car test pending."
     }
   },
-  "rulings": [],
-  "history": [],
-  "updatedAt": "2026-11-23T11:19:59.666Z"
+  "rulings": [
+    {
+      "decision": "Earlier RadioTuner.unit() assumed FM in 0.1 MHz from the factory app's stored channel; the factory app multiplies by 100 before calling the service, so the tuner takes kHz for both bands",
+      "reason": "dexdump of QtActivity.setFreq(IZ), seekUp(), seekDown(), searchFrom(): mul-int/lit8 radio_channel,100 for FM; Parse divides status Freq by 100 for FM",
+      "costIfWrong": "FM tuning and seek still fail on the car; next diagnostics will show the frequencies sent and the tuner's replies",
+      "createdAt": "2026-11-23T14:57:03.236Z"
+    }
+  ],
+  "history": [
+    {
+      "skill": "implementation",
+      "from": "completed",
+      "to": "in_progress",
+      "reason": "On the car the search sweeps the whole FM band, finds nothing and moves to AM. Factory app sends FM frequencies in kHz (radio_channel*100) for setFreq/seekUp/seekDown; StradaOS sends 0.1 MHz units (1011), which the tuner reads as 1011 kHz (AM range).",
+      "changedAt": "2026-11-23T14:57:01.411Z"
+    },
+    {
+      "skill": "verification",
+      "from": "completed",
+      "to": "pending",
+      "reason": "Reopened to implementation: On the car the search sweeps the whole FM band, finds nothing and moves to AM. Factory app sends FM frequencies in kHz (radio_channel*100) for setFreq/seekUp/seekDown; StradaOS sends 0.1 MHz units (1011), which the tuner reads as 1011 kHz (AM range).",
+      "changedAt": "2026-11-23T14:57:01.411Z"
+    }
+  ],
+  "updatedAt": "2026-11-23T14:59:23.452Z"
 }
