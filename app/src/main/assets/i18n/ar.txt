@@ -745,6 +745,8 @@ Listo	تم
 Modo radio: StradaOS maneja la radio	وضع الراديو: StradaOS يشغّل الراديو
 La radio no respondió	الراديو لم يستجب
 Buscando emisora…	جارٍ البحث عن محطة…
+La radio no contestó: emisora guardada	الراديو لم يستجب: محطة محفوظة
+La radio no contestó a la búsqueda	الراديو لم يستجب للبحث
 Cambiar a AM	التبديل إلى AM
 Cambiar a FM	التبديل إلى FM
 Abrir la app de la radio	فتح تطبيق الراديو

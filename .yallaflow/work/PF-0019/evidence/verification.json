@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i \"error\" && exit 1; echo BUILD_OK\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "./gradlew.bat assembleDebug -q 2>&1 | grep -i \"error\" && exit 1; echo BUILD_OK"
+      ],
+      "displayCommand": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i \"error\" && exit 1; echo BUILD_OK\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-23T11:19:37.115Z",
+      "finishedAt": "2026-11-23T11:19:41.876Z",
+      "verifiedAt": "2026-11-23T11:19:41.876Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12"
+      ],
+      "displayCommand": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-23T11:19:48.953Z",
+      "finishedAt": "2026-11-23T11:19:49.291Z",
+      "verifiedAt": "2026-11-23T11:19:49.291Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

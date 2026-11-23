@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "id": "SRC-0005",
+  "sourceType": "file",
+  "sourceName": "player.txt",
+  "detectedFormat": "txt",
+  "contentType": "text/plain",
+  "contentAvailability": "native-text",
+  "capturedAt": "2026-11-23T11:13:39.916Z",
+  "original": {
+    "path": "sources/SRC-0005/player.txt",
+    "sha256": "f14625373756a0533da3dcb8cb1ff56a83426a05195c4e288f6baf7994e91389",
+    "sizeBytes": 1206
+  },
+  "metadata": {
+    "extension": ".txt",
+    "detectedFormat": "txt"
+  },
+  "linkedWork": [
+    "PF-0019"
+  ],
+  "rawText": "StradaOS 2.17.0-prueba.156-d3ae7fd-local · 2026-11-23 07:53:48\n\nFuente: null / null\nPista: null — null\nCarátula: no\n\nLector de notificaciones (accesibilidad): apagado\nÚltima notificación de Open Headunit: ninguna\nOpen Headunit corriendo: no · celular por USB en modo Android Auto: no\nAndroid Auto conectado (para StradaOS): no\nApp Bluetooth conectada: no\nAudio Bluetooth automático: no aplica (otra marca)\nApp de música Bluetooth: com.autochips.bluetooth · abrir al conectar: no\nSonido en Bluetooth (estimado): no · app al frente: com.stradaos.launcher.debug\nActivaciones: 0\nModo radio: sí · app de la radio: com.acloud.stub.localradio/.QtActivity · radio con el sonido (estimado): no · sonando: no\nRadio directa (sintonizador acloud): sí · FM · favoritas FM [] AM [] · último aviso: ninguno\n\nEventos (Bluetooth, radio, Android Auto):\n── StradaOS arrancó (2026-11-23 07:34:57) ──\n11-23 07:35:11 radio directa: method_open\n11-23 07:35:14 radio directa: method_seekUp param_freq=0\n11-23 07:36:22 radio directa: method_close\n11-23 07:36:26 radio directa: method_open\n11-23 07:36:26 radio directa: method_seekDown param_freq=0\n── StradaOS arrancó (2026-11-23 07:40:09) ──\n"
+}

@@ -2067,7 +2067,48 @@
       ],
       "createdAt": "2026-11-22T16:07:00.659Z",
       "updatedAt": "2026-11-22T16:07:00.659Z"
+    },
+    {
+      "id": "CTX-0045",
+      "area": "integration",
+      "state": "current",
+      "confidence": "inferred",
+      "summary": "acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{\"Radio\":{\"Action\":...,\"Freq\":n}}], FM Freq in 0.1 MHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. Seek must start from a valid frequency (the factory app passes its current channel).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0019",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+          "contentHash": "sha256:c82ec06eaeff76e574f433fbdc39cb2e32335fec1cbd4304123177430b18d1c5",
+          "gitCommit": "cbd0a1bae474091752addb4434b8bbe24a8a4045",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+          "workId": "PF-0019",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-11-23T11:20:03.391Z",
+      "verifiedAtCommit": "cbd0a1bae474091752addb4434b8bbe24a8a4045",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-23T11:20:03.391Z",
+          "workId": "PF-0019",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-23T11:20:03.391Z",
+      "updatedAt": "2026-11-23T11:20:03.391Z"
     }
   ],
-  "updatedAt": "2026-11-22T16:07:00.659Z"
+  "updatedAt": "2026-11-23T11:20:03.391Z"
 }

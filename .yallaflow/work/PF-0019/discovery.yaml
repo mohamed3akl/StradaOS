@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "not-inspected",
+      "area": "integration",
+      "summary": "Not yet tested on the car's real tuner",
+      "reason": "Emulator has no radio chip; seek-from-frequency, service restart and JSON status were checked with the factory radio APK and simulated broadcasts only",
+      "recordedAt": "2026-11-23T11:19:51.058Z"
+    }
+  ],
+  "updatedAt": "2026-11-23T11:19:51.058Z"
+}

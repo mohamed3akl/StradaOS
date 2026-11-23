@@ -1,0 +1,12 @@
+── StradaOS arrancó (2026-11-23 13:18:03) ──
+11-23 13:18:30 radio directa: servicio de la radio reiniciado para recibir sus avisos
+11-23 13:18:30 radio directa: method_open
+11-23 13:18:30 radio directa: method_band FM (0)
+11-23 13:18:30 radio directa: method_setFreq param_freq=1043
+11-23 13:18:30 radio directa: method_seekUp param_freq=1043
+11-23 13:18:40 radio directa: method_seekStop
+11-23 13:18:40 radio directa: el sintonizador no avisó en 10 s
+11-23 13:18:40 radio directa: method_setFreq param_freq=985
+11-23 13:18:55 radio directa: method_seekUp param_freq=985
+11-23 13:18:58 radio directa ← [{"Radio":{"Action":"Seek","Freq":1003}}]
+11-23 13:19:00 radio directa ← [{"Radio":{"Action":"TuneOK","Freq":1011}}]

@@ -745,6 +745,8 @@ Listo	Done
 Modo radio: StradaOS maneja la radio	Radio mode: StradaOS runs the radio
 La radio no respondió	The radio didn't respond
 Buscando emisora…	Searching for a station…
+La radio no contestó: emisora guardada	The radio didn't answer: saved station
+La radio no contestó a la búsqueda	The radio didn't answer the search
 Cambiar a AM	Switch to AM
 Cambiar a FM	Switch to FM
 Abrir la app de la radio	Open the radio app

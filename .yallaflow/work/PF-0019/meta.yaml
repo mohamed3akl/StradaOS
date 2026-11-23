@@ -1,0 +1,66 @@
+{
+  "id": "PF-0019",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Direct radio keeps searching forever on the car and finds no station",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-23T11:13:34.393Z",
+  "updatedAt": "2026-11-23T11:20:06.104Z",
+  "title": "Direct radio keeps searching forever on the car and finds no station",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-11-23T11:13:34.486Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "sources": [
+    {
+      "id": "SRC-0005",
+      "type": "file",
+      "name": "player.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-23T11:13:40.078Z",
+      "workStatusAtLink": "INTAKE",
+      "relationship": "work-input"
+    },
+    {
+      "id": "SRC-0006",
+      "type": "file",
+      "name": "info.txt",
+      "detectedFormat": "txt",
+      "contentAvailability": "native-text",
+      "linkedAt": "2026-11-23T11:13:42.228Z",
+      "workStatusAtLink": "INTAKE",
+      "relationship": "work-input"
+    }
+  ],
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-23T11:20:06.104Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

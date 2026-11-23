@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{\"Radio\":{\"Action\":...,\"Freq\":n}}], FM Freq in 0.1 MHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. Seek must start from a valid frequency (the factory app passes its current channel).",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+        "verification:V-002"
+      ],
+      "confidence": "inferred",
+      "status": "promoted",
+      "createdAt": "2026-11-23T11:20:01.529Z",
+      "factId": "CTX-0045",
+      "promotedAt": "2026-11-23T11:20:03.391Z",
+      "target": "context/integrations.md"
+    }
+  ],
+  "updatedAt": "2026-11-23T11:20:03.391Z",
+  "reviewedAt": "2026-11-23T11:20:03.391Z"
+}

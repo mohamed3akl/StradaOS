@@ -90,10 +90,14 @@ class RadioTuner {
 
     static boolean close(Context c) { return send(c, "method_close", null, 0); }
 
+    /** Busca desde la emisora actual, como la app de fábrica (nunca desde 0: el sintonizador se queda buscando). */
     static boolean seek(Context c, SharedPreferences p, boolean up) {
-        int band = band(p);
-        return send(c, up ? "method_seekUp" : "method_seekDown", "param_freq", unit(band, khz(p)));
+        int band = band(p), k = khz(p);
+        if (k <= 0) { k = bandMin(band); remember(p, band, k); }
+        return send(c, up ? "method_seekUp" : "method_seekDown", "param_freq", unit(band, k));
     }
+
+    static int bandMin(int band) { return band == FM ? FM_MIN : AM_MIN; }
 
     static boolean tune(Context c, SharedPreferences p, int band, int khz) {
         if (band != band(p)) setBand(c, band);
@@ -120,33 +124,94 @@ class RadioTuner {
     /** Último aviso del sintonizador, tal cual (para el diagnóstico). */
     static volatile String lastStatus;
 
-    /** Enciende la radio y vuelve a la última emisora. */
+    /** Ya llegó algún aviso del sintonizador desde que arrancó StradaOS. */
+    static volatile boolean statusSeen;
+    private static boolean restarted;
+
+    /**
+     * El servicio de la radio avisa el estado a un solo «oyente»: el suyo (que manda la difusión que lee StradaOS) hasta
+     * que se abre la app de la radio, que lo reemplaza y no lo devuelve al cerrarse. Si aún no llegó ningún aviso, se
+     * reinicia el servicio una vez (solo con la radio apagada) para que vuelva a avisar a StradaOS.
+     */
+    private static void restartServiceOnce(Context c) {
+        if (restarted || statusSeen) return;
+        restarted = true;
+        try {
+            ((android.app.ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE)).killBackgroundProcesses(PKG);
+            BtBridge.log("radio directa: servicio de la radio reiniciado para recibir sus avisos");
+        } catch (Throwable e) { BtBridge.log("radio directa: no se pudo reiniciar el servicio: " + e); }
+    }
+
+    /** Enciende la radio en la última emisora (o al inicio de la banda): banda y frecuencia siempre se mandan. */
     static boolean turnOn(Context c, SharedPreferences p) {
+        if (!on) restartServiceOnce(c);
         if (!open(c)) return false;
         on = true;
-        int k = khz(p);
-        if (k > 0) tune(c, p, band(p), k);
+        int band = band(p), k = khz(p);
+        if (k <= 0) k = bandMin(band);
+        setBand(c, band);
+        tune(c, p, band, k);
         return true;
     }
 
     static void turnOff(Context c) {
+        stopWaiting();
         close(c);
         on = false;
         seeking = false;
     }
 
-    static void ensureOn(Context c) { if (!on && open(c)) on = true; }
+    static void ensureOn(Context c, SharedPreferences p) { if (!on) turnOn(c, p); }
 
     static void step(Context c, SharedPreferences p, boolean up) {
-        ensureOn(c);
+        ensureOn(c, p);
         seek(c, p, up);
         seeking = true;
+        waitForStation(c, p, up);
     }
 
     static void tuneTo(Context c, SharedPreferences p, int band, int khz) {
-        ensureOn(c);
+        ensureOn(c, p);
+        stopWaiting();
         seeking = false;
         tune(c, p, band, khz);
+    }
+
+    // ── si el sintonizador no contesta, no se queda «Buscando emisora…» para siempre ──
+
+    static final long SEEK_TIMEOUT = 10000;
+    private static final android.os.Handler H = new android.os.Handler(android.os.Looper.getMainLooper());
+    private static Runnable timeout;
+
+    private static void stopWaiting() { if (timeout != null) { H.removeCallbacks(timeout); timeout = null; } }
+
+    private static void waitForStation(final Context c, final SharedPreferences p, final boolean up) {
+        stopWaiting();
+        final Context app = c.getApplicationContext();
+        timeout = new Runnable() { public void run() {
+            timeout = null;
+            if (!seeking) return;
+            seeking = false;
+            send(app, "method_seekStop", null, 0);
+            BtBridge.log("radio directa: el sintonizador no avisó en " + SEEK_TIMEOUT / 1000 + " s");
+            // sin avisos: se pasa a la emisora guardada siguiente / anterior
+            int band = band(p), k = khz(p);
+            List<Integer> l = favorites(p, band);
+            Integer go = null;
+            for (int i = 0; i < l.size(); i++) {
+                int f = l.get(up ? i : l.size() - 1 - i);
+                if (up ? f > k : f < k) { go = f; break; }
+            }
+            if (go == null && !l.isEmpty()) go = l.get(up ? 0 : l.size() - 1);
+            if (go != null) tune(app, p, band, go);
+            try {
+                android.widget.Toast.makeText(app, I18n.t(go != null ? "La radio no contestó: emisora guardada"
+                    : "La radio no contestó a la búsqueda"), android.widget.Toast.LENGTH_SHORT).show();
+            } catch (Throwable ignored) { }
+            // avisa a las pantallas de StradaOS para que se redibujen
+            try { app.sendBroadcast(new Intent(STATUS).setPackage(app.getPackageName())); } catch (Throwable ignored) { }
+        }};
+        H.postDelayed(timeout, SEEK_TIMEOUT);
     }
 
     /** FM ↔ AM: va a la última emisora de la otra banda (o al inicio de la banda). */
@@ -177,9 +242,14 @@ class RadioTuner {
         if (v == null) return false;
         if (!v.equals(lastStatus)) BtBridge.log("radio directa ← " + (v.length() > 160 ? v.substring(0, 160) + "…" : v));
         lastStatus = v;
+        statusSeen = true;
         int[] f = parse(v, band(p));
         if (f == null) return false;
-        seeking = false;
+        // JSON del sintonizador: {"Radio":{"Action":"TuneOK"|"ScanOK"|…,"Freq":1011}}; mientras busca puede ir
+        // avisando frecuencias; la búsqueda termina con una acción «…OK» (o con un aviso que no es JSON)
+        Matcher a = ACT.matcher(v);
+        boolean done = !a.find() || a.group(1).toUpperCase(java.util.Locale.US).endsWith("OK");
+        if (done) { seeking = false; stopWaiting(); }
         if (f[0] == band(p) && f[1] == khz(p)) return false;
         remember(p, f[0], f[1]);
         return true;
@@ -211,6 +281,8 @@ class RadioTuner {
     // ── estado que avisa el sintonizador ──
 
     private static final Pattern NUM = Pattern.compile("\\d+(?:\\.\\d+)?");
+    private static final Pattern FREQ = Pattern.compile("\"Freq\"\\s*:\\s*\"?(\\d+(?:\\.\\d+)?)");
+    private static final Pattern ACT = Pattern.compile("\"Action\"\\s*:\\s*\"([^\"]*)\"");
 
     /**
      * Busca una frecuencia en el texto de estado. Devuelve {banda, kHz} o null. Acepta 101.1 / 1011 / 10110 / 101100
@@ -218,6 +290,8 @@ class RadioTuner {
      */
     static int[] parse(String s, int currentBand) {
         if (s == null) return null;
+        Matcher j = FREQ.matcher(s);
+        if (j.find()) s = j.group(1);   // aviso JSON: solo cuenta el campo Freq
         Matcher m = NUM.matcher(s);
         int[] amHit = null;
         while (m.find()) {

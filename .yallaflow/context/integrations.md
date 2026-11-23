@@ -77,4 +77,18 @@
 - **Evidence:**
   - app/src/main/java/com/stradaos/launcher/Main.java (repository @ d3ae7fd)
 
+<!-- yallaflow-fact:CTX-0045 -->
+### CTX-0045 — acloud radio service reports status only to one IParse listener: its own (which broadcasts com.acloud.android.intent.RADIO with JSON [{"Radio":{"Action":...,"Freq":n}}], FM Freq in 0.1 MHz) until the factory QtActivity binds and replaces it; it is not restored on unbind, so StradaOS restarts the service once to get status. Seek must start from a valid frequency (the factory app passes its current channel).
+
+- **State:** current
+- **Confidence:** inferred
+- **Provenance:** repository
+- **Source work:** PF-0019
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-23T11:20:03.391Z
+- **Verified:** 2026-11-23T11:20:03.391Z (commit cbd0a1b)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ cbd0a1b)
+  - bash -c "MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12" (passed) (runtime, PF-0019 V-002)
+
 <!-- yallaflow-context:end -->
