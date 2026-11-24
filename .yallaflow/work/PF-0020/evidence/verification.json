@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; grep -q \"xy.android.galaxradio.setaudiotoradio\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && grep -q \"xy.android.galaxradio.setaudiotogps\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && echo OK\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; grep -q \"xy.android.galaxradio.setaudiotoradio\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && grep -q \"xy.android.galaxradio.setaudiotogps\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && echo OK"
+      ],
+      "displayCommand": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; grep -q \"xy.android.galaxradio.setaudiotoradio\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && grep -q \"xy.android.galaxradio.setaudiotogps\" app/src/main/java/com/stradaos/launcher/RadioTuner.java && echo OK\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-24T07:10:03.411Z",
+      "finishedAt": "2026-11-24T07:10:06.487Z",
+      "verifiedAt": "2026-11-24T07:10:06.487Z",
+      "log": "V-001-verification.log"
+    }
+  ]
+}

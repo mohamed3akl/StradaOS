@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-24T07:08:24.024Z",
+      "completedAt": "2026-11-24T07:08:24.024Z",
+      "summary": "User report 2026-11-24: radio finds stations, no sound. Factory QtActivity calls RadioService.interfaceSetAudioToRadio(bool) on connect/playRadio, which broadcasts xy.android.galaxradio.setaudiotoradio (fm=setaudiotoradio, isToGps); on pause/stop/release it calls interfaceSetAudioToGps (broadcast xy.android.galaxradio.setaudiotogps, fm=setaudiotogps). Neither is reachable through the service's startService intent API (method_audioToRadio only calls the native setAudioToRadio). com.autochips.backcarapp BackCarService receives setaudiotoradio and, 1 s later, opens the AVIN audio input (setDestination/setSource/play) that carries the FM chip's sound; setaudiotogps stops it."
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-11-24T07:08:25.472Z",
+      "completedAt": "2026-11-24T07:08:25.472Z",
+      "summary": "Root cause: StradaOS only sends method_open (native setAudioToRadio) and never the xy.android.galaxradio.setaudiotoradio broadcast, so BackCarService never routes the tuner's analog input to the speakers. Fix: send setaudiotoradio (isToGps=false, like playRadio) after turning on and setaudiotogps when turning off.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+        "runtime:user report: stations found, no sound",
+        "runtime:dexdump of factory com.acloud.stub.localradio (RadioService.interfaceSetAudioToRadio/ToGps, QtActivity.playRadio/releaseRadio) and com.autochips.backcarapp (BackCarService$9.onReceive, witchaudiotoradio uses AVIN setSource/play)"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-24T07:10:02.111Z",
+      "completedAt": "2026-11-24T07:10:02.111Z",
+      "summary": "RadioTuner.open() now also broadcasts xy.android.galaxradio.setaudiotoradio (fm=setaudiotoradio, isToGps=false) so BackCarService opens the AVIN audio input; close() first broadcasts xy.android.galaxradio.setaudiotogps (fm=setaudiotogps). Both logged in the event list."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-24T07:10:12.834Z",
+      "completedAt": "2026-11-24T07:10:12.834Z",
+      "summary": "V-001: build passes with the audio routing broadcasts. Car test pending (limitation recorded)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-24T07:10:12.834Z"
+}

@@ -2210,7 +2210,42 @@
       ],
       "createdAt": "2026-11-23T14:59:56.200Z",
       "updatedAt": "2026-11-23T14:59:56.200Z"
+    },
+    {
+      "id": "CTX-0048",
+      "area": "integration",
+      "state": "current",
+      "confidence": "inferred",
+      "summary": "On XY/PVE AC8317 units the FM tuner's sound enters through the chip's AVIN analog input. It is opened by com.autochips.backcarapp BackCarService when it receives broadcast xy.android.galaxradio.setaudiotoradio (extras fm=setaudiotoradio, isToGps=false), about 1 s later, and closed by xy.android.galaxradio.setaudiotogps (fm=setaudiotogps). The radio service's method_open/method_audioToRadio do not send it; StradaOS sends it itself in RadioTuner.open/close.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0020",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+          "contentHash": "sha256:d40c5557ccfb596b4292dc232c8e489cee15ad1e81a44705f9b251f02366aeb1",
+          "gitCommit": "79bc0b626af7c9927d66247b5d1701c9962224b6",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-24T07:10:14.128Z",
+      "verifiedAtCommit": "79bc0b626af7c9927d66247b5d1701c9962224b6",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-24T07:10:14.128Z",
+          "workId": "PF-0020",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-24T07:10:14.128Z",
+      "updatedAt": "2026-11-24T07:10:14.128Z"
     }
   ],
-  "updatedAt": "2026-11-23T14:59:56.200Z"
+  "updatedAt": "2026-11-24T07:10:14.128Z"
 }

@@ -1,0 +1,43 @@
+{
+  "id": "PF-0020",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Direct radio finds stations but there is no sound",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-11-24T07:08:23.241Z",
+  "updatedAt": "2026-11-24T07:10:15.405Z",
+  "title": "Direct radio finds stations but there is no sound",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-11-24T07:08:23.270Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 9,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-11-24T07:10:15.405Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

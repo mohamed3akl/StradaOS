@@ -93,4 +93,17 @@
   - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ c8f9b24)
   - bash -c "./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -6 | tee /dev/stderr | grep -q "seekUp param_freq=101100"" (passed) (runtime, PF-0019 V-003)
 
+<!-- yallaflow-fact:CTX-0048 -->
+### CTX-0048 — On XY/PVE AC8317 units the FM tuner's sound enters through the chip's AVIN analog input. It is opened by com.autochips.backcarapp BackCarService when it receives broadcast xy.android.galaxradio.setaudiotoradio (extras fm=setaudiotoradio, isToGps=false), about 1 s later, and closed by xy.android.galaxradio.setaudiotogps (fm=setaudiotogps). The radio service's method_open/method_audioToRadio do not send it; StradaOS sends it itself in RadioTuner.open/close.
+
+- **State:** current
+- **Confidence:** inferred
+- **Provenance:** repository
+- **Source work:** PF-0020
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-24T07:10:14.128Z
+- **Verified:** 2026-11-24T07:10:14.128Z (commit 79bc0b6)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ 79bc0b6)
+
 <!-- yallaflow-context:end -->

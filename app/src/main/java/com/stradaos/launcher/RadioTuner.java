@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * La app de fábrica com.acloud.stub.localradio tiene un servicio en segundo plano (com.radio.service.RadioService,
  * exportado y sin permiso) que maneja el sintonizador. Recibe órdenes con startService, acción
- * com.android.xygala.ACTION_CONTROL_RADIO y el extra «method»: method_open (enciende y pasa el sonido a la radio),
+ * com.android.xygala.ACTION_CONTROL_RADIO y el extra «method»: method_open (enciende el chip; el sonido se pasa aparte, ver audioToRadio),
  * method_close, method_seekUp / method_seekDown (busca la siguiente emisora con señal), method_setFreq (param_freq),
  * method_band (method_setband). Avisa el estado con la difusión com.acloud.android.intent.RADIO, extra «method_value»
  * (texto que arma su biblioteca nativa; su formato se aprende del registro de eventos del diagnóstico).
@@ -88,9 +88,37 @@ class RadioTuner {
 
     // ── órdenes ──
 
-    static boolean open(Context c) { return send(c, "method_open", null, 0); }
+    static boolean open(Context c) {
+        boolean ok = send(c, "method_open", null, 0);
+        if (ok) audioToRadio(c);
+        return ok;
+    }
 
-    static boolean close(Context c) { return send(c, "method_close", null, 0); }
+    static boolean close(Context c) {
+        audioToGps(c);
+        return send(c, "method_close", null, 0);
+    }
+
+    /**
+     * El sonido del sintonizador entra por la entrada analógica (AVIN) del chip: la abre el servicio de fábrica
+     * com.autochips.backcarapp (BackCarService) cuando recibe esta difusión, un segundo después. Es lo que hace la app
+     * de la radio al reproducir (RadioService.interfaceSetAudioToRadio); method_open solo prepara el chip de radio.
+     */
+    static void audioToRadio(Context c) {
+        try {
+            c.sendBroadcast(new Intent("xy.android.galaxradio.setaudiotoradio")
+                .putExtra("fm", "setaudiotoradio").putExtra("isToGps", false));
+            BtBridge.log("radio directa: sonido a la radio (xy.android.galaxradio.setaudiotoradio)");
+        } catch (Throwable e) { BtBridge.log("radio directa: sonido a la radio falló: " + e); }
+    }
+
+    /** Cierra la entrada de sonido de la radio (lo que hace la app de la radio al pausar o detener). */
+    static void audioToGps(Context c) {
+        try {
+            c.sendBroadcast(new Intent("xy.android.galaxradio.setaudiotogps").putExtra("fm", "setaudiotogps"));
+            BtBridge.log("radio directa: sonido fuera de la radio (xy.android.galaxradio.setaudiotogps)");
+        } catch (Throwable e) { BtBridge.log("radio directa: cerrar sonido de la radio falló: " + e); }
+    }
 
     /** Busca desde la emisora actual, como la app de fábrica (nunca desde 0: el sintonizador se queda buscando). */
     static boolean seek(Context c, SharedPreferences p, boolean up) {
