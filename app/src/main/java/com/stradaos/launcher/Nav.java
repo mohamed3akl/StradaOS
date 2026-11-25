@@ -39,6 +39,8 @@ public class Nav {
     public static class Place {
         public String name, detail;
         public double lat, lon;
+        /** Pin soltado a mano en el mapa (no viene de la búsqueda). */
+        boolean dropped;
         JSONObject json() throws Exception {
             return new JSONObject().put("n", name).put("d", detail == null ? "" : detail).put("la", lat).put("lo", lon);
         }

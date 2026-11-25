@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -58,6 +59,7 @@ public class NavActivity extends Activity implements Nav.Listener {
     private LinearLayout previewCard;
     private TextView pvName, pvDetail, pvDist;
     private Nav.Place preview;
+    private View recenter;
 
     /** Atribución según el servicio que se usó de verdad (HERE u OpenStreetMap); antes de usarlo, según la clave. */
     private String attribution() {
@@ -117,7 +119,11 @@ public class NavActivity extends Activity implements Nav.Listener {
 
         map = new LiveMapView(this, s, 0);
         root.addView(map, new FrameLayout.LayoutParams(-1, -1));
-        map.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { map.cycleZoom(); } });
+        // pellizcar: zoom · arrastrar: mover el mapa · doble toque: acercar · dejar presionado: soltar un pin
+        map.setInteractive(new LiveMapView.Listener() {
+            public void onMapLongPress(double lat, double lon) { dropPin(lat, lon); }
+            public void onMapFreeChanged(boolean free) { if (recenter != null) recenter.setVisibility(free ? View.VISIBLE : View.GONE); }
+        });
 
         // ── próximo giro (arriba a la izquierda) ──
         guide = new LinearLayout(this);
@@ -195,6 +201,19 @@ public class NavActivity extends Activity implements Nav.Listener {
         plp.bottomMargin = px(14);
         previewCard.setVisibility(View.GONE);
         root.addView(previewCard, plp);
+
+        // ── abajo a la derecha: volver a seguir al carro (aparece al mover el mapa con el dedo) ──
+        recenter = circle("my_location", 60, 30, (Main.CARD & 0x00FFFFFF) | 0xF0000000);
+        recenter.setOnClickListener(new View.OnClickListener() { public void onClick(View v) {
+            if (preview != null && preview.dropped) closePreview();
+            map.follow();
+        }});
+        FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(px(60), px(60));
+        rlp.gravity = Gravity.BOTTOM | I18n.right();
+        I18n.marginEnd(rlp, px(14));
+        rlp.bottomMargin = px(14);
+        recenter.setVisibility(View.GONE);
+        root.addView(recenter, rlp);
 
         // ── arriba a la derecha: volver al inicio ──
         FrameLayout home = circle("arrow_back", 52, 26, (Main.CARD & 0x00FFFFFF) | 0xF0000000);
@@ -414,6 +433,25 @@ public class NavActivity extends Activity implements Nav.Listener {
         results.addView(row);
     }
 
+    /**
+     * Dejar presionado el mapa: un pin en ese punto con la tarjeta «Volver» / «Ir». Otra vez en otro punto mueve el
+     * pin. Con una ruta en curso no se cambia el destino (primero hay que terminarla).
+     */
+    private void dropPin(double lat, double lon) {
+        boolean searching = nav.state == Nav.IDLE || nav.state == Nav.ERROR || nav.state == Nav.ARRIVED;
+        if (!searching) {
+            Toast.makeText(this, I18n.t("Termina la ruta para elegir otro destino"), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Nav.Place p = new Nav.Place();
+        p.name = I18n.t("Punto en el mapa");
+        p.detail = String.format(java.util.Locale.US, "%.5f, %.5f", lat, lon);
+        p.lat = lat;
+        p.lon = lon;
+        p.dropped = true;
+        showPreview(p);
+    }
+
     /** Muestra el lugar en el mapa (pin en el centro) con su tarjeta: nombre, dirección, distancia, «Volver» e «Ir». */
     private void showPreview(Nav.Place p) {
         hideKeyboard();
@@ -424,7 +462,8 @@ public class NavActivity extends Activity implements Nav.Listener {
         Location here = nav.bestLocation();
         pvDist.setText(here == null ? I18n.t("Sin señal GPS")
                 : I18n.t(Nav.distText(Nav.dist(here.getLatitude(), here.getLongitude(), p.lat, p.lon), mph(this)) + " en línea recta"));
-        map.showPin(p.lat, p.lon);
+        if (p.dropped) map.dropPin(p.lat, p.lon);   // el pin soltado queda donde se tocó: el mapa no salta
+        else map.showPin(p.lat, p.lon);
         onNav();
     }
 

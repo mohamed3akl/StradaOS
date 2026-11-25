@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "LiveMapView gestures are opt-in via setInteractive() (used only by NavActivity; the home map card keeps tap/long-press). Zoom is continuous: integer tile zoom plus a scale factor; a moved map uses a free camera in normalized Mercator. Gesture math must use the current zoom/camera, not the last drawn frame, because several gesture events arrive between frames.",
+      "evidence": [
+        "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+        "verification:V-002"
+      ],
+      "confidence": "confirmed",
+      "status": "promoted",
+      "createdAt": "2026-11-25T08:16:38.738Z",
+      "factId": "CTX-0050",
+      "promotedAt": "2026-11-25T08:16:40.765Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-11-25T08:16:40.765Z",
+  "reviewedAt": "2026-11-25T08:16:40.765Z"
+}

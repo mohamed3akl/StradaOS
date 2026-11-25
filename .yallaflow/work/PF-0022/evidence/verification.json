@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; echo BUILD_OK\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; echo BUILD_OK"
+      ],
+      "displayCommand": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; echo BUILD_OK\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-25T08:16:05.916Z",
+      "finishedAt": "2026-11-25T08:16:10.338Z",
+      "verifiedAt": "2026-11-25T08:16:10.338Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity\"\"",
+      "executionMode": "argv",
+      "executable": "bash",
+      "args": [
+        "-c",
+        "MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity\""
+      ],
+      "displayCommand": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity\"\"",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-11-25T08:16:26.231Z",
+      "finishedAt": "2026-11-25T08:16:26.680Z",
+      "verifiedAt": "2026-11-25T08:16:26.680Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

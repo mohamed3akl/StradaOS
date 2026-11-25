@@ -34,6 +34,8 @@
 
 **🧭 Navigation**
 - **Turn-by-turn guidance inside StradaOS:** next turn with an arrow, distance, remaining time and arrival time, with automatic re-routing when you leave the route.
+- **Move around the map with your fingers:** pinch to zoom in and out, drag to move the map (a button brings it back to your car), and double-tap to zoom in.
+- **Drop a pin to navigate:** press and hold any point on the map to drop a pin there, then tap **Go**. Hold another point to move the pin.
 - **See the place first:** search, and the result is shown on the map with its name and distance; tap **Go** to start, or Back to return to the results.
 - **HERE search and routes** (optional, with your own HERE API key in *Settings → Map & weather*): better search and routes that know live traffic. Without a key, OpenStreetMap (Nominatim, Photon, OSRM) is used.
 - **Traffic on your route:** slow stretches orange, very slow ones red, and the delay in the bottom bar (for example "+6 min traffic"), refreshed every 5 minutes while driving.

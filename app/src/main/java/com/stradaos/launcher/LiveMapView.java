@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.util.LruCache;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import java.io.File;
@@ -300,11 +303,12 @@ public class LiveMapView extends View {
     public void cycleZoom() {
         userZoom = true;
         zoom = zoom >= 17 ? 14 : zoom + 1;
+        scale = 1f;
         invalidate();
     }
 
     /** Pruebas: fija el zoom (14–18). */
-    void setZoom(int z) { userZoom = true; zoom = Math.max(10, Math.min(18, z)); invalidate(); }
+    void setZoom(int z) { userZoom = true; zoom = Math.max(10, Math.min(18, z)); scale = 1f; invalidate(); }
 
     // ── vista previa de un destino (navegación): el mapa se centra en el lugar elegido y lo marca con un pin ──
     private double pinLat = Double.NaN, pinLon = Double.NaN;
@@ -318,6 +322,17 @@ public class LiveMapView extends View {
         pinLon = lo;
         userZoom = true;
         zoom = 16;
+        scale = 1f;
+        setFree(false);
+        invalidate();
+    }
+
+    /** Pin soltado por el usuario (dejar presionado el mapa): el mapa no se mueve, el pin queda donde se tocó. */
+    void dropPin(double la, double lo) {
+        if (Double.isNaN(pinLat)) { zoomBeforePin = zoom; userZoomBeforePin = userZoom; }
+        startFree();
+        pinLat = la;
+        pinLon = lo;
         invalidate();
     }
 
@@ -325,11 +340,164 @@ public class LiveMapView extends View {
     void clearPin() {
         if (Double.isNaN(pinLat)) return;
         pinLat = pinLon = Double.NaN;
-        if (zoomBeforePin > 0) { zoom = zoomBeforePin; userZoom = userZoomBeforePin; }
+        if (zoomBeforePin > 0) { zoom = zoomBeforePin; userZoom = userZoomBeforePin; scale = 1f; }
+        setFree(false);
         invalidate();
     }
 
     boolean hasPin() { return !Double.isNaN(pinLat); }
+
+    // ── gestos (pantalla de navegación): pellizcar para el zoom, arrastrar para mover, dejar presionado para un pin ──
+
+    interface Listener {
+        /** Se dejó presionado el mapa en (lat, lon). */
+        void onMapLongPress(double lat, double lon);
+        /** El mapa dejó de seguir al carro (se movió con el dedo) o volvió a seguirlo. */
+        void onMapFreeChanged(boolean free);
+    }
+
+    /** Escala dentro del nivel de zoom de las teselas (0,71–1,41; hasta 2 en el zoom máximo): zoom continuo. */
+    private float scale = 1f;
+    /** El usuario movió el mapa: el centro es (camX, camY) en Mercator normalizado (0–1) y no sigue al carro. */
+    private boolean free;
+    private double camX, camY;
+    private Listener listener;
+    private ScaleGestureDetector scaleDet;
+    private GestureDetector gestures;
+    private boolean multiTouch;
+    // lo último que se dibujó, para pasar de un punto de la pantalla a una posición
+    private double lastFx, lastFy;
+    private int lastN, lastMaxZ = 18;
+    private float lastTs, lastCx, lastCy, lastBr;
+    private boolean lastRot;
+
+    boolean isFree() { return free; }
+
+    /** Vuelve a seguir al carro (botón «centrar»). */
+    void follow() { setFree(false); invalidate(); }
+
+    private void setFree(boolean f) {
+        if (free == f) return;
+        free = f;
+        if (listener != null) listener.onMapFreeChanged(f);
+    }
+
+    /** Pasa a mover el mapa a mano desde lo que se ve ahora (el centro no salta). */
+    private void startFree() {
+        if (free || lastN == 0) return;
+        camX = lastFx / lastN;
+        camY = lastFy / lastN;
+        userZoom = true;
+        setFree(true);
+    }
+
+    /** Activa los gestos. Sin esto el mapa solo responde al toque (como en la tarjeta del inicio). */
+    void setInteractive(Listener l) {
+        listener = l;
+        scaleDet = new ScaleGestureDetector(getContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override public boolean onScale(ScaleGestureDetector d) {
+                zoomBy(d.getScaleFactor(), d.getFocusX(), d.getFocusY());
+                return true;
+            }
+        });
+        gestures = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override public boolean onDown(MotionEvent e) { return true; }
+            @Override public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy) {
+                if (scaleDet.isInProgress() || e2.getPointerCount() > 1) return false;
+                pan(dx, dy);
+                return true;
+            }
+            @Override public boolean onDoubleTap(MotionEvent e) {
+                zoomBy(2f, e.getX(), e.getY());
+                return true;
+            }
+            @Override public void onLongPress(MotionEvent e) {
+                if (multiTouch || listener == null) return;
+                double[] g = toNorm(e.getX(), e.getY());
+                if (g == null) return;
+                performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
+                listener.onMapLongPress(latOf(g[1]), lonOf(g[0]));
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if (gestures == null) return super.onTouchEvent(e);
+        if (e.getActionMasked() == MotionEvent.ACTION_DOWN) multiTouch = false;
+        if (e.getPointerCount() > 1) multiTouch = true;
+        scaleDet.onTouchEvent(e);
+        gestures.onTouchEvent(e);
+        return true;
+    }
+
+    private void pan(float dx, float dy) {
+        startFree();
+        if (!free) return;
+        int n = 1 << zoom;
+        float ts = 256 * s * scale;
+        camX += dx / ts / n;
+        camY += dy / ts / n;
+        camX -= Math.floor(camX);                         // da la vuelta al mundo
+        camY = Math.max(0, Math.min(1, camY));
+        invalidate();
+    }
+
+    /** Zoom continuo alrededor de (fx, fy): con el mapa movido a mano, ese punto queda bajo los dedos. */
+    private void zoomBy(float f, float focusX, float focusY) {
+        if (f <= 0 || Float.isNaN(f)) return;
+        // el punto bajo los dedos se calcula con el zoom de ahora, no con el del último cuadro dibujado: en un
+        // pellizco llegan varios pasos entre cuadro y cuadro, y con el cuadro viejo el mapa se iba lejos
+        double[] before = null;
+        if (free && lastN > 0) {
+            int n0 = 1 << zoom;
+            float ts0 = 256 * s * scale;
+            before = new double[]{camX + (focusX - lastCx) / ts0 / n0, camY + (focusY - lastCy) / ts0 / n0};
+        }
+        userZoom = true;
+        int maxZ = Math.min(19, lastMaxZ);
+        scale *= f;
+        while (scale > 1.4142f && zoom < maxZ) { zoom++; scale /= 2f; }
+        while (scale < 0.7071f && zoom > 3) { zoom--; scale *= 2f; }
+        scale = Math.max(zoom <= 3 ? 1f : 0.7071f, Math.min(zoom >= maxZ ? 2f : 1.4142f, scale));
+        if (before != null) {
+            int n = 1 << zoom;
+            float ts = 256 * s * scale;
+            camX = before[0] - (focusX - lastCx) / ts / n;
+            camY = Math.max(0, Math.min(1, before[1] - (focusY - lastCy) / ts / n));
+        }
+        invalidate();
+    }
+
+    /** Punto de la pantalla → posición en Mercator normalizado {x, y}, según el último cuadro dibujado. */
+    private double[] toNorm(float x, float y) {
+        if (lastN == 0) return null;
+        if (lastRot) {                                     // el mapa estaba girado: se deshace el giro
+            double a = Math.toRadians(lastBr), dx = x - lastCx, dy = y - lastCy;
+            x = (float) (lastCx + dx * Math.cos(a) - dy * Math.sin(a));
+            y = (float) (lastCy + dx * Math.sin(a) + dy * Math.cos(a));
+        }
+        double gx = (lastFx + (x - lastCx) / lastTs) / lastN, gy = (lastFy + (y - lastCy) / lastTs) / lastN;
+        return new double[]{gx - Math.floor(gx), Math.max(0, Math.min(1, gy))};
+    }
+
+    static double mercX(double lon) { return (lon + 180.0) / 360.0; }
+
+    static double mercY(double lat) {
+        double r = Math.toRadians(lat);
+        return (1.0 - Math.log(Math.tan(r) + 1.0 / Math.cos(r)) / Math.PI) / 2.0;
+    }
+
+    static double lonOf(double x) { return x * 360.0 - 180.0; }
+
+    /** x (en teselas) en la copia del mundo más cercana a fx (cerca de la línea de cambio de fecha). */
+    private static double wrapX(double x, double fx, int n) {
+        while (x - fx > n / 2.0) x -= n;
+        while (fx - x > n / 2.0) x += n;
+        return x;
+    }
+
+    static double latOf(double y) { return Math.toDegrees(Math.atan(Math.sinh(Math.PI * (1 - 2 * y)))); }
 
     @Override
     protected void onDraw(Canvas c) {
@@ -338,21 +506,23 @@ public class LiveMapView extends View {
         boolean moving = step(SystemClock.uptimeMillis());
 
         boolean pin = !Double.isNaN(pinLat);
-        // centro del mapa: el lugar de la vista previa o, si no hay, la posición del carro
-        double cLat = pin ? pinLat : dLat, cLon = pin ? pinLon : dLon;
+        // centro del mapa: donde lo dejó el usuario (movido a mano), el lugar de la vista previa o el carro
+        double cLat = free ? latOf(camY) : pin ? pinLat : dLat, cLon = free ? lonOf(camX) : pin ? pinLon : dLon;
         if (!Double.isNaN(cLat)) {
             OfflineMap fm = fileMap;
             boolean fileHere = fm != null && fm.contains(cLat, cLon);
+            lastMaxZ = fileHere ? 19 : MAXZ[provider];
             if (!fileHere && zoom > MAXZ[provider]) zoom = MAXZ[provider];
             int n = 1 << zoom;
-            double fx = (cLon + 180.0) / 360.0 * n;
-            double latR = Math.toRadians(cLat);
-            double fy = (1.0 - Math.log(Math.tan(latR) + 1.0 / Math.cos(latR)) / Math.PI) / 2.0 * n;
-            float ts = 256 * s;                                    // tamaño de tesela en pantalla
+            double fx = free ? camX * n : mercX(cLon) * n;
+            double fy = free ? camY * n : mercY(cLat) * n;
+            float ts = 256 * s * scale;                            // tamaño de tesela en pantalla (zoom continuo)
             float cx = w / 2f, cy = h * 0.42f;                     // la posición queda arriba del panel inferior
             int tx0 = (int) Math.floor(fx - cx / ts) - 1, tx1 = (int) Math.floor(fx + (w - cx) / ts) + 1;
             int ty0 = (int) Math.floor(fy - cy / ts) - 1, ty1 = (int) Math.floor(fy + (h - cy) / ts) + 1;
-            boolean rot = headingUp && !pin && !Float.isNaN(dBr);   // la vista previa siempre con el norte arriba
+            // la vista previa y el mapa movido a mano siempre con el norte arriba
+            boolean rot = headingUp && !pin && !free && !Float.isNaN(dBr);
+            lastFx = fx; lastFy = fy; lastN = n; lastTs = ts; lastCx = cx; lastCy = cy; lastRot = rot; lastBr = rot ? dBr : 0;
             if (rot) {
                 // al girar hacen falta teselas en un círculo alrededor de la posición (hasta la esquina más lejana)
                 float rr = (float) Math.sqrt(Math.max(cx, w - cx) * Math.max(cx, w - cx) + Math.max(cy, h - cy) * Math.max(cy, h - cy)) / ts;
@@ -386,15 +556,16 @@ public class LiveMapView extends View {
             }
             drawRoute(c, fx, fy, n, ts, cx, cy);
             if (rot) c.restore();
-            if (pin) {
-                // el carro donde está de verdad (si cae en pantalla) y el pin en el centro
+            if (pin || free) {
+                // el carro y el pin donde están de verdad (si caen en pantalla)
                 if (!Double.isNaN(dLat)) {
-                    double kx = (dLon + 180.0) / 360.0 * n, kr = Math.toRadians(dLat);
-                    double ky = (1.0 - Math.log(Math.tan(kr) + 1.0 / Math.cos(kr)) / Math.PI) / 2.0 * n;
-                    float mx = cx + (float) ((kx - fx) * ts), my = cy + (float) ((ky - fy) * ts);
+                    float mx = cx + (float) ((wrapX(mercX(dLon) * n, fx, n) - fx) * ts), my = cy + (float) ((mercY(dLat) * n - fy) * ts);
                     if (mx > -30 * s && mx < w + 30 * s && my > -30 * s && my < h + 30 * s) drawMarker(c, mx, my, false);
                 }
-                drawPin(c, cx, cy);
+                if (pin) {
+                    float px = cx + (float) ((wrapX(mercX(pinLon) * n, fx, n) - fx) * ts), py = cy + (float) ((mercY(pinLat) * n - fy) * ts);
+                    if (px > -40 * s && px < w + 40 * s && py > -10 * s && py < h + 50 * s) drawPin(c, px, py);
+                }
             } else drawMarker(c, cx, cy, rot);
             String attr = anyFile ? I18n.t("© colaboradores de OpenStreetMap") + " · mapsforge"
                     : provider == 5 ? "© Esri, HERE, Garmin, © OpenStreetMap" : provider == 4 ? "© OpenStreetMap, SRTM · © OpenTopoMap" : I18n.t("© colaboradores de OpenStreetMap");

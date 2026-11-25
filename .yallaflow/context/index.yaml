@@ -2280,7 +2280,48 @@
       ],
       "createdAt": "2026-11-25T07:29:39.125Z",
       "updatedAt": "2026-11-25T07:29:39.125Z"
+    },
+    {
+      "id": "CTX-0050",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "LiveMapView gestures are opt-in via setInteractive() (used only by NavActivity; the home map card keeps tap/long-press). Zoom is continuous: integer tile zoom plus a scale factor; a moved map uses a free camera in normalized Mercator. Gesture math must use the current zoom/camera, not the last drawn frame, because several gesture events arrive between frames.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0022",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+          "contentHash": "sha256:46b9a1b0a3bb307b9e2b146d141b4e62868860d03d8b435d9d4999f35d6d955b",
+          "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity\"\" (passed)",
+          "workId": "PF-0022",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-11-25T08:16:40.765Z",
+      "verifiedAtCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-25T08:16:40.765Z",
+          "workId": "PF-0022",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-25T08:16:40.765Z",
+      "updatedAt": "2026-11-25T08:16:40.765Z"
     }
   ],
-  "updatedAt": "2026-11-25T07:29:39.125Z"
+  "updatedAt": "2026-11-25T08:16:40.765Z"
 }

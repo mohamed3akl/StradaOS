@@ -772,3 +772,5 @@ Toca para ver tus emisoras	Tap to see your stations
 Emisoras guardadas	Saved stations
 Apagada · toca ▶ para escuchar	Off · tap ▶ to listen
 Sonando	Playing
+Punto en el mapa	Dropped pin
+Termina la ruta para elegir otro destino	End the route to choose another destination

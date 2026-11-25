@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-25T08:07:15.221Z",
+      "completedAt": "2026-11-25T08:07:15.221Z",
+      "summary": "LiveMapView draws OSM/file tiles at integer zoom centered on the car or a preview pin (showPin/clearPin), optional heading-up rotation; NavActivity sets a click listener that cycles zoom 14-17 and shows a preview card (Back/Go) for search results via Nav.Place; no panning, no pinch, no reverse geocoding. Home map card (Main) also uses LiveMapView with its own tap behaviour."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-25T08:07:19.736Z",
+      "completedAt": "2026-11-25T08:07:19.736Z",
+      "summary": "REQ-001/002, AC-001/002 recorded. Defaults: gestures only on the navigation screen (home card keeps its tap); dropped pin named 'Dropped pin' with coordinates (no reverse geocoding); one-finger pan added because a pin far from the car needs it; recenter button to follow the car again."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-25T08:16:01.633Z",
+      "completedAt": "2026-11-25T08:16:01.633Z",
+      "summary": "LiveMapView: setInteractive() with ScaleGestureDetector + GestureDetector (pinch, drag, double-tap, long-press); continuous zoom (tile zoom + scale 0.71-1.41, up to 2x at max); free camera in normalized Mercator; screen->geo conversion (rotation-aware); pin and car drawn at their real positions; dropPin() keeps the view; follow(). Fixed pinch drift: focus point computed from the current zoom, not the last drawn frame. NavActivity: gestures on, long-press -> 'Dropped pin' preview (Back/Go), recenter button while the map is moved, toast while a route is active. Nav.Place.dropped. en/ar strings, README, changelog."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-25T08:16:29.570Z",
+      "completedAt": "2026-11-25T08:16:29.570Z",
+      "summary": "V-001 build; V-002 emulator: pinch in/out (raw multitouch), drag + recenter, long-press drop/move pin, Go started a HERE route."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-25T08:16:36.628Z",
+      "completedAt": "2026-11-25T08:16:36.628Z",
+      "summary": "Both acceptance criteria satisfied on the emulator."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-25T08:16:36.628Z"
+}

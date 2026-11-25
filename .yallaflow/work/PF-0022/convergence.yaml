@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-25T08:16:31.790Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+        "verificationRunIds": [
+          "V-001",
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-001 (build) and an emulator run (API 19, GPS fix in Manila): raw multitouch pinch via sendevent, adb swipe drag, long-press via adb swipe with duration, Go with HERE routing; V-002 confirms NavActivity on top after Go.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Pinch-out zoomed in smoothly around the fingers' midpoint and pinch-in zoomed out (screenshots before/after); dragging moved the map and showed the recenter button, which brought the map back to the car. A first build drifted away while pinching because the focus used the last drawn frame; fixed and re-tested.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+              "symbol": "zoomBy",
+              "contentHash": "sha256:46b9a1b0a3bb307b9e2b146d141b4e62868860d03d8b435d9d4999f35d6d955b",
+              "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "contentHash": "sha256:9554d31d149533e3207087eff7c8939b16c18c363266d50871d1d6750010739f",
+              "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; echo BUILD_OK\" (passed)",
+              "workId": "PF-0022",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator pinch/drag/recenter screenshots 2026-11-25"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Long-press dropped a pin exactly at the pressed point with a 'Dropped pin' card (coordinates, 550 m in a straight line, Back, Go); a second long-press moved it (350 m); Go started navigation to it (HERE route, 6 min, 1.2 km, traffic) and the map followed the car again.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/NavActivity.java",
+              "symbol": "dropPin",
+              "contentHash": "sha256:9554d31d149533e3207087eff7c8939b16c18c363266d50871d1d6750010739f",
+              "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/LiveMapView.java",
+              "symbol": "dropPin",
+              "contentHash": "sha256:46b9a1b0a3bb307b9e2b146d141b4e62868860d03d8b435d9d4999f35d6d955b",
+              "gitCommit": "f504c3ebf23c84dc91735af58d6f8ce8e1173c16",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o \"ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity\"\" (passed)",
+              "workId": "PF-0022",
+              "verificationRunId": "V-002"
+            },
+            {
+              "type": "runtime",
+              "description": "emulator long-press and Go screenshots 2026-11-25"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-11-25T08:16:31.790Z"
+}

@@ -772,3 +772,5 @@ Toca para ver tus emisoras	اضغط لعرض محطاتك
 Emisoras guardadas	المحطات المحفوظة
 Apagada · toca ▶ para escuchar	متوقف · اضغط ▶ للاستماع
 Sonando	قيد التشغيل
+Punto en el mapa	دبوس على الخريطة
+Termina la ruta para elegir otro destino	أنهِ المسار لاختيار وجهة أخرى

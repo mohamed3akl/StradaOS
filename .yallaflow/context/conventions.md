@@ -147,4 +147,18 @@
 - **Evidence:**
   - .gitattributes (repository @ d3ae7fd)
 
+<!-- yallaflow-fact:CTX-0050 -->
+### CTX-0050 — LiveMapView gestures are opt-in via setInteractive() (used only by NavActivity; the home map card keeps tap/long-press). Zoom is continuous: integer tile zoom plus a scale factor; a moved map uses a free camera in normalized Mercator. Gesture math must use the current zoom/camera, not the last drawn frame, because several gesture events arrive between frames.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0022
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-25T08:16:40.765Z
+- **Verified:** 2026-11-25T08:16:40.765Z (commit f504c3e)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/LiveMapView.java (repository @ f504c3e)
+  - bash -c "MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell dumpsys activity top | grep -m1 -o "ACTIVITY com.stradaos.launcher.debug/com.stradaos.launcher.NavActivity"" (passed) (runtime, PF-0022 V-002)
+
 <!-- yallaflow-context:end -->
