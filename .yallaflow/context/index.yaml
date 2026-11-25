@@ -2245,7 +2245,42 @@
       ],
       "createdAt": "2026-11-24T07:10:14.128Z",
       "updatedAt": "2026-11-24T07:10:14.128Z"
+    },
+    {
+      "id": "CTX-0049",
+      "area": "integration",
+      "state": "current",
+      "confidence": "inferred",
+      "summary": "The acloud tuner reports no station names (no RDS in the factory RadioInterface; status JSON carries only Action and Freq). StradaOS stores user-given names per saved station in prefs tuner_name_<band>_<khz> (RadioTuner.name/setName/title).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0021",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+          "contentHash": "sha256:73fcd04d5e1ee6c57446f7c3cd865e0e03322b5dce36dc22bc286960d555ac6f",
+          "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-11-25T07:29:39.125Z",
+      "verifiedAtCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-11-25T07:29:39.125Z",
+          "workId": "PF-0021",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-11-25T07:29:39.125Z",
+      "updatedAt": "2026-11-25T07:29:39.125Z"
     }
   ],
-  "updatedAt": "2026-11-24T07:10:14.128Z"
+  "updatedAt": "2026-11-25T07:29:39.125Z"
 }

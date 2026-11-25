@@ -106,4 +106,17 @@
 - **Evidence:**
   - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ 79bc0b6)
 
+<!-- yallaflow-fact:CTX-0049 -->
+### CTX-0049 — The acloud tuner reports no station names (no RDS in the factory RadioInterface; status JSON carries only Action and Freq). StradaOS stores user-given names per saved station in prefs tuner_name_<band>_<khz> (RadioTuner.name/setName/title).
+
+- **State:** current
+- **Confidence:** inferred
+- **Provenance:** repository
+- **Source work:** PF-0021
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-11-25T07:29:39.125Z
+- **Verified:** 2026-11-25T07:29:39.125Z (commit aed5b05)
+- **Evidence:**
+  - app/src/main/java/com/stradaos/launcher/RadioTuner.java (repository @ aed5b05)
+
 <!-- yallaflow-context:end -->

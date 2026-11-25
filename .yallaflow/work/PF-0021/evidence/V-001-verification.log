@@ -1,0 +1,12 @@
+11-25 09:27:11 radio directa: sonido a la radio (xy.android.galaxradio.setaudiotoradio)
+11-25 09:27:11 radio directa: method_band FM (0)
+11-25 09:27:11 radio directa: method_setFreq param_freq=101100
+11-25 09:27:11 radio directa: method_setFreq param_freq=101200
+11-25 09:27:13 radio directa: method_setFreq param_freq=101300
+11-25 09:27:15 radio directa: method_setFreq param_freq=101200
+11-25 09:27:17 radio directa: method_seekUp param_freq=101200
+11-25 09:27:20 radio directa: method_seekStop
+11-25 09:27:20 radio directa: method_setFreq param_freq=104300
+11-25 09:27:56 radio directa: method_setFreq param_freq=95300
+11-25 09:28:06 radio directa: method_setFreq param_freq=98500
+11-25 09:28:11 radio directa: method_setFreq param_freq=104300

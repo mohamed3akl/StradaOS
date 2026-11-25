@@ -750,13 +750,25 @@ La radio no contestó a la búsqueda	الراديو لم يستجب للبحث
 Cambiar a AM	التبديل إلى AM
 Cambiar a FM	التبديل إلى FM
 Abrir la app de la radio	فتح تطبيق الراديو
-Busca una emisora con anterior o siguiente	ابحث عن محطة بالسابق أو التالي
+★  Guardar	★  حفظ
+Frecuencia	التردد
+Toca una para escucharla · déjala presionada para cambiarle el nombre o quitarla	اضغط على محطة للاستماع · اضغط مطولاً لإعادة تسميتها أو إزالتها
+Aún no hay emisoras guardadas.\nBusca una con ‹ › (déjalos presionados para buscar sola) y toca «Guardar».	لا توجد محطات محفوظة بعد.\nابحث عن محطة باستخدام ‹ › (اضغط عليهما مطولاً للبحث التلقائي) ثم اضغط «حفظ».
+déjalos presionados para buscar	اضغط مطولاً للبحث
+Aún no hay emisoras guardadas: buscando una	لا توجد محطات محفوظة بعد: جارٍ البحث عن محطة
+Busca una emisora con ‹ ›	ابحث عن محطة باستخدام ‹ ›
+Nombre (opcional), por ejemplo Radio Mix	الاسم (اختياري)، مثل Radio Mix
+Guardar {}	حفظ {}
+Nombre de {}	اسم {}
+Cambiar el nombre	إعادة التسمية
+Quitar de guardadas	إزالة من المحفوظة
+Frecuencia FM (MHz)	تردد FM (ميغاهرتز)
+Frecuencia AM (kHz)	تردد AM (كيلوهرتز)
+Sintonizar	ضبط
+Frecuencia no válida: FM 87.5–108, AM 522–1710	تردد غير صالح: FM 87.5–108، AM 522–1710
 Guardada: {}	تم الحفظ: {}
 Quitada: {}	تمت الإزالة: {}
 Toca para ver tus emisoras	اضغط لعرض محطاتك
-★  Guardar emisora	★  حفظ المحطة
 Emisoras guardadas	المحطات المحفوظة
-Toca una para escucharla · déjala presionada para quitarla	اضغط على محطة للاستماع · اضغط مطولًا لإزالتها
-Aún no hay emisoras guardadas.\nBusca una con anterior o siguiente y toca «Guardar emisora».	لا توجد محطات محفوظة بعد.\nابحث عن محطة بالسابق أو التالي ثم اضغط «حفظ المحطة».
 Apagada · toca ▶ para escuchar	متوقف · اضغط ▶ للاستماع
 Sonando	قيد التشغيل

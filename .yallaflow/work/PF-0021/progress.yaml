@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 9
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-25T07:22:26.538Z",
+      "completedAt": "2026-11-25T07:22:26.538Z",
+      "summary": "RadioActivity builds the radio screen (prev/power/next, save, saved-station grid); Main.tunerCommand drives the home player buttons; RadioTuner holds tuner commands and saved stations (prefs tuner_fav_<band>). Factory tuner interface has no RDS (RadioInterface: open/close/seek/scan/setFreq/setBand/setArea/setSensitivity/setVol/getSignal only; status JSON has Action and Freq), so station names must be user-entered."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-11-25T07:22:30.800Z",
+      "completedAt": "2026-11-25T07:22:30.800Z",
+      "summary": "Requirements REQ-001..004 / AC-001..005 recorded from the request. Defaults chosen: AM fine step 9 kHz; prev/next fall back to auto search when no saved stations; naming offered on save and via long-press."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-11-25T07:28:43.750Z",
+      "completedAt": "2026-11-25T07:28:43.750Z",
+      "summary": "RadioTuner: fine() ±0.1 MHz / ±9 kHz with wrap, saved() prev/next saved station (falls back to seek), typed() frequency parser, station names (tuner_name_<band>_<khz>), title(); tuneTo stops an active seek. RadioActivity: control row ⏮ saved · ‹ fine · power · fine › · saved ⏭ (fine long-press = seek), hint line, name line, Save asks optional name, Frequency button and tap on frequency open entry, long-press tile = rename/remove, tiles show names. Main: player prev/next use saved stations; title shows name. en/ar strings, README and 2.17.0 changelog."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-11-25T07:29:01.427Z",
+      "completedAt": "2026-11-25T07:29:01.427Z",
+      "summary": "V-001: build passes; emulator (API 19, factory radio APK) radio screen: › twice and ‹ once gave 101.2/101.3/101.2, long-press › sent seekUp, ⏭ stopped the seek and went to saved 104.3, Save asked a name (Radio Mix) shown on tile/screen/player, long-press tile opened Rename/Remove, Frequency 95.3 tuned 95300, home ⏭ went to next saved station."
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-11-25T07:29:34.813Z",
+      "completedAt": "2026-11-25T07:29:34.813Z",
+      "summary": "All 5 acceptance criteria satisfied on the emulator (CV-001)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-11-25T07:29:34.813Z"
+}

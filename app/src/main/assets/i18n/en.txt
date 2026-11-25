@@ -750,13 +750,25 @@ La radio no contestó a la búsqueda	The radio didn't answer the search
 Cambiar a AM	Switch to AM
 Cambiar a FM	Switch to FM
 Abrir la app de la radio	Open the radio app
-Busca una emisora con anterior o siguiente	Search for a station with previous or next
+★  Guardar	★  Save
+Frecuencia	Frequency
+Toca una para escucharla · déjala presionada para cambiarle el nombre o quitarla	Tap one to listen · press and hold to rename or remove it
+Aún no hay emisoras guardadas.\nBusca una con ‹ › (déjalos presionados para buscar sola) y toca «Guardar».	No saved stations yet.\nFind one with ‹ › (press and hold them to search automatically) and tap “Save”.
+déjalos presionados para buscar	press and hold to search
+Aún no hay emisoras guardadas: buscando una	No saved stations yet: searching for one
+Busca una emisora con ‹ ›	Find a station with ‹ ›
+Nombre (opcional), por ejemplo Radio Mix	Name (optional), for example Radio Mix
+Guardar {}	Save {}
+Nombre de {}	Name of {}
+Cambiar el nombre	Rename
+Quitar de guardadas	Remove from saved
+Frecuencia FM (MHz)	FM frequency (MHz)
+Frecuencia AM (kHz)	AM frequency (kHz)
+Sintonizar	Tune
+Frecuencia no válida: FM 87.5–108, AM 522–1710	Invalid frequency: FM 87.5–108, AM 522–1710
 Guardada: {}	Saved: {}
 Quitada: {}	Removed: {}
 Toca para ver tus emisoras	Tap to see your stations
-★  Guardar emisora	★  Save station
 Emisoras guardadas	Saved stations
-Toca una para escucharla · déjala presionada para quitarla	Tap one to listen · press and hold to remove it
-Aún no hay emisoras guardadas.\nBusca una con anterior o siguiente y toca «Guardar emisora».	No saved stations yet.\nSearch for one with previous or next and tap “Save station”.
 Apagada · toca ▶ para escuchar	Off · tap ▶ to listen
 Sonando	Playing

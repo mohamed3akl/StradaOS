@@ -49,7 +49,7 @@
 - **Now playing** from Bluetooth, Android Auto and music apps: title, artist and time with big controls. **Swipe the player** for next / previous song.
 - ▶ opens or starts your favorite music app when nothing is playing (Android 5+), and moves Bluetooth audio to the speakers on screens that need it.
 - **Built-in music player** for songs on USB, SD card or internal storage.
-- **Radio mode** (in testing): on XY/PVE screens StradaOS runs the radio itself, without opening the radio app: on / off, search for the next station, the frequency in the player, and a **radio screen** with big buttons for your saved stations and FM / AM. On other screens the buttons control the factory radio app.
+- **Radio mode** (in testing): on XY/PVE screens StradaOS runs the radio itself, without opening the radio app: on / off, previous / next saved station, the station in the player, and a **radio screen** with ‹ › to tune 0.1 MHz at a time (press and hold to search automatically), typing a frequency, big buttons for your saved stations (you can name them) and FM / AM. On other screens the buttons control the factory radio app.
 
 **🚗 Your vehicle**
 - **Speedometer** in km/h or mph, **weather** for your city and the clock.

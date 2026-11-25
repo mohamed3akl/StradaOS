@@ -40,7 +40,7 @@ public class RadioActivity extends Activity {
     private SharedPreferences prefs;
     private float s = 1;
 
-    private TextView freqTv, unitTv, stateTv, bandTv, listHeadTv, emptyTv;
+    private TextView freqTv, unitTv, stateTv, bandTv, listHeadTv, emptyTv, nameTv, fineHintTv;
     private ImageView powerIc;
     private FrameLayout powerBtn;
     private GridView grid;
@@ -114,11 +114,19 @@ public class RadioActivity extends Activity {
         top.addView(bandTv, new LinearLayout.LayoutParams(px(150), px(44)));
         left.addView(top, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        // frecuencia grande
+        // nombre de la emisora (lo pone el usuario al guardarla: el sintonizador no avisa nombres)
+        nameTv = tv("", 20, Main.TEXT, true);
+        nameTv.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams nlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        nlp.topMargin = px(18);
+        left.addView(nameTv, nlp);
+
+        // frecuencia grande (tocarla deja escribir otra)
         freqTv = tv("--", 76, Main.TEXT, true);
         freqTv.setGravity(Gravity.CENTER);
+        freqTv.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { askFrequency(); } });
         LinearLayout.LayoutParams flp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        flp.topMargin = px(40);
+        flp.topMargin = px(8);
         left.addView(freqTv, flp);
         unitTv = tv("MHz", 18, Main.MUTED, false);
         unitTv.setGravity(Gravity.CENTER);
@@ -134,41 +142,57 @@ public class RadioActivity extends Activity {
         View spacer = new View(this);
         left.addView(spacer, new LinearLayout.LayoutParams(1, 0, 1));
 
-        // ⏮  encender/apagar  ⏭ (siempre en este orden, también en árabe)
+        // ⏮ guardada · ‹ fina · encender/apagar · fina › · guardada ⏭ (siempre en este orden, también en árabe)
         LinearLayout ctl = new LinearLayout(this);
         ctl.setGravity(Gravity.CENTER);
         if (android.os.Build.VERSION.SDK_INT >= 17) ctl.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        FrameLayout prev = circle("skip_previous", 68, 34, Main.BTN);
-        prev.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { RadioTuner.step(RadioActivity.this, prefs, false); render(); } });
-        powerBtn = circle("play_arrow", 92, 46, Main.RED);
+        FrameLayout prev = circle("skip_previous", 56, 28, Main.BTN);
+        prev.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { savedStation(false); } });
+        FrameLayout down = circle("chevron_right", 56, 32, Main.INNER);
+        ((FrameLayout) down).getChildAt(0).setScaleX(-1);
+        fineButton(down, false);
+        powerBtn = circle("play_arrow", 80, 40, Main.RED);
         powerIc = (ImageView) powerBtn.getChildAt(0);
         powerBtn.setOnClickListener(new View.OnClickListener() { public void onClick(View v) {
             if (RadioTuner.on) RadioTuner.turnOff(RadioActivity.this);
             else if (!RadioTuner.turnOn(RadioActivity.this, prefs)) toast("La radio no respondió");
             render();
         }});
-        FrameLayout next = circle("skip_next", 68, 34, Main.BTN);
-        next.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { RadioTuner.step(RadioActivity.this, prefs, true); render(); } });
-        LinearLayout.LayoutParams sp = new LinearLayout.LayoutParams(px(68), px(68));
-        LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(px(92), px(92));
-        bp.leftMargin = bp.rightMargin = px(18);
-        ctl.addView(prev, sp);
-        ctl.addView(powerBtn, bp);
-        ctl.addView(next, new LinearLayout.LayoutParams(px(68), px(68)));
+        FrameLayout up = circle("chevron_right", 56, 32, Main.INNER);
+        fineButton(up, true);
+        FrameLayout next = circle("skip_next", 56, 28, Main.BTN);
+        next.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { savedStation(true); } });
+        View[] row = {prev, down, powerBtn, up, next};
+        for (View b : row) {
+            int d = b == powerBtn ? 80 : 56;
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(px(d), px(d));
+            lp.leftMargin = lp.rightMargin = px(b == powerBtn ? 8 : 4);
+            ctl.addView(b, lp);
+        }
         left.addView(ctl, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        fineHintTv = tv("", 13, Main.MUTED, false);
+        fineHintTv.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams fhp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        fhp.topMargin = px(10);
+        left.addView(fineHintTv, fhp);
 
-        // guardar la emisora
-        TextView save = tv("★  Guardar emisora", 17, Main.TEXT, true);
+        // guardar la emisora · escribir una frecuencia
+        LinearLayout acts = new LinearLayout(this);
+        TextView save = tv("★  Guardar", 17, Main.TEXT, true);
         save.setGravity(Gravity.CENTER);
         save.setBackground(round(Main.BTN, 26));
-        save.setOnClickListener(new View.OnClickListener() { public void onClick(View v) {
-            if (!RadioTuner.saveCurrent(prefs)) { toast("Busca una emisora con anterior o siguiente"); return; }
-            toast(I18n.t("Guardada: {}").replace("{}", RadioTuner.label(RadioTuner.band(prefs), RadioTuner.khz(prefs))));
-            render();
-        }});
-        LinearLayout.LayoutParams svp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, px(52));
-        svp.topMargin = px(22);
-        left.addView(save, svp);
+        save.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { saveStation(); } });
+        acts.addView(save, new LinearLayout.LayoutParams(0, px(52), 1));
+        TextView type = tv("Frecuencia", 17, Main.TEXT, true);
+        type.setGravity(Gravity.CENTER);
+        type.setBackground(round(Main.BTN, 26));
+        type.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { askFrequency(); } });
+        LinearLayout.LayoutParams tlp = new LinearLayout.LayoutParams(0, px(52), 1);
+        if (I18n.rtl()) tlp.rightMargin = px(10); else tlp.leftMargin = px(10);
+        acts.addView(type, tlp);
+        LinearLayout.LayoutParams svp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        svp.topMargin = px(16);
+        left.addView(acts, svp);
 
         // la app de fábrica, por si hace falta (escaneo completo, ajustes de la radio)
         TextView app = tv("Abrir la app de la radio", 14, Main.MUTED, false);
@@ -191,7 +215,7 @@ public class RadioActivity extends Activity {
         right.setPadding(px(18), px(16), px(18), px(16));
         listHeadTv = tv("Emisoras guardadas", 18, Main.TEXT, true);
         right.addView(listHeadTv);
-        TextView hint = tv("Toca una para escucharla · déjala presionada para quitarla", 13, Main.MUTED, false);
+        TextView hint = tv("Toca una para escucharla · déjala presionada para cambiarle el nombre o quitarla", 13, Main.MUTED, false);
         LinearLayout.LayoutParams hlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         hlp.topMargin = px(6);
         hlp.bottomMargin = px(12);
@@ -213,15 +237,12 @@ public class RadioActivity extends Activity {
         });
         grid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> a, View v, int pos, long id) {
-                int band = RadioTuner.band(prefs), k = favs.get(pos);
-                RadioTuner.remove(prefs, band, k);
-                toast(I18n.t("Quitada: {}").replace("{}", RadioTuner.label(band, k)));
-                render();
+                stationMenu(RadioTuner.band(prefs), favs.get(pos));
                 return true;
             }
         });
         gridBox.addView(grid, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        emptyTv = tv("Aún no hay emisoras guardadas.\nBusca una con anterior o siguiente y toca «Guardar emisora».", 16, Main.MUTED, false);
+        emptyTv = tv("Aún no hay emisoras guardadas.\nBusca una con ‹ › (déjalos presionados para buscar sola) y toca «Guardar».", 16, Main.MUTED, false);
         emptyTv.setSingleLine(false);
         emptyTv.setMaxLines(4);
         emptyTv.setLineSpacing(4 * s, 1f);
@@ -241,6 +262,10 @@ public class RadioActivity extends Activity {
         boolean fm = band == RadioTuner.FM;
         freqTv.setText(khz > 0 ? RadioTuner.shortLabel(band, khz) : "--");
         unitTv.setText(fm ? "FM · MHz" : "AM · kHz");
+        String name = khz > 0 ? RadioTuner.name(prefs, band, khz) : null;
+        nameTv.setText(name != null ? name : "");
+        nameTv.setVisibility(name != null ? View.VISIBLE : View.INVISIBLE);
+        fineHintTv.setText("‹ ›  " + (fm ? "0.1 MHz" : "9 kHz") + " · " + I18n.t("déjalos presionados para buscar"));
         stateTv.setText(I18n.t(!RadioTuner.on ? "Apagada · toca ▶ para escuchar" : RadioTuner.seeking ? "Buscando emisora…" : "Sonando"));
         bandTv.setText(I18n.t(fm ? "Cambiar a AM" : "Cambiar a FM"));
         powerIc.setImageBitmap(icon(RadioTuner.on ? "pause" : "play_arrow"));
@@ -277,10 +302,118 @@ public class RadioActivity extends Activity {
             TextView num = (TextView) tile.getChildAt(0), unit = (TextView) tile.getChildAt(1);
             num.setText(RadioTuner.shortLabel(band, k));
             num.setTextColor(cur ? 0xFFFFFFFF : Main.TEXT);
-            unit.setText(band == RadioTuner.FM ? "MHz" : "kHz");
+            String n = RadioTuner.name(prefs, band, k);
+            unit.setText(n != null ? n : band == RadioTuner.FM ? "MHz" : "kHz");
             unit.setTextColor(cur ? 0xDDFFFFFF : Main.MUTED);
             return tile;
         }
+    }
+
+    // ───────────────────────── acciones ─────────────────────────
+
+    /** ‹ › : un toque sube o baja un paso (0,1 MHz en FM); dejarlo presionado busca sola la siguiente emisora. */
+    private void fineButton(View b, final boolean up) {
+        b.setOnClickListener(new View.OnClickListener() { public void onClick(View v) {
+            RadioTuner.fine(RadioActivity.this, prefs, up);
+            render();
+        }});
+        b.setOnLongClickListener(new View.OnLongClickListener() { public boolean onLongClick(View v) {
+            RadioTuner.step(RadioActivity.this, prefs, up);
+            render();
+            return true;
+        }});
+    }
+
+    /** ⏮ ⏭ : emisora guardada anterior / siguiente (sin guardadas, busca sola). */
+    private void savedStation(boolean up) {
+        if (!RadioTuner.saved(this, prefs, up)) toast("Aún no hay emisoras guardadas: buscando una");
+        render();
+    }
+
+    /** Guarda la emisora que suena y deja ponerle un nombre (opcional). */
+    private void saveStation() {
+        final int band = RadioTuner.band(prefs), k = RadioTuner.khz(prefs);
+        if (k <= 0) { toast("Busca una emisora con ‹ ›"); return; }
+        askName(band, k, true);
+    }
+
+    private void askName(final int band, final int k, final boolean saving) {
+        final android.widget.EditText et = field();
+        et.setSingleLine(true);
+        et.setHint(I18n.t("Nombre (opcional), por ejemplo Radio Mix"));
+        String old = RadioTuner.name(prefs, band, k);
+        if (old != null) { et.setText(old); et.setSelection(old.length()); }
+        new TB(this, Main.dlg())
+            .setTitle(I18n.t(saving ? "Guardar {}" : "Nombre de {}").replace("{}", RadioTuner.label(band, k)))
+            .setView(wrap(et))
+            .setPositiveButton("Guardar", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(android.content.DialogInterface d, int w) {
+                    RadioTuner.setName(prefs, band, k, et.getText().toString());
+                    if (saving) {
+                        RadioTuner.saveCurrent(prefs);
+                        toast(I18n.t("Guardada: {}").replace("{}", RadioTuner.title(prefs, band, k)));
+                    }
+                    render();
+                }
+            })
+            .setNegativeButton("Cancelar", null)
+            .show();
+    }
+
+    /** Dejar presionada una guardada: cambiarle el nombre o quitarla. */
+    private void stationMenu(final int band, final int k) {
+        new TB(this, Main.dlg())
+            .setTitle(RadioTuner.title(prefs, band, k))
+            .setItems(new CharSequence[]{I18n.t("Cambiar el nombre"), I18n.t("Quitar de guardadas")},
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(android.content.DialogInterface d, int which) {
+                        if (which == 0) { askName(band, k, false); return; }
+                        String t = RadioTuner.title(prefs, band, k);
+                        RadioTuner.remove(prefs, band, k);
+                        toast(I18n.t("Quitada: {}").replace("{}", t));
+                        render();
+                    }
+                })
+            .setNegativeButton("Cancelar", null)
+            .show();
+    }
+
+    /** Escribir la frecuencia: FM «101.1», AM «1026». */
+    private void askFrequency() {
+        final int band = RadioTuner.band(prefs);
+        final android.widget.EditText et = field();
+        et.setSingleLine(true);
+        et.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        et.setHint(band == RadioTuner.FM ? "101.1" : "1026");
+        new TB(this, Main.dlg())
+            .setTitle(I18n.t(band == RadioTuner.FM ? "Frecuencia FM (MHz)" : "Frecuencia AM (kHz)"))
+            .setView(wrap(et))
+            .setPositiveButton("Sintonizar", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(android.content.DialogInterface d, int w) {
+                    int[] f = RadioTuner.typed(et.getText().toString(), band);
+                    if (f == null) { toast("Frecuencia no válida: FM 87.5–108, AM 522–1710"); return; }
+                    RadioTuner.tuneTo(RadioActivity.this, prefs, f[0], f[1]);
+                    render();
+                }
+            })
+            .setNegativeButton("Cancelar", null)
+            .show();
+    }
+
+    /** Campo de texto legible en el tema claro y en el oscuro (como Main.field). */
+    private android.widget.EditText field() {
+        android.widget.EditText et = new android.widget.EditText(this);
+        et.setTextColor(Main.LIGHT ? 0xFF1A1A1A : 0xFFFFFFFF);
+        et.setHintTextColor(Main.LIGHT ? 0xFF7A808A : 0xFFA0A6B0);
+        return et;
+    }
+
+    private View wrap(View v) {
+        FrameLayout w = new FrameLayout(this);
+        int pad = px(20);
+        w.setPadding(pad, pad / 2, pad, 0);
+        w.addView(v);
+        return w;
     }
 
     // ───────────────────────── utilidades ─────────────────────────

@@ -499,7 +499,7 @@ public class Main extends Activity {
         if (which == 0) {
             if (RadioTuner.on) RadioTuner.turnOff(this);
             else if (!RadioTuner.turnOn(this, prefs)) toast("La radio no respondió");
-        } else RadioTuner.step(this, prefs, which > 0);
+        } else if (!RadioTuner.saved(this, prefs, which > 0)) toast("Aún no hay emisoras guardadas: buscando una");
         renderTrack();
     }
 
@@ -532,7 +532,7 @@ public class Main extends Activity {
     private void renderRadio() {
         if (directRadio()) {
             int band = RadioTuner.band(prefs), khz = RadioTuner.khz(prefs);
-            trackTv.setText(khz > 0 ? RadioTuner.label(band, khz) : I18n.t("Radio") + " " + (band == RadioTuner.FM ? "FM" : "AM"));
+            trackTv.setText(khz > 0 ? RadioTuner.title(prefs, band, khz) : I18n.t("Radio") + " " + (band == RadioTuner.FM ? "FM" : "AM"));
             artistTv.setText(I18n.t(!RadioTuner.on ? "Toca ▶ para escuchar la radio" : RadioTuner.seeking ? "Buscando emisora…" : "Toca para ver tus emisoras"));
             sourceTv.setText(I18n.t("Radio").toUpperCase(I18n.loc));
             timePosTv.setText("");

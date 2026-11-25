@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The radio screen has two new fine-tune buttons that move the frequency one step (0.1 MHz on FM) down or up so the user can find stations manually; long-pressing them starts an automatic search for the next station in that direction.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The existing previous/next buttons go to the previous/next saved station instead of searching.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The user can type a frequency to tune to it.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The user can see which station is playing by name. The tuner does not report station names (no RDS in its interface), so the user can give a saved station a name, shown with the station.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Tapping the fine-tune buttons on the radio screen tunes FM by 0.1 MHz (AM by 9 kHz), wrapping at the band edges.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-001",
+      "statement": "Long-pressing a fine-tune button starts the tuner's automatic search in that direction.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-002",
+      "statement": "Previous/next on the radio screen and on the home player tune to the previous/next saved station of the current band (wrapping); with no saved stations they fall back to an automatic search.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "REQ-003",
+      "statement": "A button on the radio screen (and tapping the big frequency) opens a field to type a frequency; valid FM/AM values tune to it, invalid ones show a message.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    },
+    {
+      "id": "AC-005",
+      "requirement": "REQ-004",
+      "statement": "Saving a station asks for an optional name; long-pressing a saved station offers rename or remove; the name is shown on the station tile, on the radio screen and on the home player.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-11-25T07:21:56.887Z",
+      "updatedAt": "2026-11-25T07:21:56.887Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-004",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-004",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-005",
+      "at": "2026-11-25T07:21:56.887Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-11-25T07:21:56.887Z"
+}

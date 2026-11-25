@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-11-25T07:29:16.937Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (build + emulator with the factory radio APK; tuner replies not needed for these controls).",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "› twice and ‹ once sent setFreq 101200, 101300, 101200 (0.1 MHz steps); fine() wraps at band edges; AM uses 9 kHz.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "fine",
+              "contentHash": "sha256:73fcd04d5e1ee6c57446f7c3cd865e0e03322b5dce36dc22bc286960d555ac6f",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+              "workId": "PF-0021",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Long-press on › sent method_seekUp from the current frequency.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "fineButton",
+              "contentHash": "sha256:f87126e15ae6c7d19a0cdf620bd2dd70a4ddd9a9ced715e7027c4d8b2dac3a42",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+              "workId": "PF-0021",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "⏭ on the radio screen stopped the active seek and tuned the next saved station 104.3; the home player ⏭ went from 98.5 to saved 104.3; saved() falls back to step() when none are saved.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "saved",
+              "contentHash": "sha256:73fcd04d5e1ee6c57446f7c3cd865e0e03322b5dce36dc22bc286960d555ac6f",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/Main.java",
+              "symbol": "tunerCommand",
+              "contentHash": "sha256:3f11ba3498ac4ecb5cb5be92f1e3b14f6b088aa0229e9ae7dadf23528bf0b748",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+              "workId": "PF-0021",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Frequency button opened 'FM frequency (MHz)'; typing 95.3 and Tune sent setFreq 95300; invalid input shows the 'Invalid frequency' message.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "askFrequency",
+              "contentHash": "sha256:f87126e15ae6c7d19a0cdf620bd2dd70a4ddd9a9ced715e7027c4d8b2dac3a42",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "typed",
+              "contentHash": "sha256:73fcd04d5e1ee6c57446f7c3cd865e0e03322b5dce36dc22bc286960d555ac6f",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+              "workId": "PF-0021",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "Save asked for a name; 'Radio Mix' showed on the tile, above the frequency and in the home player ('Radio Mix · FM 104.3 MHz'); long-press tile showed Rename / Remove from saved.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioActivity.java",
+              "symbol": "stationMenu",
+              "contentHash": "sha256:f87126e15ae6c7d19a0cdf620bd2dd70a4ddd9a9ced715e7027c4d8b2dac3a42",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "app/src/main/java/com/stradaos/launcher/RadioTuner.java",
+              "symbol": "title",
+              "contentHash": "sha256:73fcd04d5e1ee6c57446f7c3cd865e0e03322b5dce36dc22bc286960d555ac6f",
+              "gitCommit": "aed5b055415ed8236f702634b498af76e9c2104f",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "bash -c \"./gradlew.bat assembleDebug -q 2>&1 | grep -i error && exit 1; MSYS_NO_PATHCONV=1 /c/Users/moham/AppData/Local/Android/Sdk/platform-tools/adb.exe shell run-as com.stradaos.launcher.debug cat files/events.txt | tail -12\" (passed)",
+              "workId": "PF-0021",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-11-25T07:29:16.937Z"
+}

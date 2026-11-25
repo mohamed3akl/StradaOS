@@ -203,8 +203,82 @@ class RadioTuner {
     static void tuneTo(Context c, SharedPreferences p, int band, int khz) {
         ensureOn(c, p);
         stopWaiting();
+        if (seeking) send(c, "method_seekStop", null, 0);   // si estaba buscando, se detiene antes de sintonizar
         seeking = false;
         tune(c, p, band, khz);
+    }
+
+    // ── sintonía fina, emisoras guardadas y frecuencia escrita ──
+
+    /** Paso de la sintonía fina: 0,1 MHz en FM y 9 kHz en AM. */
+    static int fineStep(int band) { return band == FM ? 100 : 9; }
+
+    static int bandMax(int band) { return band == FM ? FM_MAX : AM_MAX; }
+
+    /** Sube o baja un paso (0,1 MHz en FM); al pasar el final de la banda vuelve al otro extremo. */
+    static void fine(Context c, SharedPreferences p, boolean up) {
+        int band = band(p), k = khz(p);
+        if (k <= 0) k = bandMin(band);
+        int n = k + (up ? fineStep(band) : -fineStep(band));
+        if (n > bandMax(band)) n = bandMin(band);
+        else if (n < bandMin(band)) n = bandMax(band);
+        tuneTo(c, p, band, n);
+    }
+
+    /**
+     * Emisora guardada siguiente / anterior de la banda actual (da la vuelta). Sin emisoras guardadas, busca
+     * automáticamente. Devuelve false si tuvo que buscar.
+     */
+    static boolean saved(Context c, SharedPreferences p, boolean up) {
+        int band = band(p), k = khz(p);
+        List<Integer> l = favorites(p, band);
+        if (l.isEmpty()) { step(c, p, up); return false; }
+        Integer go = null;
+        for (int i = 0; i < l.size(); i++) {
+            int f = l.get(up ? i : l.size() - 1 - i);
+            if (up ? f > k : f < k) { go = f; break; }
+        }
+        if (go == null) go = l.get(up ? 0 : l.size() - 1);
+        tuneTo(c, p, band, go);
+        return true;
+    }
+
+    /**
+     * Frecuencia escrita por el usuario: en FM «101.1», «101,1», «1011» o «101100»; en AM «1026». Devuelve
+     * {banda, kHz} o null si no es válida. Si el número solo cabe en la otra banda, se usa esa.
+     */
+    static int[] typed(String s, int currentBand) {
+        if (s == null) return null;
+        s = s.trim().replace(',', '.');
+        if (!s.matches("\\d+(\\.\\d+)?")) return null;
+        double v;
+        try { v = Double.parseDouble(s); } catch (NumberFormatException e) { return null; }
+        int fm = 0;
+        if (v >= 87.5 && v <= 108) fm = (int) Math.round(v * 1000);
+        else if (!s.contains(".") && v >= 875 && v <= 1080 && currentBand == FM) fm = (int) v * 100;
+        else if (!s.contains(".") && v >= 87500 && v <= 108000) fm = (int) v;
+        boolean am = !s.contains(".") && v >= AM_MIN && v <= AM_MAX;
+        if (fm > 0 && !(am && currentBand == AM)) return new int[]{FM, fm - fm % 50};
+        if (am) return new int[]{AM, (int) v};
+        return null;
+    }
+
+    // ── nombre de las emisoras (el sintonizador no avisa el nombre: no tiene RDS) ──
+
+    static String name(SharedPreferences p, int band, int khz) {
+        String n = p.getString("tuner_name_" + band + "_" + khz, null);
+        return n == null || n.trim().length() == 0 ? null : n.trim();
+    }
+
+    static void setName(SharedPreferences p, int band, int khz, String n) {
+        if (n == null || n.trim().length() == 0) p.edit().remove("tuner_name_" + band + "_" + khz).apply();
+        else p.edit().putString("tuner_name_" + band + "_" + khz, n.trim()).apply();
+    }
+
+    /** «Radio Mix · FM 101.1 MHz» si la emisora tiene nombre, si no «FM 101.1 MHz». */
+    static String title(SharedPreferences p, int band, int khz) {
+        String n = khz > 0 ? name(p, band, khz) : null;
+        return n != null ? n + " · " + label(band, khz) : label(band, khz);
     }
 
     // ── si el sintonizador no contesta, no se queda «Buscando emisora…» para siempre ──
@@ -265,6 +339,7 @@ class RadioTuner {
         List<Integer> l = favorites(p, band);
         l.remove(Integer.valueOf(k));
         saveFavorites(p, band, l);
+        setName(p, band, k, null);
     }
 
     /** Aviso del sintonizador: se anota y, si trae una frecuencia, se guarda. true si cambió la emisora mostrada. */
